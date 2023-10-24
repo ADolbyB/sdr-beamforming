@@ -41,3 +41,7 @@ ADI Kuiper Linux for Raspberry Pi:
  - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
  - [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
  - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+
+## Status:
+
+![GitHub repo size](https://img.shields.io/github/repo-size/ADolbyB/pluto-sdr?logo=Github&label=Repo%20Size)
