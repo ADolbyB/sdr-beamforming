@@ -36,6 +36,9 @@ ADI Kuiper Linux for Raspberry Pi:
  - [Information and Downloads](https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux)
  - [Pre-Configured Image](https://download.analog.com/phased-array-lab/raspi.7z)
 
+Basic Raspberry Pi Install From Scratch:
+ - [RPi 3B+ Bare Install](https://github.com/jonkraft/Pluto-Install-for-Raspberry-Pi)
+
 ## Other Resources:
 
  - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
