@@ -1,7 +1,7 @@
 # Pluto SDR
 
-This repo is a compilation of code for the ADALM-PLUTO SDR module for Project Research. 
-Most of this code I compiled from other sources so it was all in one place to minimize searching.
+This repo is a compilation of code for the ADALM-PLUTO SDR module for project research of the beamforming 
+concept. Most of this code I compiled from other sources so it was all in one place to minimize search time.
 
 <div align="center">
 
@@ -26,15 +26,23 @@ Pluto SDR Quick Start:
 Pluto SDR Firmware Updates:
  - [Pluto/M2k Firmware](https://wiki.analog.com/university/tools/pluto/users/firmware)
 
-Enable Dual Receive and Dual Transmit for Rev C and newer Pluto SDR:
+Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for Rev C and newer Pluto SDR:
  - Video: [Enable Dual TX & Dual RX](https://www.youtube.com/watch?v=ph0Kv4SgSuI)
  - Code: [Jon Kraft: Pluto SDR Labs](https://github.com/jonkraft/PlutoSDR_Labs/tree/master)
+ - Settings Table: [Environmental Settings](https://wiki.analog.com/university/tools/pluto/devs/booting)
+     - Use PuTTY for Windows or a Terminal in Linux for shell access.
+     - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
 Build Your Own Phased Array Beamformer using Pluto SDR:
  - Video: [Basic Prototype](https://www.youtube.com/watch?v=2QXKuEYR4Bw)
  - Code: [Jon Kraft: Pluto Beamformer](https://github.com/jonkraft/Pluto_Beamformer)
  - Video: [Understanding and Prototyping](https://www.youtube.com/watch?v=0hnWfTvETcU)
  - Code: [Jon Kraft: Phased Array Workshop](https://github.com/jonkraft/PhasedArray)
+ - Video: [Jon Kraft: Rapid Phased Array Prototyping](https://www.youtube.com/watch?v=B_icccUpxV0)
+
+PyADI-IIO: Python for ADI Industrial I/O Devices:
+ - Web Docs: [AD936x Hardware](https://analogdevicesinc.github.io/pyadi-iio/devices/adi.ad936x.html)
+ - Code: [Examples, Test, RF](https://github.com/analogdevicesinc/pyadi-iio/tree/master/examples) Folders.
 
 ADI Kuiper Linux for Raspberry Pi:
  - [Information and Downloads](https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux)
@@ -45,10 +53,10 @@ Basic Raspberry Pi Install From Scratch:
 
 ## Other Resources:
 
- - [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
- - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
- - [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
- - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+ - Coding Docs: [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
+ - Presentations: [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
+ - Archived Articles: [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+ - Books: [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
  - Also see the informational documents posted in the [assets-docs](./assets-docs/) folder of this repo.
 
 ## Status:
