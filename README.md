@@ -45,9 +45,11 @@ Basic Raspberry Pi Install From Scratch:
 
 ## Other Resources:
 
+ - [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
  - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
  - [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
  - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+ - Also see the informational documents posted in the [assets-docs](./assets-docs/) folder of this repo.
 
 ## Status:
 
