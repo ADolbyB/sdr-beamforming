@@ -56,8 +56,12 @@ Basic Raspberry Pi Install From Scratch:
  - Coding Docs: [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
  - Presentations: [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
  - Archived Articles: [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
- - Books: [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
  - Also see the informational documents posted in the [assets-docs](./assets-docs/) folder of this repo.
+ - Video: [What Is Beamforming?](https://www.youtube.com/watch?v=VOGjHxlisyo)
+ - Video: [What Are Phased Arrays?](https://www.youtube.com/watch?v=9WxWun0E-PM)
+ - Video: [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
+ - Book: [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
+ - Books: [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
 
 ## Status:
 
