@@ -53,6 +53,7 @@ Basic Raspberry Pi Install From Scratch:
 
 ## Other Resources:
 
+ - Phased Array Applications: [ADI Phased Arrays](https://www.analog.com/en/applications/markets/aerospace-and-defense-pavilion-home/phased-array-solution.html)
  - Coding Docs: [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
  - Presentations: [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
  - Archived Articles: [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
