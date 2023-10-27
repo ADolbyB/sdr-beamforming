@@ -33,11 +33,13 @@ Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for R
      - Use PuTTY for Windows or a Terminal in Linux for shell access.
      - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
-Build Your Own Phased Array Beamformer using Pluto SDR:
- - Video: [Basic Prototype](https://www.youtube.com/watch?v=2QXKuEYR4Bw)
- - Code: [Jon Kraft: Pluto Beamformer](https://github.com/jonkraft/Pluto_Beamformer)
- - Video: [Understanding and Prototyping](https://www.youtube.com/watch?v=0hnWfTvETcU)
- - Code: [Jon Kraft: Phased Array Workshop](https://github.com/jonkraft/PhasedArray)
+DIY Phased Array using Pluto SDR:
+ - Video: [Build Your Own Phased Array Beamformer](https://www.youtube.com/watch?v=2QXKuEYR4Bw)
+ - Video: [Monopulse Tracking with a Low Cost Pluto SDR](https://www.youtube.com/watch?v=XP8OWMDHfOQ)
+ - Video: [Implementing Time Delay For a Low Cost Digital Beamformer](https://www.youtube.com/watch?v=gQjnSK0UHGQ)
+     - Code: [Jon Kraft: Pluto Beamformer](https://github.com/jonkraft/Pluto_Beamformer)
+ - Video: [Phased Array Beamforming: Understanding and Prototyping](https://www.youtube.com/watch?v=0hnWfTvETcU)
+     - Code: [Jon Kraft: Phased Array Workshop](https://github.com/jonkraft/PhasedArray)
  - Video: [Jon Kraft: Rapid Phased Array Prototyping](https://www.youtube.com/watch?v=B_icccUpxV0)
 
 PyADI-IIO: Python for ADI Industrial I/O Devices:
