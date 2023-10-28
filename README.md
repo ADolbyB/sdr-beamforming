@@ -1,7 +1,6 @@
 # Pluto SDR
 
-This repo is a compilation of code for the ADALM-PLUTO SDR module for project research of the beamforming 
-concept. Most of this code I compiled from other sources so it was all in one place to minimize search time.
+This repo is a compilation of code and resources for the ADALM-PLUTO SDR module for project research of the beamforming concept. The code in the `testCode` folder has been compiled from other sources as working skeleton code for the AD936x Tranceiver for testing purposes.
 
 <div align="center">
 
@@ -46,6 +45,9 @@ PyADI-IIO: Python for ADI Industrial I/O Devices:
  - Web Docs: [AD936x Hardware](https://analogdevicesinc.github.io/pyadi-iio/devices/adi.ad936x.html)
  - Code: [Examples, Test, RF](https://github.com/analogdevicesinc/pyadi-iio/tree/master/examples) Folders.
 
+Coding Docs:
+ - [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
+
 ADI Kuiper Linux for Raspberry Pi:
  - [Information and Downloads](https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux)
  - [Pre-Configured Image](https://download.analog.com/phased-array-lab/raspi.7z)
@@ -55,16 +57,25 @@ Basic Raspberry Pi Install From Scratch:
 
 ## Other Resources:
 
- - Phased Array Applications: [ADI Phased Arrays](https://www.analog.com/en/applications/markets/aerospace-and-defense-pavilion-home/phased-array-solution.html)
- - Coding Docs: [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
- - Presentations: [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
- - Archived Articles: [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
- - Also see the informational documents posted in the [assets-docs](./assets-docs/) folder of this repo.
- - Video: [What Is Beamforming?](https://www.youtube.com/watch?v=VOGjHxlisyo)
- - Video: [What Are Phased Arrays?](https://www.youtube.com/watch?v=9WxWun0E-PM)
- - Video: [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
- - Book: [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
- - Books: [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
+Applications of Phased Arrays: 
+ - [ADI Phased Arrays](https://www.analog.com/en/applications/markets/aerospace-and-defense-pavilion-home/phased-array-solution.html)
+
+Videos:
+ - [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
+ - [What Is Beamforming?](https://www.youtube.com/watch?v=VOGjHxlisyo)
+ - [What Are Phased Arrays?](https://www.youtube.com/watch?v=9WxWun0E-PM)
+ - [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
+
+Articles: 
+ - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+
+Books: 
+ - [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
+ - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
+ - [Phased Array Antenna Handbook](http://twanclik.free.fr/electricity/electronic/pdfdone11/Phased.Array.Antenna.Handbook.Artech.House.Publishers.Second.Edition.eBook-kB.pdf)
+ - [Antenna Theory Analysis and Design](https://cds.cern.ch/record/1416310/files/047166782X_TOC.pdf)
+
+Also see the informational documents posted in the [assets-docs](./assets-docs/) folder of this repo.
 
 ## Status:
 
