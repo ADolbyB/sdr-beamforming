@@ -19,17 +19,19 @@ This repo is a compilation of code and resources for the ADALM-PLUTO SDR module 
 Pluto SDR Tools and Overview:
  - [Overview and Introduction](https://wiki.analog.com/university/tools/pluto)
 
-Pluto SDR Quick Start:
+Pluto SDR Quick Start Drivers & IIO Scope:
  - [Quick Start Resources](https://wiki.analog.com/university/tools/pluto/users/quick_start)
+ - [Lib-IIO drivers for IIO Scope](https://github.com/analogdevicesinc/libad9361-iio/releases/tag/v0.3)
 
 Pluto SDR Firmware Updates:
  - [Pluto/M2k Firmware](https://wiki.analog.com/university/tools/pluto/users/firmware)
+
 
 Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for Rev C and newer Pluto SDR:
  - Video: [Enable Dual TX & Dual RX](https://www.youtube.com/watch?v=ph0Kv4SgSuI)
  - Code: [Jon Kraft: Pluto SDR Labs](https://github.com/jonkraft/PlutoSDR_Labs/tree/master)
  - Settings Table: [Environmental Settings](https://wiki.analog.com/university/tools/pluto/devs/booting)
-     - Use PuTTY for Windows or a Terminal in Linux for shell access.
+     - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
      - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
 DIY Phased Array using Pluto SDR:
