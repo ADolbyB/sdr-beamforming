@@ -73,6 +73,9 @@ Videos:
  - [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
  - [Software Defined Radio Systems and Analysis Playlist](https://www.youtube.com/playlist?list=PLBfTSoOqoRnOTBTLahXBlxaDUNWdZ3FdS): 26 Lectures
 
+SDR Online Lessons:
+ - [Great Scott Gadgets](https://greatscottgadgets.com/sdr/) Tutorials
+
 Articles: 
  - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
 
