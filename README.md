@@ -16,8 +16,13 @@ This repo is a compilation of code and resources for the ADALM-PLUTO SDR module 
 
 ## Sources:
 
+Linux Install Guides:
+ - [Install GNU Radio: Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
+ - [Install GQRX](https://github.com/gqrx-sdr/gqrx/releases)
+
 Pluto SDR Tools and Overview:
  - [Overview and Introduction](https://wiki.analog.com/university/tools/pluto)
+ - [ADALM-Pluto for End Users](https://wiki.analog.com/university/tools/pluto/users)
 
 Pluto SDR Quick Start Drivers & IIO Scope:
  - [Quick Start Resources](https://wiki.analog.com/university/tools/pluto/users/quick_start)
@@ -25,7 +30,6 @@ Pluto SDR Quick Start Drivers & IIO Scope:
 
 Pluto SDR Firmware Updates:
  - [Pluto/M2k Firmware](https://wiki.analog.com/university/tools/pluto/users/firmware)
-
 
 Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for Rev C and newer Pluto SDR:
  - Video: [Enable Dual TX & Dual RX](https://www.youtube.com/watch?v=ph0Kv4SgSuI)
@@ -67,6 +71,7 @@ Videos:
  - [What Is Beamforming?](https://www.youtube.com/watch?v=VOGjHxlisyo)
  - [What Are Phased Arrays?](https://www.youtube.com/watch?v=9WxWun0E-PM)
  - [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
+ - [Software Defined Radio Systems and Analysis Playlist](https://www.youtube.com/playlist?list=PLBfTSoOqoRnOTBTLahXBlxaDUNWdZ3FdS): 26 Lectures
 
 Articles: 
  - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
