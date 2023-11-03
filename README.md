@@ -4,7 +4,7 @@ This repo is a compilation of code and resources for the ADALM-PLUTO SDR module 
 
 <div align="center">
 
-<img src="./assets/ADALM-Pluto.png" alt="Pluto SDR" width="600"/><br>
+<img src="./assets/ADALM-Pluto.png" alt="Pluto SDR" width="500"/><br>
 
 <small>
     <a href="https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/adalm-pluto.html">
@@ -14,7 +14,35 @@ This repo is a compilation of code and resources for the ADALM-PLUTO SDR module 
 
 </div>
 
+
+## Screenshots:
+
+<div align="center">
+
+Pluto Settings for TX and RX Modifications:
+
+<img src="./assets/Pluto2r2t-1.PNG" alt="Pluto SDR Before Mod" width="600"/><br>
+
+</div>
+
+<div align="center">
+
+
+Verify Updated Firmware & Modified Settings.<br>
+Note that `root` password = `analog`
+
+<img src="./assets/Pluto2r2t-2.PNG" alt="Pluto SDR After Mod" width="600"/><br>
+
+</div>
+
 ## Sources:
+
+Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for Rev C and newer Pluto SDR:
+ - Video: [Enable Dual TX & Dual RX](https://www.youtube.com/watch?v=ph0Kv4SgSuI)
+ - Code: [Jon Kraft: Pluto SDR Labs](https://github.com/jonkraft/PlutoSDR_Labs/tree/master)
+ - Settings Table: [Environmental Settings](https://wiki.analog.com/university/tools/pluto/devs/booting)
+     - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
+     - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
 Linux Install Guides:
  - [Install GNU Radio: Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
@@ -30,13 +58,6 @@ Pluto SDR Quick Start Drivers & IIO Scope:
 
 Pluto SDR Firmware Updates:
  - [Pluto/M2k Firmware](https://wiki.analog.com/university/tools/pluto/users/firmware)
-
-Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for Rev C and newer Pluto SDR:
- - Video: [Enable Dual TX & Dual RX](https://www.youtube.com/watch?v=ph0Kv4SgSuI)
- - Code: [Jon Kraft: Pluto SDR Labs](https://github.com/jonkraft/PlutoSDR_Labs/tree/master)
- - Settings Table: [Environmental Settings](https://wiki.analog.com/university/tools/pluto/devs/booting)
-     - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
-     - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
 DIY Phased Array using Pluto SDR:
  - Video: [Build Your Own Phased Array Beamformer](https://www.youtube.com/watch?v=2QXKuEYR4Bw)
