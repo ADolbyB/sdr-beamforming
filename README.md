@@ -44,9 +44,14 @@ Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for R
      - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
      - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
-Linux Install Guides:
- - [Install GNU Radio: Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
- - [Install GQRX](https://github.com/gqrx-sdr/gqrx/releases)
+### Free Installs:
+
+Linux:
+ - [GNU Radio: Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
+ - [GQRX](https://github.com/gqrx-sdr/gqrx/releases)
+
+Windows:
+ - [AirSpy: SDR Sharp](https://airspy.com/download/)
 
 Pluto SDR Tools and Overview:
  - [Overview and Introduction](https://wiki.analog.com/university/tools/pluto)
@@ -75,7 +80,7 @@ PyADI-IIO: Python for ADI Industrial I/O Devices:
 Coding Docs:
  - [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
 
-ADI Kuiper Linux for Raspberry Pi:
+ADI Kuiper Linux for Raspberry Pi (Debian 10 Buster):
  - [Information and Downloads](https://wiki.analog.com/resources/tools-software/linux-software/kuiper-linux)
  - [Pre-Configured Image](https://download.analog.com/phased-array-lab/raspi.7z)
 
