@@ -1,6 +1,8 @@
 # Copyright (C) 2022 Analog Devices, Inc.
 #
 # SPDX short identifier: ADIBSD
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
 
 import time
 
@@ -10,7 +12,8 @@ import numpy as np
 from scipy import signal
 
 # Create radio
-sdr = adi.ad9361(uri="ip:analog.local")
+# sdr = adi.ad9361(uri='ip:192.168.2.1') Alternate Version
+sdr = adi.Pluto("ip:pluto.local")
 
 # Configure properties
 sdr.rx_rf_bandwidth = 4000000

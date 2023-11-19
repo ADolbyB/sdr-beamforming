@@ -10,7 +10,8 @@ import numpy as np
 from scipy import signal
 
 # Create radio
-sdr = adi.Pluto()
+# sdr = adi.ad9361(uri='ip:192.168.2.1') Alternate Version
+sdr = adi.Pluto("ip:pluto.local")       # Edit JB: Add IP Address for Error: Unable to claim interface, device or resource busy
 
 # Configure properties
 sdr.rx_rf_bandwidth = 4000000

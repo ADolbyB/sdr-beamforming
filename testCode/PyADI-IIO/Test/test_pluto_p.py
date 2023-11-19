@@ -1,3 +1,8 @@
+
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
+
 import pytest
 
 hardware = ["pluto", "pluto_rev_c"]

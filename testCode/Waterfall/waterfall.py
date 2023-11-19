@@ -1,6 +1,9 @@
 # Waterfall Plot with PlutoSDR
 # Original code: https://hackaday.io/project/165403/logs
 
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
 import adi
 import numpy as np
 import pygame
@@ -10,7 +13,9 @@ from PIL import Image
 DISPLAY_WIDTH = 256
 DISPLAY_HEIGHT = 200
 
-sdr = adi.Pluto()
+# Create Radio
+# sdr = adi.ad9361(uri='ip:192.168.2.1') Alternate Version
+sdr = adi.Pluto("ip:pluto.local")       # Edit JB: Add IP Address for Error: Unable to claim interface, device or resource busy
 # configure device
 sdr.sample_rate = int(2.4e6)  # Hz
 sdr.rx_lo = int(1e9)  # Hz

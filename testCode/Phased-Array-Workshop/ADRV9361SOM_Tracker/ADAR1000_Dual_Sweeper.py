@@ -52,8 +52,8 @@ import sys
 
 sys.path.append('/usr/lib/python2.7/site-packages/')
 sys.path.append('/lib/python3.7/site-packages/')
-#import iio          # see temporary issue here https://ez.analog.com/sw-interface-tools/f/q-a/534115/pyadi-iio-operation-in-gnuradio-3-8
-import iiopy as iio  # this is a temporary workaround due to a conflict between gr-iio and pyadi-iio
+import iio          # see temporary issue here https://ez.analog.com/sw-interface-tools/f/q-a/534115/pyadi-iio-operation-in-gnuradio-3-8
+# import iiopy as iio  # this is a temporary workaround due to a conflict between gr-iio and pyadi-iio
 import adi
 
 def ADAR_init(spi, ADDR):
@@ -108,7 +108,7 @@ def ADAR_set_RxPhase(spi, address, num_ADARs, PhDelta, phase_step_size, RxPhase1
             I = 0x1A   # Rx4_I vector register address = 0x1A
             Q = 0x1B   # Rx4_Q vector register address = 0x1B
         ADAR_write_RxPhase(spi, address, Channel_Phase, I, Q)
-        i = i+1
+        i = i + 1
     spi.xfer2([address, 0x28, 0x01])  # Loads Rx vectors from SPI.  0x08 is all ADAR1000 devices
 
 def ADAR_write_RxPhase(spi, ADDR, Channel_Phase, I, Q):
