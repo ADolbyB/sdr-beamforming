@@ -69,6 +69,9 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
@@ -81,14 +84,14 @@ rx_mode = "manual"  # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
 tx_lo = rx_lo
-tx_gain = -3
+tx_gain = -5
 fc0 = int(200e3)
 phase_cal = 0
 num_scans = 5
 
 ''' Set distance between Rx antennas '''
 d_wavelength = 0.5                  # distance between elements as a fraction of wavelength.  This is normally 0.5
-wavelength = 3E8/rx_lo              # wavelength of the RF carrier
+wavelength = 3E8 / rx_lo              # wavelength of the RF carrier
 d = d_wavelength*wavelength         # distance between elements in meters
 print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
@@ -175,10 +178,10 @@ def scan_for_DOA():
         mono_angle = monopulse_angle(delayed_sum_fft, delayed_delta_fft)
         
         peak_sum.append(np.max(delayed_sum_dbfs))
-        peak_delta.append(np.max(delayed_delta_dbfs))
+        peak_delta.append(np.max(delayed_delta_dbfs))   # calulating max difference and sum here
         monopulse_phase.append(np.sign(mono_angle))
         
-    peak_dbfs = np.max(peak_sum)
+    peak_dbfs = np.max(peak_sum) # translate phase difference to 
     peak_delay_index = np.where(peak_sum==peak_dbfs)
     peak_delay = delay_phases[peak_delay_index[0][0]]
     steer_angle = int(calcTheta(peak_delay))
@@ -208,6 +211,3 @@ for i in range(num_scans):
         
 sdr.tx_destroy_buffer()
 if i>40: print('\a')    # for a long capture, beep when the script is done
-
-
-        

@@ -69,6 +69,9 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
 import adi
 import numpy as np
 import pyqtgraph as pg   # pyqtgraph will plot MUCH faster than matplotlib (https://pyqtgraph.readthedocs.io/en/latest/getting_started/installation.html)
@@ -244,9 +247,7 @@ timer.start(0)
 if __name__ == '__main__':
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QApplication.instance().exec_()
-        
+        # QtGui.QApplication.instance().exec_() # 2023-12-01 JB: does not work (see next line)
+        QtGui.QGuiApplication.instance().exec_()
+
 sdr.tx_destroy_buffer()
-
-
-        

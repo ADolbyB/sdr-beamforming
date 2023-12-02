@@ -37,12 +37,15 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
 
 '''Setup'''
-samp_rate = 2e6    # must be <=30.72 MHz if both channels are enabled
+samp_rate = 2e6    # must be <= 30.72 MHz if both channels are enabled
 NumSamples = 2**12
 rx_lo = 2.3e9
 rx_mode = "manual"  # can be "manual" or "slow_attack"
@@ -123,7 +126,3 @@ for i in range(1):
         plt.show()
 
 sdr.tx_destroy_buffer()
-
-
-
-

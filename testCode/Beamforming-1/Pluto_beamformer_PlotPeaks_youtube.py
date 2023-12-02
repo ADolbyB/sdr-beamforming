@@ -37,6 +37,9 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import sys
+print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
@@ -160,5 +163,3 @@ for i in range(num_scans):
 
 sdr.tx_destroy_buffer()
 if i>40: print('\a')    # for a long capture, beep when the script is done
-
-
