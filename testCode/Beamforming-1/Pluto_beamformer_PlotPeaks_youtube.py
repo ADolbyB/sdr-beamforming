@@ -25,27 +25,17 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 #       patent holders to use this software.
 #     - Use of the software either in source or binary form, must be run
 #       on or directly connected to an Analog Devices Inc. component.
-#
-# THIS SOFTWARE IS PROVIDED BY ANALOG DEVICES "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
-# INCLUDING, BUT NOT LIMITED TO, NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A
-# PARTICULAR PURPOSE ARE DISCLAIMED.
-#
-# IN NO EVENT SHALL ANALOG DEVICES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, INTELLECTUAL PROPERTY
-# RIGHTS, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
-# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-# STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-# THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import sys
-print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+print(f'sys.path = {sys.path}')     # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
 
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 '''Setup'''
-samp_rate = 2e6    # must be <=30.72 MHz if both channels are enabled
+samp_rate = 2e6                     # must be <=30.72 MHz if both channels are enabled
 NumSamples = 2**12
 rx_lo = 2.3e9
 rx_mode = "manual"  # can be "manual" or "slow_attack"
@@ -54,8 +44,8 @@ rx_gain1 = 40
 tx_lo = rx_lo
 tx_gain = -3
 fc0 = int(200e3)
-phase_cal = 0
-num_scans = 5
+phase_cal = 92
+num_scans = 500
 Plot_Compass = False
 
 ''' Set distance between Rx antennas '''
@@ -94,8 +84,7 @@ q0 = np.sin(2 * np.pi * t * fc0) * 2 ** 14
 iq0 = i0 + 1j * q0
 sdr.tx([iq0,iq0])  # Send Tx data.
 
-# Assign frequency bins and "zoom in" to the fc0 signal on those frequency bins
-xf = np.fft.fftfreq(NumSamples, ts)
+xf = np.fft.fftfreq(NumSamples, ts) # Assign frequency bins and "zoom in" to the fc0 signal on those frequency bins
 xf = np.fft.fftshift(xf)/1e6
 signal_start = int(NumSamples*(samp_rate/2+fc0/2)/samp_rate)
 signal_end = int(NumSamples*(samp_rate/2+fc0*2)/samp_rate)
@@ -138,6 +127,7 @@ for i in range(num_scans):
     peak_delay = delay_phases[peak_delay_index[0][0]]
     steer_angle = int(calcTheta(peak_delay))
     if Plot_Compass==False:
+        plt.clf()
         plt.plot(delay_phases, peak_sum)
         plt.axvline(x=peak_delay, color='r', linestyle=':')
         plt.text(-180, -26, "Peak signal occurs with phase shift = {} deg".format(round(peak_delay,1)))
@@ -146,8 +136,11 @@ for i in range(num_scans):
         plt.xlabel("phase shift [deg]")
         plt.ylabel("Rx0 + Rx1 [dBfs]")
         plt.draw()
-        plt.show()
+        plt.pause(0.05)
+        time.sleep(0.1)
+        # plt.show()
     else:
+        plt.clf()
         fig = plt.figure(figsize=(3,3))
         ax = plt.subplot(111,polar=True)
         ax.set_theta_zero_location('N')
@@ -159,7 +152,11 @@ for i in range(num_scans):
         ax.vlines(np.deg2rad(steer_angle),0,-20)
         ax.text(-2, -14, "{} deg".format(steer_angle))
         plt.draw()
-        plt.show()
+        plt.pause(0.05)
+        time.sleep(0.1)
+        # plt.show()
+
+plt.show()
 
 sdr.tx_destroy_buffer()
-if i>40: print('\a')    # for a long capture, beep when the script is done
+if i > 40: print('\a')    # for a long capture, beep when the script is done
