@@ -14,8 +14,8 @@ DISPLAY_WIDTH = 256
 DISPLAY_HEIGHT = 200
 
 # Create Radio
-# sdr = adi.ad9361(uri='ip:192.168.2.1') Alternate Version
-sdr = adi.Pluto("ip:pluto.local")       # Edit JB: Add IP Address for Error: Unable to claim interface, device or resource busy
+sdr = adi.ad9361(uri='ip:192.168.2.1') # 2023-12-02: Works now and waterfall display works
+# sdr = adi.Pluto("ip:pluto.local") # Edit JB: Add IP Address for Error: Unable to claim interface, device or resource busy
 # configure device
 sdr.sample_rate = int(2.4e6)  # Hz
 sdr.rx_lo = int(1e9)  # Hz
@@ -27,7 +27,6 @@ sdr.dds_frequencies = [1e6, 1e6, 1e6, 1e6]
 sdr.dds_scales = [1, 1, 0, 0]
 
 image = []
-
 
 def get_data():
     samples = sdr.rx()
