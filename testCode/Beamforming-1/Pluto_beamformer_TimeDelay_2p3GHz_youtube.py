@@ -43,6 +43,7 @@ print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONP
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
+import time
 
 '''Setup'''
 samp_rate = 30e6    # must be <=30.72 MHz if both channels are enabled
@@ -160,8 +161,8 @@ for time_delay in delay_times:
 
 for i in range(num_scans):
     data = sdr.rx()
-    Rx_0=data[0]
-    Rx_1=data[1]        
+    Rx_0 = data[0]
+    Rx_1 = data[1]        
     peak_sum = []
     peak_sum_time = []
     for time_delay in delay_times:   
@@ -182,6 +183,7 @@ for i in range(num_scans):
     steer_angle = int(calcTheta("time", peak_delay, f_carrier))
     steer_angle_time = int(calcTheta("time", peak_delay_time, f_carrier))
     
+    plt.clf()
     plt.plot(steer_angles, peak_sum)
     plt.plot(steer_angles, peak_sum_time)
     plt.axvline(x=steer_angle, color='b', linestyle=':')
@@ -190,7 +192,10 @@ for i in range(num_scans):
     plt.xlabel("steering angle [deg]")
     plt.ylabel("Rx0 + Rx1 [dBfs]")
     plt.draw()
-    plt.show()
+    plt.pause(0.05)
+    time.sleep(0.1)
+    
+plt.show()
 
 sdr.tx_destroy_buffer()
 if i > 40: print('\a')    # for a long capture, beep when the script is done
