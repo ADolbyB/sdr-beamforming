@@ -1,6 +1,6 @@
 # SDR Beamforming
 
-This is a research project repo for Software Defined Radio Phased Array Beamforming. Previously, we had extensively researched the PlutoSDR to evaluate it for a beamforming project. That was previously the `pluto-sdr` repo, which is now an additional folder inside this repo.
+This is a research project repo for Software Defined Radio Phased Array Beamforming. Previously, we had extensively researched the PlutoSDR to evaluate it for a beamforming project. That was previously the `pluto-sdr` repo, which is now an additional folder inside this repo. Currently, we are researching the KrakenSDR as a stepping stone platform to a complete beamforming system.
 
 ## KrakenSDR Resources:
 
@@ -15,6 +15,20 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 
 - [KrakenRF GitHub Page](https://github.com/krakenrf)
 - [Kraken YT Page](https://www.youtube.com/@thekraken2086)
+
+<div align="center">
+    <p>
+        KrakenSDR 5 Channel Internal Breakdown:
+    </p>
+<img src="./KrakenSDR/assets/KrakenSDR-1.png" alt="Pluto SDR" width="500"/><br>
+
+<small>
+    <a href="https://github.com/krakenrf/krakensdr_docs/wiki">
+        Image Source
+    </a>
+</small>
+
+</div>
 
 ## PlutoSDR Resources:
 
