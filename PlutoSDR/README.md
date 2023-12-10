@@ -44,6 +44,9 @@ Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for R
      - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
      - In my case, I connected via the serial COM port with PuTTY in Windows 10.
 
+Coding Docs:
+- [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
+
 Pluto SDR Tools and Overview:
  - [Overview and Introduction](https://wiki.analog.com/university/tools/pluto)
  - [ADALM-Pluto for End Users](https://wiki.analog.com/university/tools/pluto/users)
