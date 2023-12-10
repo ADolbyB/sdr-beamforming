@@ -38,13 +38,21 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 
 Useful SDR Programs:
 - Linux:
-     - [GNU Radio: Wiki](https://wiki.gnuradio.org/index.php/InstallingGR)
-     - [GQRX](https://github.com/gqrx-sdr/gqrx/releases)
+     - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR) and [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php?title=Tutorials)
+     - [GQRX](https://gqrx.dk/)
 - Windows:
-     - [AirSpy: SDR Sharp](https://airspy.com/download/)
+     - [AirSpy: SDR Sharp](https://airspy.com/download/) 
+         - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
+         - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
+     - [SDR Console](https://www.sdr-radio.com/)
+     - [HDSDR](http://www.hdsdr.de/)
+     - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
+         - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
+         - Also see [This RadioReference](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/) Get Started Guide.
+     - [Unitrunker Digital Decoder](http://www.unitrunker.com/) 
 
 Coding Docs:
-- [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
+- [PySDR Python Docs](https://pysdr.org/index.html)
 
 Applications of Phased Arrays: 
 - [ADI Phased Arrays](https://www.analog.com/en/applications/markets/aerospace-and-defense-pavilion-home/phased-array-solution.html)
