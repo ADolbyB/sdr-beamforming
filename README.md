@@ -4,18 +4,6 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 
 ## KrakenSDR Resources:
 
-- [KrakenRF CrowdSupply Page](https://www.crowdsupply.com/krakenrf/krakensdr)
-- [KrakenSDR Documentation Wiki](https://github.com/krakenrf/krakensdr_docs/wiki)
-- [Kraken Vehicle Direction Finding Video](https://www.youtube.com/watch?v=OY16y1Rl86g)
-    - Compare to Rohde & Schwarz Live [Interference Hunting Demonstration](https://www.youtube.com/watch?v=IIH9OiLGN2g)
-- [KrakenSDR RDF Android App](https://play.google.com/store/apps/details?id=com.krakensdr.krakendoa)
-- [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html) for direction finding. Tower mount for the 5 channel KrakenSDR.
-- [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
-- [Kraken DSP Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
-
-- [KrakenRF GitHub Page](https://github.com/krakenrf)
-- [Kraken YT Page](https://www.youtube.com/@thekraken2086)
-
 <div align="center">
     <p>
         KrakenSDR 5 Channel Internal Breakdown:
@@ -29,6 +17,25 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 </small>
 
 </div>
+
+- [KrakenRF Website](https://www.krakenrf.com/)
+- [KrakenRF CrowdSupply Page](https://www.crowdsupply.com/krakenrf/krakensdr)
+- [KrakenRF GitHub Page](https://github.com/krakenrf)
+- [Kraken YT Page](https://www.youtube.com/@thekraken2086)
+- [Kraken RPi 4 Pre-Configured Image](https://github.com/krakenrf/krakensdr_doa/releases)
+- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)
+     - Use with VirtualBox 7.0 or later.
+     - For Linux Hosts: `sudo adduser $USER vboxusers`
+     - Ubuntu Username: `krakenrf`, Password: `krakensdr`
+- [KrakenSDR Documentation Wiki](https://github.com/krakenrf/krakensdr_docs/wiki)
+- A 3D Printable [Antenna Array Template](https://www.thingiverse.com/thing:5787042) on Thingiverse
+- [Kraken Vehicle Direction Finding Video](https://www.youtube.com/watch?v=OY16y1Rl86g)
+    - Compare to Rohde & Schwarz Live [Interference Hunting Demonstration](https://www.youtube.com/watch?v=IIH9OiLGN2g)
+- [Passive Radar Applications](http://gbppr.net/kraken/index.html)
+- [KrakenSDR RDF Android App](https://play.google.com/store/apps/details?id=com.krakensdr.krakendoa)
+- [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html) for direction finding. Tower mount for the 5 channel KrakenSDR.
+- [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
+- [Kraken DSP Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
 
 ## PlutoSDR Resources:
 
