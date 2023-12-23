@@ -23,7 +23,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [KrakenRF GitHub Page](https://github.com/krakenrf)
 - [Kraken YT Page](https://www.youtube.com/@thekraken2086)
 - [Kraken RPi 4 Pre-Configured Image](https://github.com/krakenrf/krakensdr_doa/releases)
-- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)
+- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)&nbsp;&nbsp;<strong>See Notes on VM Below</strong>
      - Use with VirtualBox 7.0 or later.
      - For Linux Hosts: `sudo adduser $USER vboxusers`
      - Ubuntu Username: `krakenrf`, Password: `krakensdr`
@@ -36,6 +36,20 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html) for direction finding. Tower mount for the 5 channel KrakenSDR.
 - [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
 - [Kraken DSP Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
+
+### Notes on the Preconfigured VirtualBox VM:
+
+- After importing the OVA appliance to VBox 7.0+:
+    - I allocate 4 vCPUs & 8192 MB of RAM to my Kraken VM.
+    - Increase the display video memory to 128 MB.
+    - Make sure to test run and UPDATE the image (this may take awhile).
+        - In Ubuntu, if this does not happen automatically, then click `Activities` in the top right corner and search for `Software Updater`.
+- Next, we need to fix the 16 MB `usbfs_memory_mb` that will prevent using all 5 RTL-SDRs in the KrakenSDR.
+    - Temporary Fix (Does Not Survive Reboot):
+        - open a terminal and login as root: `sudo su` and enter the password.
+        - now enter `echo 0 > /sys/module/usbcore/parameters/usbfs_memory_mb`
+        - now verify the change by logging out of the root terminal (CTRL + D) and entering `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
+
 
 ## PlutoSDR Resources:
 
