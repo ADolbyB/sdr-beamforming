@@ -40,7 +40,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 ### Notes on the Preconfigured VirtualBox VM:
 
 - After importing the OVA appliance to VBox 7.0+:
-    - I allocate 4 vCPUs & 8192 MB of RAM to my Kraken VM.
+    - Allocate 4 vCPUs & 8192 MB of RAM to the Kraken Ubuntu VM.
     - Increase the display video memory to 128 MB.
     - Make sure to test run and UPDATE the image (this may take awhile).
         - In Ubuntu, if this does not happen automatically, then click `Activities` in the top right corner and search for `Software Updater`.
@@ -52,20 +52,21 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
         - open a terminal and login as root: `sudo su` and enter the password.
         - now enter `echo 0 > /sys/module/usbcore/parameters/usbfs_memory_mb`
         - now verify the change by logging out of the root terminal (CTRL + D) and entering `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
-        - This allows for testing of 5 channel simulaneous operation
-            - Open 5 separate terminals and in the first, enter `kraken_test -d0` to open channel `0`.
+        - This allows for testing of 5 channel simulaneous operation. Open 5 separate terminals:
+            - In the first terminal, enter `kraken_test -d0` to open channel `0`.
             - In the second terminal, enter `kraken_test -d1` to open channel `1`.
             - In the third terminal, enter `kraken_test -d2` to open channel `2`.
             - In the fourth terminal, enter `kraken_test -d3` to open channel `3`.
             - In the fifth terminal, enter `kraken_test -d4` to open channel `4`.
-            - All the windows should hang and update periodically until a CTRL+C is entered. If any of the tests fail to run then the value of the `usbfs_memory_mb` has likely been reset to `16`, and this is an insufficient value to retreive all the data from the 5 RTL-SDRs simultaneously via USB-C from the Kraken.
-    - Permanent Fix (Ubuntu): change the grub config when booting
+            - Each terminal should hang and update itself periodically, indicating the channel is opened, until a CTRL+C is entered. If any of the tests fail to run then the value of the `usbfs_memory_mb` has likely been reset to `16`, which is an insufficient value to retreive all data from the 5 RTL-SDRs simultaneously via USB-C from the Kraken.
+    - Permanent Fix (Ubuntu): change the grub config when booting:
         - Edit /etc/default/grub: `sudo nano /etc/default/grub`
-            - Append `usbcore.usbfs_memory_mb=0` to the `GRUB_CMDLINE_LINUX` variable.
+            - Append `usbcore.usbfs_memory_mb=0` to the `GRUB_CMDLINE_LINUX` variables between the double quotes.
             - CTRL+X to exit and save.
-        - From the command line, enter: `$ sudo grub-mkconfig -o /boot/grub/grub.cfg`
-        - `$ reboot`
-        - After reboot, in a new terminal window enter: `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should see a value of `0` if the fix worked.
+        - From the command line, enter: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+        - Next, enter: `reboot`
+        - After reboot, in a new terminal window enter: `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should see a value of `0` if the USBFS fix worked.
+        - We can now open all 5 KrakenSDR channels simultaneously.
 
 
 ## PlutoSDR Resources:
