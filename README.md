@@ -47,26 +47,47 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
     - With the KrakenSDR plugged in and powered on:
         - Add the 5 different Realtek RTL2838UHIDIR USB Device Filters.
         - The RTL-SDR USB Device Filter should already be added.
+
 - Next, we need to fix the 16 MB `usbfs_memory_mb` that will prevent using all 5 RTL-SDRs in the KrakenSDR.
     - Temporary Fix (Does Not Survive Reboot):
         - open a terminal and login as root: `sudo su` and enter the password.
         - now enter `echo 0 > /sys/module/usbcore/parameters/usbfs_memory_mb`
-        - now verify the change by logging out of the root terminal (CTRL + D) and entering `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
+        - now verify the change by logging out of the root terminal (CTRL+d) and entering `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
         - This allows for testing of 5 channel simulaneous operation. Open 5 separate terminals:
             - In the first terminal, enter `kraken_test -d0` to open channel `0`.
             - In the second terminal, enter `kraken_test -d1` to open channel `1`.
             - In the third terminal, enter `kraken_test -d2` to open channel `2`.
             - In the fourth terminal, enter `kraken_test -d3` to open channel `3`.
             - In the fifth terminal, enter `kraken_test -d4` to open channel `4`.
-            - Each terminal should hang and update itself periodically, indicating the channel is opened, until a CTRL+C is entered. If any of the tests fail to run then the value of the `usbfs_memory_mb` has likely been reset to `16`, which is an insufficient value to retreive all data from the 5 RTL-SDRs simultaneously via USB-C from the Kraken.
+            - Each terminal should hang and update itself periodically, indicating the channel is opened, until a CTRL+c is entered. If any of the tests fail to run then the value of the `usbfs_memory_mb` has likely been reset to `16`, which is an insufficient value to retreive all data from the 5 RTL-SDRs simultaneously via USB-C from the Kraken.
     - Permanent Fix (Ubuntu): change the grub config when booting:
         - Edit /etc/default/grub: `sudo nano /etc/default/grub`
             - Append `usbcore.usbfs_memory_mb=0` to the `GRUB_CMDLINE_LINUX` variables between the double quotes.
-            - CTRL+X to exit and save.
-        - From the command line, enter: `sudo grub-mkconfig -o /boot/grub/grub.cfg`
+            - CTRL+x to exit and save.
+        - From the command line, enter: `sudo grub-mkconfig -o /boot/grub/grub.cfg` to write the new grub configuration. We need to reboot for this to take effect.
         - Next, enter: `reboot`
         - After reboot, in a new terminal window enter: `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should see a value of `0` if the USBFS fix worked.
         - We can now open all 5 KrakenSDR channels simultaneously.
+
+- Next, we need to change the Hemdall DAQ Data Interface settings:
+    - Enter: `nano ~/krakensdr_doa/heimdall_daq_fw/Firmware/daq_chain_config.ini`
+    - At the bottom of the file, under the `[data_interface]` section:
+        - replace old interface with ethernet: `out_data_iface_type = eth`
+        - CTRL+x to exit and save.
+
+- Download the two missing Heimdall bash scripts from the [gr-krakensdr](https://github.com/krakenrf/gr-krakensdr) repo:
+    - [heimdall_only_start.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_start.sh)
+    - [heimdall_only_stop.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_stop.sh)
+    - Place both scripts into the root krakensdr folder of the VM: `~/krakensdr_doa/`
+    - Open a terminal, navigate to `~/krakensdr_doa/` and make both scripts executable:
+        - `sudo chmod +x heimdall_only_start.sh heimdal_only_stop.sh`
+    - In order to run GNU Radio, the `heimdall_only_start.sh`
+    - Without running this script, when executing a flow graph the following error is encountered:
+        - `Ethernet Connection Failed, Error: <class 'ConnectionRefusedError'>`
+
+<!-- - Install missing [Plotly](https://anaconda.org/conda-forge/plotly) library: 
+    - Be sure we're in the proper conda environment: `conda activate kraken`
+    - Enter the following `conda install -c conda-forge plotly` to install the library. -->
 
 
 ## PlutoSDR Resources:
