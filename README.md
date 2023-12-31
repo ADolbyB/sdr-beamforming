@@ -23,7 +23,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [KrakenRF GitHub Page](https://github.com/krakenrf)
 - [Kraken YT Page](https://www.youtube.com/@thekraken2086)
 - [Kraken RPi 4 Pre-Configured Image](https://github.com/krakenrf/krakensdr_doa/releases)
-- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)&nbsp;&nbsp;<strong>See Notes on VM Below</strong>
+- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)&nbsp;&nbsp;**See Notes on VM Below**
      - Use with VirtualBox 7.0 or later.
      - For Linux Hosts: `sudo adduser $USER vboxusers`
      - Ubuntu Username: `krakenrf`, Password: `krakensdr`
@@ -45,8 +45,8 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
     - Make sure to test run and UPDATE the image (this may take awhile).
         - In Ubuntu, if this does not happen automatically, then click `Activities` in the top right corner and search for `Software Updater`.
     - With the KrakenSDR plugged in and powered on:
-        - Add the 5 different Realtek RTL2838UHIDIR USB Device Filters.
-        - The RTL-SDR USB Device Filter should already be added.
+        - The RTL-SDR USB Device Filter should already be added in the VBox hypervisor.
+        - If not, add it here: `Settings -> USB -> USB Device Filters`
 
 - Next, we need to fix the 16 MB `usbfs_memory_mb` that will prevent using all 5 RTL-SDRs in the KrakenSDR.
     - Temporary Fix (Does Not Survive Reboot):
@@ -85,10 +85,17 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
     - Without running this script, when executing a flow graph the following error is encountered:
         - `Ethernet Connection Failed, Error: <class 'ConnectionRefusedError'>`
 
-<!-- - Install missing [Plotly](https://anaconda.org/conda-forge/plotly) library: 
-    - Be sure we're in the proper conda environment: `conda activate kraken`
-    - Enter the following `conda install -c conda-forge plotly` to install the library. -->
-
+- Revert back to `Xorg` from `wayland` to avoid the warnings when running flow graphs in GNU Radio:
+    - Edit the following file: `sudo nano /etc/gdm3/custom.conf`
+        - Uncomment the line `WaylandEnable=False`
+        - CTRL+x to save and exit.
+    - Edit the following file: `sudo nano /etc/environment`
+        - Append the following on a new line: `QT_QPA_PLATFORM=xcb`
+        - CTRL+x to save and exit.
+        - Now reboot: `sudo reboot now`
+        - check the following: `echo $XDG_SESSION_TYPE` and it should **NOT** return `wayland`
+            - In my case, it returned `x11`
+    - In some instances, this warning was preventing the output windows from popping up.
 
 ## PlutoSDR Resources:
 
