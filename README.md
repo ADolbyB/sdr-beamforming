@@ -100,8 +100,8 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - When running a flow graph, if you receive a warning message popup that states:
 
 ``` 
-The xterm executable is missing. You can change this setting in your gnuradio.conf, in section [grc] 
-'xterm_executable' 
+The xterm executable is missing. You can change this setting in your gnuradio.conf, 
+in section [grc] 'xterm_executable' 
 ```
 - Then it can be corrected by editing `/grc.conf`:
     - `sudo nano /etc/gnuradio/conf.d/grc.conf`
