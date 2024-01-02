@@ -95,7 +95,21 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
         - Now reboot: `sudo reboot now`
         - check the following: `echo $XDG_SESSION_TYPE` and it should **NOT** return `wayland`
             - In my case, it returned `x11`
-    - In some instances, this warning was preventing the output windows from popping up.
+    - In some instances, this warning was preventing the output GUI window from opening.
+
+- When running a flow graph, if you receive a warning message popup that states:
+
+``` 
+The xterm executable is missing. You can change this setting in your gnuradio.conf, in section [grc] 
+'xterm_executable' 
+```
+- Then it can be corrected by editing `/grc.conf`:
+    - `sudo nano /etc/gnuradio/conf.d/grc.conf`
+    - find the line that begins with the variable `xterm_executable=...` and change it to:
+        - `xterm_executable=/usr/bin/gnome-terminal` (Assuming you are using gnome-terminal like I am)
+        - CTRL+x to save and exit.
+
+<!-- (Still need to confirm) - Be sure to have all the antennas connected to the KrakenSDR. I am still trying to confirm this, but not having antennas connected seems to be a very poor way to conduct initial rudimentary tests, since the GUI functions seemed to not run without antennas connected. -->
 
 ## PlutoSDR Resources:
 
