@@ -39,7 +39,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 
 ### Notes on the Preconfigured VirtualBox VM:
 
-- After importing the OVA appliance to VBox 7.0+:
+1. After importing the OVA appliance to VBox 7.0+:
     - Allocate 4 vCPUs & 8192 MB of RAM to the Kraken Ubuntu VM.
     - Increase the display video memory to 128 MB.
     - Make sure to test run and UPDATE the image (this may take awhile).
@@ -48,7 +48,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
         - The RTL-SDR USB Device Filter should already be added in the VBox hypervisor.
         - If not, add it here: `Settings -> USB -> USB Device Filters`
 
-- Next, we need to fix the 16 MB `usbfs_memory_mb` that will prevent using all 5 RTL-SDRs in the KrakenSDR.
+2. Next, we need to fix the 16 MB `usbfs_memory_mb` that will prevent using all 5 RTL-SDRs in the KrakenSDR.
     - Temporary Fix (Does Not Survive Reboot):
         - open a terminal and login as root: `sudo su` and enter the password.
         - now enter `echo 0 > /sys/module/usbcore/parameters/usbfs_memory_mb`
@@ -67,15 +67,15 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
         - From the command line, enter: `sudo grub-mkconfig -o /boot/grub/grub.cfg` to write the new grub configuration. We need to reboot for this to take effect.
         - Next, enter: `reboot`
         - After reboot, in a new terminal window enter: `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should see a value of `0` if the USBFS fix worked.
-        - We can now open all 5 KrakenSDR channels simultaneously.
+        - Now we must verify that all 5 KrakenSDR channels can be opened simultaneously.
 
-- Next, we need to change the Hemdall DAQ Data Interface settings:
+3. Next, we need to change the Hemdall DAQ Data Interface settings:
     - Enter: `nano ~/krakensdr_doa/heimdall_daq_fw/Firmware/daq_chain_config.ini`
     - At the bottom of the file, under the `[data_interface]` section:
         - replace old interface with ethernet: `out_data_iface_type = eth`
         - CTRL+x to exit and save.
 
-- Download the two missing Heimdall bash scripts from the [gr-krakensdr](https://github.com/krakenrf/gr-krakensdr) repo:
+4. Download the two missing Heimdall bash scripts from the [gr-krakensdr](https://github.com/krakenrf/gr-krakensdr) repo:
     - [heimdall_only_start.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_start.sh)
     - [heimdall_only_stop.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_stop.sh)
     - Place both scripts into the root krakensdr folder of the VM: `~/krakensdr_doa/`
@@ -85,7 +85,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
     - Without running this script, when executing a flow graph the following error is encountered:
         - `Ethernet Connection Failed, Error: <class 'ConnectionRefusedError'>`
 
-- Revert back to `Xorg` from `wayland` to avoid the warnings when running flow graphs in GNU Radio:
+5. Revert back to `Xorg` from `wayland` to avoid the warnings when running flow graphs in GNU Radio:
     - Edit the following file: `sudo nano /etc/gdm3/custom.conf`
         - Uncomment the line `WaylandEnable=False`
         - CTRL+x to save and exit.
@@ -97,7 +97,7 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
             - In my case, it returned `x11`
     - In some instances, this warning was preventing the output GUI window from opening.
 
-- When running a flow graph, if you receive a warning message popup that states:
+6. When running a flow graph, if you receive a warning message popup that states:
 
 ``` 
 The xterm executable is missing. You can change this setting in your gnuradio.conf, 
