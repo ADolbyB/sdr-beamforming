@@ -35,7 +35,8 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [KrakenSDR RDF Android App](https://play.google.com/store/apps/details?id=com.krakensdr.krakendoa)
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html) for direction finding. Tower mount for the 5 channel KrakenSDR.
 - [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
-- [Kraken DSP Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
+- [KrakenSDR Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
+- [KrakenSDR Passive Radar](https://github.com/mfkiwl/krakensdr_pr) Repo.
 
 ### Notes on the Preconfigured VirtualBox VM:
 
@@ -52,7 +53,8 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
     - Temporary Fix (Does Not Survive Reboot):
         - open a terminal and login as root: `sudo su` and enter the password.
         - now enter `echo 0 > /sys/module/usbcore/parameters/usbfs_memory_mb`
-        - now verify the change by logging out of the root terminal (CTRL+d) and entering `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
+        - now verify the change by logging out of the root terminal (CTRL+d) and entering 
+        `cat /sys/module/usbcore/parameters/usbfs_memory_mb` and we should now see the value `0`.
         - This allows for testing of 5 channel simulaneous operation. Open 5 separate terminals:
             - In the first terminal, enter `kraken_test -d0` to open channel `0`.
             - In the second terminal, enter `kraken_test -d1` to open channel `1`.
