@@ -21,22 +21,25 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [KrakenRF Website](https://www.krakenrf.com/)
 - [KrakenRF CrowdSupply Page](https://www.crowdsupply.com/krakenrf/krakensdr)
 - [KrakenRF GitHub Page](https://github.com/krakenrf)
-- [Kraken YT Page](https://www.youtube.com/@thekraken2086)
-- [Kraken RPi 4 Pre-Configured Image](https://github.com/krakenrf/krakensdr_doa/releases)
-- [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)&nbsp;&nbsp;**See Notes on VM Below**
-     - Use with VirtualBox 7.0 or later.
-     - For Linux Hosts: `sudo adduser $USER vboxusers`
-     - Ubuntu Username: `krakenrf`, Password: `krakensdr`
+    - [KrakenSDR Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
+    - [KrakenSDR Passive Radar](https://github.com/mfkiwl/krakensdr_pr) Repo.
+    - [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
+    - [Kraken RPi 4 Pre-Configured Image](https://github.com/krakenrf/krakensdr_doa/releases) For Direction Finding.
+    - [Ubuntu VirtualBox Pre-Configured VMs](https://mega.nz/folder/MaFCyAyJ#TCl1uCNVAHkCbnSsrG56bQ)&nbsp;&nbsp;**See Notes on VM Below**
+        - Use with VirtualBox 7.0 or later.
+        - For Linux Hosts: `sudo adduser $USER vboxusers`
+        - Ubuntu Username: `krakenrf`, Password: `krakensdr`
 - [KrakenSDR Documentation Wiki](https://github.com/krakenrf/krakensdr_docs/wiki)
-- A 3D Printable [Antenna Array Template](https://www.thingiverse.com/thing:5787042) on Thingiverse
-- [Kraken Vehicle Direction Finding Video](https://www.youtube.com/watch?v=OY16y1Rl86g)
+    - [Quick Start Guide](https://github.com/krakenrf/krakensdr_docs/wiki/02.-Direction-Finding-Quickstart-Guide) For Direction Finding
+    - [Antenna Array Setup](https://github.com/krakenrf/krakensdr_docs/wiki/04.-Antenna-Array-Setup#using-the-excel-calculator) for Direction Finding.
+- [Kraken YT Page](https://www.youtube.com/@thekraken2086)
+    - [Kraken Vehicle Direction Finding Video](https://www.youtube.com/watch?v=OY16y1Rl86g)
     - Compare to Rohde & Schwarz Live [Interference Hunting Demonstration](https://www.youtube.com/watch?v=IIH9OiLGN2g)
+- A 3D Printable [Antenna Array Template](https://www.thingiverse.com/thing:5787042) on Thingiverse
 - [Passive Radar Applications](http://gbppr.net/kraken/index.html)
 - [KrakenSDR RDF Android App](https://play.google.com/store/apps/details?id=com.krakensdr.krakendoa)
-- [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html) for direction finding. Tower mount for the 5 channel KrakenSDR.
-- [GNU Radio Source Block](https://github.com/krakenrf/gr-krakensdr) for the KrakenSDR.
-- [KrakenSDR Direction of Arrival](https://github.com/krakenrf/krakensdr_doa) Repo.
-- [KrakenSDR Passive Radar](https://github.com/mfkiwl/krakensdr_pr) Repo.
+- [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html): A Tower mount 5 channel antenna for direction finding with the KrakenSDR.
+- [KiwiSDR Resources](http://kiwisdr.com/)
 
 ### Notes on the Preconfigured VirtualBox VM:
 
@@ -110,8 +113,6 @@ in section [grc] 'xterm_executable'
     - find the line that begins with the variable `xterm_executable=...` and change it to:
         - `xterm_executable=/usr/bin/gnome-terminal` (Assuming you are using gnome-terminal like I am)
         - CTRL+x to save and exit.
-
-<!-- (Still need to confirm) - Be sure to have all the antennas connected to the KrakenSDR. I am still trying to confirm this, but not having antennas connected seems to be a very poor way to conduct initial rudimentary tests, since the GUI functions seemed to not run without antennas connected. -->
 
 ## PlutoSDR Resources:
 
