@@ -41,7 +41,15 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html): A Tower mount 5 channel antenna for direction finding with the KrakenSDR.
 - [KiwiSDR Resources](http://kiwisdr.com/)
 
-### Notes on the Preconfigured VirtualBox VM:
+## Notes on Mobile Power Requirements:
+In order to set up a mobile DoA setup using a Rasperry Pi 4 or 5, The following power requirements need to be taken into account:
+- The [Raspberry Pi 4](https://www.raspberrypi.com/products/type-c-power-supply/) requires at least a 5V 3.0A (15W) power supply. Note that the CanaKit Pi 4 power supply we used was rated at 18W.
+- The [Raspberry Pi 5](https://www.raspberrypi.com/products/27w-power-supply/) requires a 27W power supply (5.0V 5.4A)
+- The [KrakenSDR docs](https://github.com/krakenrf/krakensdr_docs/wiki) state that it draws a nominal value of 11W, and requires at least a 5V 2.4A (12W) power supply.
+    - Note that this nominal value does not take into account any current supplied by any of the 4.5V bias-tees for each SMA input. Any additional current for this purpose must be added to the 12W baseline if the bias-tee is used.
+    - As a result, I have found a reasonable 2 &times; 30W USB-C cigarette lighter power supply here that seems to have ample power: [USB C Car Charger, 60W Cigarette Lighter](https://www.amazon.com/dp/B09MT5QPQM/?th=1)
+
+## Notes on the Preconfigured VirtualBox VM:
 
 1. After importing the OVA appliance to VBox 7.0+:
     - Allocate 4 vCPUs & 8192 MB of RAM to the Kraken Ubuntu VM.
