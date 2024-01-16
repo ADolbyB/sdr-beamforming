@@ -30,8 +30,9 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
         - For Linux Hosts: `sudo adduser $USER vboxusers`
         - Ubuntu Username: `krakenrf`, Password: `krakensdr`
 - [KrakenSDR Documentation Wiki](https://github.com/krakenrf/krakensdr_docs/wiki)
-    - [Quick Start Guide](https://github.com/krakenrf/krakensdr_docs/wiki/02.-Direction-Finding-Quickstart-Guide) For Direction Finding
+    - [Quick Start Guide](https://github.com/krakenrf/krakensdr_docs/wiki/02.-Direction-Finding-Quickstart-Guide) for Direction Finding
     - [Antenna Array Setup](https://github.com/krakenrf/krakensdr_docs/wiki/04.-Antenna-Array-Setup#using-the-excel-calculator) for Direction Finding.
+    - [Troubleshooting Tips](https://github.com/krakenrf/krakensdr_docs/wiki/07.-KrakenSDR-Troubleshooting) for the pre-built Raspberry Pi 4 Image.
 - [Kraken YT Page](https://www.youtube.com/@thekraken2086)
     - [Kraken Vehicle Direction Finding Video](https://www.youtube.com/watch?v=OY16y1Rl86g)
     - Compare to Rohde & Schwarz Live [Interference Hunting Demonstration](https://www.youtube.com/watch?v=IIH9OiLGN2g)
@@ -41,7 +42,20 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html): A Tower mount 5 channel antenna for direction finding with the KrakenSDR.
 - [KiwiSDR Resources](http://kiwisdr.com/)
 
-## Notes on Mobile Power Requirements:
+## Articles Discussing Multi-Transmitter Phase Alignment:
+
+- [How to Generate Multi-Channel Phase-Stable and Phase-Coherent Signals](https://www.keysight.com/blogs/en/tech/rfmw/2019/04/10/how-to-generate-multi-channel-phase-stable-and-phase-coherent-signals)
+- [How to Perform Multi-Channel Timing and Phase Alignment](https://www.keysight.com/blogs/en/tech/rfmw/2019/04/18/how-to-perform-multi-channel-timing-and-phase-alignment)
+- [Phase Alignment Among Multiple Transmitters](https://www.freepatentsonline.com/y2016/0308598.html)
+
+## RF Theory & Test Equipment Articles:
+
+- [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
+- [The RF Engineer's Essential Guide to Frequency Counters](https://www.keysight.com/blogs/en/tech/educ/2023/frequency-counter-essential-guide)
+- [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf)
+
+
+## Notes on KrakenSDR Mobile Power Requirements:
 In order to set up a mobile DoA setup using a Rasperry Pi 4 or 5, The following power requirements need to be taken into account:
 - The [Raspberry Pi 4](https://www.raspberrypi.com/products/type-c-power-supply/) requires at least a 5V 3.0A (15W) power supply. Note that the CanaKit Pi 4 power supply we used was rated at 18W.
 - The [Raspberry Pi 5](https://www.raspberrypi.com/products/27w-power-supply/) requires a 27W power supply (5.0V 5.4A)
@@ -88,9 +102,9 @@ In order to set up a mobile DoA setup using a Rasperry Pi 4 or 5, The following 
         - replace old interface with ethernet: `out_data_iface_type = eth`
         - CTRL+x to exit and save.
 
-4. Download the two missing Heimdall bash scripts from the [gr-krakensdr](https://github.com/krakenrf/gr-krakensdr) repo:
-    - [heimdall_only_start.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_start.sh)
-    - [heimdall_only_stop.sh](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_stop.sh)
+4. Download the two missing Heimdall bash scripts from the [`gr-krakensdr`](https://github.com/krakenrf/gr-krakensdr) repo:
+    - [`heimdall_only_start.sh`](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_start.sh)
+    - [`heimdall_only_stop.sh`](https://github.com/krakenrf/gr-krakensdr/blob/main/heimdall_only_stop.sh)
     - Place both scripts into the root krakensdr folder of the VM: `~/krakensdr_doa/`
     - Open a terminal, navigate to `~/krakensdr_doa/` and make both scripts executable:
         - `sudo chmod +x heimdall_only_start.sh heimdal_only_stop.sh`
@@ -140,7 +154,7 @@ Useful SDR Programs:
      - [HDSDR](http://www.hdsdr.de/)
      - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
          - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
-         - Also see [This RadioReference](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/) Get Started Guide.
+         - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
      - [Unitrunker Digital Decoder](http://www.unitrunker.com/) 
 
 Coding Docs:
