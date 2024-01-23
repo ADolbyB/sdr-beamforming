@@ -2,13 +2,32 @@
 
 This is a research project repo for Software Defined Radio Phased Array Beamforming. Previously, we had extensively researched the PlutoSDR to evaluate it for a beamforming project. That was previously the `pluto-sdr` repo, which is now an additional folder inside this repo. Currently, we are researching the KrakenSDR as a stepping stone platform to a complete beamforming system.
 
+## Project GUI: `PyQT_GUI`
+
+<div align="center">
+<p>
+
+Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project Repo for more information.
+</p>
+<img src="./phaseCoherence/assets/GUI_initial_mockup.png" alt="GUI" width="800"/><br>
+
+<small>Courtesy of
+    <a href="https://github.com/RayzrReptile">
+        @RayzrReptile
+    </a>
+</small>
+
+</div>
+
+
+
 ## KrakenSDR Resources:
 
 <div align="center">
     <p>
         KrakenSDR 5 Channel Internal Breakdown:
     </p>
-<img src="./KrakenSDR/assets/KrakenSDR-1.png" alt="Pluto SDR" width="500"/><br>
+<img src="./KrakenSDR/assets/KrakenSDR-1.png" alt="KrakenSDR" width="500"/><br>
 
 <small>
     <a href="https://github.com/krakenrf/krakensdr_docs/wiki">
@@ -52,8 +71,21 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 
 - [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
 - [The RF Engineer's Essential Guide to Frequency Counters](https://www.keysight.com/blogs/en/tech/educ/2023/frequency-counter-essential-guide)
+- [TinySA Ultra Wiki Page](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage) and all the supporting docs for the pocket sized Spectrum Ananlyzer ~ 0.1MHz to 5.3GHz range.
 - [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf)
-- [NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf)
+- The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf).
+    - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
+
+<div align="center">
+<img src="./phaseCoherence/assets/CalibrationNanoVNA.png" alt="Pluto SDR" width="700"/><br>
+
+<small>
+    <a href="https://nanovna.com/?page_id=2">
+        Image Source
+    </a>
+</small>
+
+</div>
 
 
 ## Notes on KrakenSDR Mobile Power Requirements:
@@ -139,7 +171,7 @@ in section [grc] 'xterm_executable'
 
 ## PlutoSDR Resources:
 
-- [Previous PlutoSDR README Page](./PlutoSDR/README.md)
+- My [Previous PlutoSDR README](./PlutoSDR/README.md) Page.
 
 ## Other Resources:
 
