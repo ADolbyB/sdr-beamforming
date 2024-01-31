@@ -32,7 +32,7 @@ print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONP
 import adi
 import matplotlib.pyplot as plt
 import pyqtgraph as pg  
-from pyqtgraph.Qt import QtCore, QtGui
+from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 import numpy as np
 import time
 import math
@@ -108,8 +108,8 @@ def dbfs(raw_data):                         # function to convert IQ samples to 
 for i in range(20):                         # let Pluto run for a bit, to do all its calibrations, then get a buffer
     data = sdr.rx()
 
-''' Setup PyQTGraph Window '''
-win = pg.GraphicsLayoutWidget(show=True)
+''' Set up FFT Window '''
+win = pg.GraphicsLayoutWidget(show=True, size=(1200, 600))
 p1 = win.addPlot()
 p1.setXRange(-1.00, 1.00)
 p1.setYRange(-100, 0)
@@ -133,6 +133,41 @@ baseCurve = p1.plot()
 baseCurve.setZValue(10)
 peakCurve = p1.plot(pen=pg.mkPen('b'))
 
+''' Set up RADAR window '''
+def addText(plot, degree, x, y):
+    text = pg.TextItem(degree)
+    plot.addItem(text)
+    text.setPos(x, y)
+p2 = win.addPlot()
+p2.setAspectLocked()
+p2.setMouseEnabled(x=False, y=False)
+# Add polar grid lines
+p2.addLine(x=0, pen=0.2)
+p2.addLine(y=0, pen=0.2)
+for r in range(2, 22, 2):
+    circle = QtWidgets.QGraphicsEllipseItem(-r, -r, r * 2, r * 2)
+    circle.setPen(pg.mkPen(0.2))
+    p2.addItem(circle)
+    p2.hideAxis('bottom')
+    p2.hideAxis('left')
+# Add text
+addText(p2, "0°", -1, 22)
+addText(p2, "45°", 14, 16)
+addText(p2, "90°", 20, 1)
+addText(p2, "135°", 14, -14)
+addText(p2, "180°", -1, -20)
+addText(p2, "225°", -17, -14)
+addText(p2, "270°", -23, 1)
+addText(p2, "315°", -17, 16)
+# Arrows
+steerArrow = pg.ArrowItem()
+steerArrow.setStyle(angle=-90, tipAngle=8, tailLen=200, brush=pg.mkColor('w'))
+p2.addItem(steerArrow)
+peakSteerArrow = pg.ArrowItem()
+peakSteerArrow.setStyle(angle=-90, tipAngle=8, tailLen=200, brush=pg.mkColor('b'))
+p2.addItem(peakSteerArrow)
+
+
 ''' Rx Data '''
 data = sdr.rx()
 Rx_0 = data[0]
@@ -144,12 +179,12 @@ peak_delay = -10000
 peak_steer_angle = -10000
 delay_phases = np.arange(-180, 180, 2)  # phase delay in degrees
 i = 0 # index for iterating through phases
-phaseIncrement = 1 # dictates phase incrementation in loop
+phaseIncrement = 5 # dictates phase incrementation in loop
 rpm = 0.05 # speed of loop in seconds
 phase_cal = -12 # start with 0 to calibrate
 
 def rotate():
-    global phaseLabel, peakPhaseLabel, steerLabel, peakSteerLabel, baseCurve, peakCurve, peak_steer_angle, steer_angle, peak_sum, peak_delay, i, phaseIncrement, rpm
+    global phaseLabel, peakPhaseLabel, steerLabel, peakSteerLabel, baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm
     phase_delay = delay_phases[i]
     delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
     delayed_sum = dbfs(Rx_0 + delayed_Rx_1)
@@ -158,7 +193,8 @@ def rotate():
         peak_sum = delayed_sum 
         peak_delay = phase_delay
         peak_steer_angle = int(calcTheta(peak_delay))
-    # Plot curves
+
+    ''' FFT Plot '''
     peakCurve.setData(xf, peak_sum)
     baseCurve.setData(xf, delayed_sum)
     steer_angle = int(calcTheta(phase_delay))
@@ -167,6 +203,17 @@ def rotate():
     peakPhaseLabel.setText("Peak delay = {} deg".format(peak_delay))
     steerLabel.setText("Steering Angle = {} deg".format(steer_angle))
     peakSteerLabel.setText("Estimated DOA = {} deg".format(peak_steer_angle))
+
+    ''' RADAR Plot '''
+    p2.removeItem(steerArrow)
+    steerArrow = pg.ArrowItem()
+    steerArrow.setStyle(angle=steer_angle-90, tipAngle=8, tailLen=200, brush=pg.mkColor('w'))
+    p2.addItem(steerArrow)
+    p2.removeItem(peakSteerArrow)
+    peakSteerArrow = pg.ArrowItem()
+    peakSteerArrow.setStyle(angle=peak_steer_angle-90, tipAngle=8, tailLen=200, brush=pg.mkColor('b'))
+    p2.addItem(peakSteerArrow)
+
     # Increment through phases
     i=i+math.floor(phaseIncrement)
     if (i>=len(delay_phases)-1):
