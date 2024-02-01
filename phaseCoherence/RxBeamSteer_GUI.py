@@ -44,7 +44,7 @@ import adi
 print(f'sys.path = {sys.path}') 
 
 class Ui_MainWindow(object):
-    def toggleTracker(self):
+    def togglePause(self):
         text = self.toggleTrackerButton.text()
         if text == 'PAUSE':
             self.toggleTrackerButton.setText("PLAY")
@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
             self.toggleTrackerButton.setText("PAUSE")
             self.phaseCalibration.setEnabled(False)
 
-    def getToggle(self):
+    def getPauseToggle(self):
             text = self.toggleTrackerButton.text()
             if text == 'PAUSE':
                 return True
@@ -62,6 +62,34 @@ class Ui_MainWindow(object):
 
     def getPhaseCal(self):
         return self.phaseCalibration.value()
+    
+    def togglePeakDisplay(self):
+        text = self.buttonDisplayPeaks.text()
+        if text == 'DISPLAY PEAKS: \nON':
+            self.buttonDisplayPeaks.setText('DISPLAY PEAKS: \nOFF')
+        elif text == 'DISPLAY PEAKS: \nOFF':
+            self.buttonDisplayPeaks.setText('DISPLAY PEAKS: \nON')
+
+    def getPeakDisplayToggle(self):
+        text = self.buttonDisplayPeaks.text()
+        if text == 'DISPLAY PEAKS: \nON':
+            return True
+        elif text == 'DISPLAY PEAKS: \nOFF':
+            return False
+
+    def toggleResetPeaks(self):
+        text = self.buttonResetPeaks.text()
+        if text == 'RESET PEAKS: \nON':
+            self.buttonResetPeaks.setText('RESET PEAKS: \nOFF')
+        elif text == 'RESET PEAKS: \nOFF':
+            self.buttonResetPeaks.setText('RESET PEAKS: \nON')
+
+    def getResetPeaksToggle(self):
+        text = self.buttonResetPeaks.text()
+        if text == 'RESET PEAKS: \nON':
+            return True
+        elif text == 'RESET PEAKS: \nOFF':
+            return False
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -85,7 +113,7 @@ class Ui_MainWindow(object):
         self.toggleTrackerButton = QtWidgets.QPushButton(self.centralwidget)
         self.toggleTrackerButton.setGeometry(QtCore.QRect(20, 430, 111, 101))
         self.toggleTrackerButton.setObjectName("toggleTrackerButton")
-        self.toggleTrackerButton.clicked.connect(self.toggleTracker)
+        self.toggleTrackerButton.clicked.connect(self.togglePause)
         self.labelPhaseIncrement = QtWidgets.QLabel(self.centralwidget)
         self.labelPhaseIncrement.setEnabled(True)
         self.labelPhaseIncrement.setGeometry(QtCore.QRect(530, 420, 111, 21))
@@ -128,89 +156,99 @@ class Ui_MainWindow(object):
         self.speedDial.setNotchesVisible(True)
         self.speedDial.setObjectName("speedDial")
         self.buttonDisplayPeaks = QtWidgets.QPushButton(self.centralwidget)
-        self.buttonDisplayPeaks.setGeometry(QtCore.QRect(670, 450, 111, 71))
+        self.buttonDisplayPeaks.setGeometry(QtCore.QRect(670, 425, 111, 55)) #670, 450, 111, 71
         self.buttonDisplayPeaks.setAcceptDrops(False)
         self.buttonDisplayPeaks.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.buttonDisplayPeaks.setAutoFillBackground(False)
         self.buttonDisplayPeaks.setObjectName("buttonDisplayPeaks")
-        self.lcdNumber = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber.setGeometry(QtCore.QRect(20, 330, 101, 31))
+        self.buttonDisplayPeaks.clicked.connect(self.togglePeakDisplay)
+
+        self.buttonResetPeaks = QtWidgets.QPushButton(self.centralwidget)
+        self.buttonResetPeaks.setGeometry(QtCore.QRect(670, 485, 111, 55)) #670, 450, 111, 71
+        self.buttonResetPeaks.setAcceptDrops(False)
+        self.buttonResetPeaks.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.buttonResetPeaks.setAutoFillBackground(False)
+        self.buttonResetPeaks.setObjectName("buttonResetPeaks")
+        self.buttonResetPeaks.clicked.connect(self.toggleResetPeaks)
+
+        self.lcdPhase = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdPhase.setGeometry(QtCore.QRect(20, 330, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber.setFont(font)
-        self.lcdNumber.setSmallDecimalPoint(False)
-        self.lcdNumber.setDigitCount(3)
-        self.lcdNumber.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber.setObjectName("lcdPhase")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(20, 310, 101, 16))
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("labelPhaseLCD")
-        self.lcdNumber_2 = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber_2.setGeometry(QtCore.QRect(150, 330, 101, 31))
+        self.lcdPhase.setFont(font)
+        self.lcdPhase.setSmallDecimalPoint(False)
+        self.lcdPhase.setDigitCount(4)
+        self.lcdPhase.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdPhase.setObjectName("lcdPhase")
+        self.labelPhaseLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelPhaseLCD.setGeometry(QtCore.QRect(20, 310, 101, 16))
+        self.labelPhaseLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelPhaseLCD.setObjectName("labelPhaseLCD")
+        self.lcdSteering = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdSteering.setGeometry(QtCore.QRect(150, 330, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber_2.setFont(font)
-        self.lcdNumber_2.setSmallDecimalPoint(False)
-        self.lcdNumber_2.setDigitCount(3)
-        self.lcdNumber_2.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber_2.setObjectName("lcdSteering")
-        self.lcdNumber_3 = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber_3.setGeometry(QtCore.QRect(280, 330, 101, 31))
+        self.lcdSteering.setFont(font)
+        self.lcdSteering.setSmallDecimalPoint(False)
+        self.lcdSteering.setDigitCount(4)
+        self.lcdSteering.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdSteering.setObjectName("lcdSteering")
+        self.lcdSignal = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdSignal.setGeometry(QtCore.QRect(280, 330, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber_3.setFont(font)
-        self.lcdNumber_3.setSmallDecimalPoint(False)
-        self.lcdNumber_3.setDigitCount(3)
-        self.lcdNumber_3.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber_3.setObjectName("lcdSignal")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(140, 310, 121, 16))
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("labelSteeringLCD")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(280, 310, 101, 16))
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("labelSignalLCD")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(270, 370, 121, 16))
-        self.label_4.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_4.setObjectName("labelPeakPhaseLCD")
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(20, 370, 101, 16))
-        self.label_5.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_5.setObjectName("labelPeakSteeringLCD")
-        self.lcdNumber_4 = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber_4.setGeometry(QtCore.QRect(280, 390, 101, 31))
+        self.lcdSignal.setFont(font)
+        self.lcdSignal.setSmallDecimalPoint(False)
+        self.lcdSignal.setDigitCount(4)
+        self.lcdSignal.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdSignal.setObjectName("lcdSignal")
+        self.labelSteeringLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelSteeringLCD.setGeometry(QtCore.QRect(140, 310, 121, 16))
+        self.labelSteeringLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelSteeringLCD.setObjectName("labelSteeringLCD")
+        self.labelSignalLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelSignalLCD.setGeometry(QtCore.QRect(280, 310, 101, 16))
+        self.labelSignalLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelSignalLCD.setObjectName("labelSignalLCD")
+        self.labelPeakPhaseLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelPeakPhaseLCD.setGeometry(QtCore.QRect(270, 370, 121, 16))
+        self.labelPeakPhaseLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelPeakPhaseLCD.setObjectName("labelPeakPhaseLCD")
+        self.labelPeakSteeringLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelPeakSteeringLCD.setGeometry(QtCore.QRect(20, 370, 101, 16))
+        self.labelPeakSteeringLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelPeakSteeringLCD.setObjectName("labelPeakSteeringLCD")
+        self.lcdPeakPhase = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdPeakPhase.setGeometry(QtCore.QRect(280, 390, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber_4.setFont(font)
-        self.lcdNumber_4.setSmallDecimalPoint(False)
-        self.lcdNumber_4.setDigitCount(3)
-        self.lcdNumber_4.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber_4.setObjectName("lcdPeakPhase")
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(140, 370, 121, 16))
-        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_6.setObjectName("labelPeakSignalLCD")
-        self.lcdNumber_5 = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber_5.setGeometry(QtCore.QRect(150, 390, 101, 31))
+        self.lcdPeakPhase.setFont(font)
+        self.lcdPeakPhase.setSmallDecimalPoint(False)
+        self.lcdPeakPhase.setDigitCount(4)
+        self.lcdPeakPhase.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdPeakPhase.setObjectName("lcdPeakPhase")
+        self.labelPeakSignalLCD = QtWidgets.QLabel(self.centralwidget)
+        self.labelPeakSignalLCD.setGeometry(QtCore.QRect(140, 370, 121, 16))
+        self.labelPeakSignalLCD.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelPeakSignalLCD.setObjectName("labelPeakSignalLCD")
+        self.lcdPeakSteering = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdPeakSteering.setGeometry(QtCore.QRect(150, 390, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber_5.setFont(font)
-        self.lcdNumber_5.setSmallDecimalPoint(False)
-        self.lcdNumber_5.setDigitCount(3)
-        self.lcdNumber_5.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber_5.setObjectName("lcdPeakSteering")
-        self.lcdNumber_6 = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdNumber_6.setGeometry(QtCore.QRect(20, 390, 101, 31))
+        self.lcdPeakSteering.setFont(font)
+        self.lcdPeakSteering.setSmallDecimalPoint(False)
+        self.lcdPeakSteering.setDigitCount(4)
+        self.lcdPeakSteering.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdPeakSteering.setObjectName("lcdPeakSteering")
+        self.lcdPeakSignal = QtWidgets.QLCDNumber(self.centralwidget)
+        self.lcdPeakSignal.setGeometry(QtCore.QRect(20, 390, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.lcdNumber_6.setFont(font)
-        self.lcdNumber_6.setSmallDecimalPoint(False)
-        self.lcdNumber_6.setDigitCount(3)
-        self.lcdNumber_6.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
-        self.lcdNumber_6.setObjectName("lcdPeakSignal")
+        self.lcdPeakSignal.setFont(font)
+        self.lcdPeakSignal.setSmallDecimalPoint(False)
+        self.lcdPeakSignal.setDigitCount(4)
+        self.lcdPeakSignal.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
+        self.lcdPeakSignal.setObjectName("lcdPeakSignal")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -227,12 +265,14 @@ class Ui_MainWindow(object):
         self.staticLabelPhaseIncrement.setText(_translate("MainWindow", "Phase Increment"))
         self.buttonDisplayPeaks.setText(_translate("MainWindow", "DISPLAY PEAKS: \n"
 "ON"))
-        self.label.setText(_translate("MainWindow", "Phase Shift [deg]"))
-        self.label_2.setText(_translate("MainWindow", "Steering Angle [deg]"))
-        self.label_3.setText(_translate("MainWindow", "Rx0+Rx1 [dBfs]"))
-        self.label_4.setText(_translate("MainWindow", "Peak Signal [dBfs]"))
-        self.label_5.setText(_translate("MainWindow", "Peak Phase [deg]"))
-        self.label_6.setText(_translate("MainWindow", "Estimated DOA [deg]"))
+        self.buttonResetPeaks.setText(_translate("MainWindow", "RESET PEAKS: \n"
+"ON"))
+        self.labelPhaseLCD.setText(_translate("MainWindow", "Phase Shift [deg]"))
+        self.labelSteeringLCD.setText(_translate("MainWindow", "Steering Angle [deg]"))
+        self.labelSignalLCD.setText(_translate("MainWindow", "Rx0+Rx1 [dBfs]"))
+        self.labelPeakPhaseLCD.setText(_translate("MainWindow", "Peak Signal [dBfs]"))
+        self.labelPeakSteeringLCD.setText(_translate("MainWindow", "Peak Phase [deg]"))
+        self.labelPeakSignalLCD.setText(_translate("MainWindow", "Estimated DOA [deg]"))
 
     def setFFTGraph(self):
         p1 = self.winFFT.addPlot()
@@ -373,10 +413,11 @@ delay_phases = np.arange(-180, 180, 2)  # phase delay in degrees
 i = 0 # index for iterating through phases
 phaseIncrement = 1 # dictates phase incrementation in loop - integers
 rpm = 0.01 # speed of loop in seconds
-phase_cal = -58 # start with 0 to calibrate
+phase_cal = 0 # start with 0 to calibrate
 rotateMode = "loop" # 'loop' or 'bounce'
-peakToggle = True # Bool for keeping track of peak values
-init = False # Initial condition for main toggle
+peakDisplayToggle = True # Bool for keeping track of peak values
+resetPeaksToggle = True # Bool for reseting peak values each loop
+resetFlag = False # Initial condition for main toggle
 
 def rescan():
     global Rx_0, Rx_1, peak_sum, peak_delay, peak_steer_angle
@@ -388,32 +429,35 @@ def rescan():
     peak_steer_angle = -10000
 
 def rotate():
-    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakToggle
+    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle
 
     phase_delay = delay_phases[i]
     delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
     delayed_sum = dbfs(Rx_0 + delayed_Rx_1)
     # Find max delay and max steering angle
-    if (peakToggle and np.max(delayed_sum) > np.max(peak_sum)):
+    if (peakDisplayToggle and np.max(delayed_sum) > np.max(peak_sum)):
         peak_sum = delayed_sum 
         peak_delay = phase_delay
         peak_steer_angle = int(calcTheta(peak_delay))
 
     ''' FFT Plot '''
-    if (peakToggle):
+    peakCurve.setData([0], [0])
+    if peakDisplayToggle:
         peakCurve.setData(xf, peak_sum)
     baseCurve.setData(xf, delayed_sum)
     steer_angle = int(calcTheta(phase_delay))
     # Set labels
-    # phaseLabel.setText("Phase shift = {} deg".format(phase_delay))
-    # steerLabel.setText("Steering Angle = {} deg".format(steer_angle))
-    # if (peakToggle):
-        # peakPhaseLabel.setText("Peak delay = {} deg".format(peak_delay))
-        # peakSteerLabel.setText("Estimated DOA = {} deg".format(peak_steer_angle))
+    ui.lcdPhase.display(phase_delay)
+    ui.lcdSteering.display(steer_angle)
+    ui.lcdSignal.display(int(math.floor(np.max(delayed_sum))))
+    if peakDisplayToggle:
+        ui.lcdPeakPhase.display(peak_delay)
+        ui.lcdPeakSteering.display(peak_steer_angle)
+        ui.lcdPeakSignal.display(int(math.floor(np.max(peak_sum))))
 
     ''' RADAR Plot '''
     p2.removeItem(peakSteerArrow)
-    if (peakToggle):
+    if peakDisplayToggle:
         peakSteerArrow = pg.ArrowItem()
         peakSteerArrow.setStyle(angle=peak_steer_angle-90, tipAngle=8, tailLen=105, brush=pg.mkColor('b'))
         p2.addItem(peakSteerArrow)
@@ -427,39 +471,54 @@ def rotate():
     if (rotateMode == 'loop'):
         if (i>=len(delay_phases)):
             i=0
-            rescan()
+            if resetPeaksToggle:
+                rescan()
         elif (i<=-1):
             i=len(delay_phases)-1
-            rescan()
+            if resetPeaksToggle:
+                rescan()
     elif (rotateMode == 'bounce'):
         if (i>=len(delay_phases) or i<=-1):
             phaseIncrement=-1*phaseIncrement
             i=i+math.floor(phaseIncrement)
-            rescan()
+            if resetPeaksToggle:
+                rescan()
 
 def mainLoop():
-    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakToggle, init, sdr
+    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle, resetFlag, sdr
 
-    toggle = ui.getToggle()
+    loopToggle = ui.getPauseToggle()
+    newPeakDisplayToggle = ui.getPeakDisplayToggle()
+    newResetPeaksToggle = ui.getResetPeaksToggle()
     newPhaseCal = ui.getPhaseCal()
 
     # If toggle is on to continue tracker
-    if toggle:
+    if loopToggle:
         # If change has occured to Pluto variables
-        if init:
+        if resetFlag:
             print("Restart Pluto")
             sdr.tx_destroy_buffer()
             # New Pluto instance
             sdr = adi.ad9361(uri='ip:192.168.2.1')
             setupPluto(samp_rate, fc0, rx_lo, rx_mode, rx_gain0, rx_gain0, NumSamples, tx_lo, tx_gain)
-            init = False
             rescan()
+            resetFlag = False
+
+        # If Peak Display toggle changed
+        if newPeakDisplayToggle != peakDisplayToggle:
+            peakDisplayToggle = newPeakDisplayToggle
+
+        # If Peak Reset toggle changed
+        if newResetPeaksToggle != resetPeaksToggle:
+            resetPeaksToggle = newResetPeaksToggle
+
         rotate()
     else:
         # If Phase Calibration is changed
         if newPhaseCal != phase_cal:
             phase_cal = newPhaseCal
-            init = True
+            resetFlag = True
+
 
     # Control rate of rotation
     time.sleep(rpm)
