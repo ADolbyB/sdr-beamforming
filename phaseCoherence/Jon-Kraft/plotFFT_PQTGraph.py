@@ -179,7 +179,7 @@ delay_phases = np.arange(-180, 182, 2)  # phase delay in degrees
 i = 0 # index for iterating through phases
 phaseIncrement = 1 # dictates phase incrementation in loop - integers
 rpm = 0.01 # speed of loop in seconds
-phase_cal = -58 # start with 0 to calibrate
+phase_cal = 0 # start with 0 to calibrate
 rotateMode = "loop" # 'loop' or 'bounce'
 peakToggle = True # Bool for keeping track of peak values
 
