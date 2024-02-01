@@ -44,7 +44,7 @@ rx_gain1 = 60
 tx_lo = rx_lo
 tx_gain = 0
 fc0 = int(200e3)
-phase_cal = -12
+phase_cal = -58
 num_scans = 500
 
 ''' Set distance between Rx antennas '''

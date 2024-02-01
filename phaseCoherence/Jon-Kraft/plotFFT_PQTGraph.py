@@ -119,13 +119,13 @@ p1.setLabel('left', 'Rx0 + Rx1', '[dBfs]', **{'color': '#FFF', 'size': '14pt'})
 phaseLabel = pg.TextItem("Phase shift = 0 deg")
 phaseLabel.setParentItem(p1)
 phaseLabel.setPos(65, 2)
-peakPhaseLabel = pg.TextItem("Peak delay = 0 deg")
+peakPhaseLabel = pg.TextItem("Peak delay = N/A")
 peakPhaseLabel.setParentItem(p1)
 peakPhaseLabel.setPos(65, 22)
 steerLabel = pg.TextItem("Steer Angle = 0 deg")
 steerLabel.setParentItem(p1)
 steerLabel.setPos(65, 42)
-peakSteerLabel = pg.TextItem("Estimated DOA = 0 deg")
+peakSteerLabel = pg.TextItem("Estimated DOA = N/A")
 peakSteerLabel.setParentItem(p1)
 peakSteerLabel.setPos(65, 62)
 # Curves
@@ -167,7 +167,6 @@ peakSteerArrow = pg.ArrowItem()
 peakSteerArrow.setStyle(angle=-90, tipAngle=8, tailLen=200, brush=pg.mkColor('b'))
 p2.addItem(peakSteerArrow)
 
-
 ''' Rx Data '''
 data = sdr.rx()
 Rx_0 = data[0]
@@ -177,49 +176,72 @@ Rx_1 = data[1]
 peak_sum = -10000
 peak_delay = -10000
 peak_steer_angle = -10000
-delay_phases = np.arange(-180, 180, 2)  # phase delay in degrees
+delay_phases = np.arange(-180, 182, 2)  # phase delay in degrees
 i = 0 # index for iterating through phases
-phaseIncrement = 5 # dictates phase incrementation in loop
-rpm = 0.05 # speed of loop in seconds
-phase_cal = -12 # start with 0 to calibrate
+phaseIncrement = 1 # dictates phase incrementation in loop - integers
+rpm = 0.01 # speed of loop in seconds
+phase_cal = -58 # start with 0 to calibrate
+rotateMode = "loop" # 'loop' or 'bounce'
+peakToggle = True # Bool for keeping track of peak values
+
+def rescan():
+    global Rx_0, Rx_1, peak_sum, peak_delay, peak_steer_angle
+    data = sdr.rx()
+    Rx_0 = data[0]
+    Rx_1 = data[1]
+    peak_sum = -10000
+    peak_delay = -10000
+    peak_steer_angle = -10000
 
 def rotate():
-    global phaseLabel, peakPhaseLabel, steerLabel, peakSteerLabel, baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm
+    global phaseLabel, peakPhaseLabel, steerLabel, peakSteerLabel, baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakToggle
+
     phase_delay = delay_phases[i]
     delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
     delayed_sum = dbfs(Rx_0 + delayed_Rx_1)
     # Find max delay and max steering angle
-    if (np.max(delayed_sum) > np.max(peak_sum)):
+    if (peakToggle and np.max(delayed_sum) > np.max(peak_sum)):
         peak_sum = delayed_sum 
         peak_delay = phase_delay
         peak_steer_angle = int(calcTheta(peak_delay))
 
     ''' FFT Plot '''
-    peakCurve.setData(xf, peak_sum)
+    if (peakToggle):
+        peakCurve.setData(xf, peak_sum)
     baseCurve.setData(xf, delayed_sum)
     steer_angle = int(calcTheta(phase_delay))
     # Set labels
     phaseLabel.setText("Phase shift = {} deg".format(phase_delay))
-    peakPhaseLabel.setText("Peak delay = {} deg".format(peak_delay))
     steerLabel.setText("Steering Angle = {} deg".format(steer_angle))
-    peakSteerLabel.setText("Estimated DOA = {} deg".format(peak_steer_angle))
+    if (peakToggle):
+        peakPhaseLabel.setText("Peak delay = {} deg".format(peak_delay))
+        peakSteerLabel.setText("Estimated DOA = {} deg".format(peak_steer_angle))
 
     ''' RADAR Plot '''
+    p2.removeItem(peakSteerArrow)
+    if (peakToggle):
+        peakSteerArrow = pg.ArrowItem()
+        peakSteerArrow.setStyle(angle=peak_steer_angle-90, tipAngle=8, tailLen=200, brush=pg.mkColor('b'))
+        p2.addItem(peakSteerArrow)
     p2.removeItem(steerArrow)
     steerArrow = pg.ArrowItem()
     steerArrow.setStyle(angle=steer_angle-90, tipAngle=8, tailLen=200, brush=pg.mkColor('w'))
     p2.addItem(steerArrow)
-    p2.removeItem(peakSteerArrow)
-    peakSteerArrow = pg.ArrowItem()
-    peakSteerArrow.setStyle(angle=peak_steer_angle-90, tipAngle=8, tailLen=200, brush=pg.mkColor('b'))
-    p2.addItem(peakSteerArrow)
 
-    # Increment through phases
+    # Increment through phases - Reset peaks
     i=i+math.floor(phaseIncrement)
-    if (i>=len(delay_phases)-1):
-        i=0
-    elif (i<=-1):
-        i=len(delay_phases)-2
+    if (rotateMode == 'loop'):
+        if (i>=len(delay_phases)):
+            i=0
+            rescan()
+        elif (i<=-1):
+            i=len(delay_phases)-1
+            rescan()
+    elif (rotateMode == 'bounce'):
+        if (i>=len(delay_phases) or i<=-1):
+            phaseIncrement=-1*phaseIncrement
+            i=i+math.floor(phaseIncrement)
+            rescan()
 
     # Control rate of rotation
     time.sleep(rpm)
