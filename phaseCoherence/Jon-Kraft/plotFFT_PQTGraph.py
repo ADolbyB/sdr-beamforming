@@ -30,7 +30,6 @@ import sys
 print(f'sys.path = {sys.path}')       # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
 
 import adi
-import matplotlib.pyplot as plt
 import pyqtgraph as pg  
 from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 import numpy as np
