@@ -90,6 +90,14 @@ class Ui_MainWindow(object):
             return True
         elif text == 'RESET PEAKS: \nOFF':
             return False
+        
+    def adjustPhase(self):
+        phaseValue = self.dialPhaseIncrement.value()
+        self.labelPhaseIncrement.setText(str(phaseValue)+" deg")
+
+    def adjustSpeed(self):
+        speedValue = self.speedDial.value()
+        self.labelSpeed.setText(str(speedValue)+" ms")
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -126,11 +134,13 @@ class Ui_MainWindow(object):
         self.dialPhaseIncrement = QtWidgets.QDial(self.centralwidget)
         self.dialPhaseIncrement.setGeometry(QtCore.QRect(540, 440, 91, 91))
         self.dialPhaseIncrement.setAcceptDrops(False)
-        self.dialPhaseIncrement.setMinimum(-15)
-        self.dialPhaseIncrement.setMaximum(15)
-        self.dialPhaseIncrement.setNotchTarget(5.0)
+        self.dialPhaseIncrement.setMinimum(-5)
+        self.dialPhaseIncrement.setMaximum(5)
+        self.dialPhaseIncrement.setNotchTarget(1.0)
         self.dialPhaseIncrement.setNotchesVisible(True)
+        self.dialPhaseIncrement.setValue(1)
         self.dialPhaseIncrement.setObjectName("dialPhaseIncrement")
+        self.dialPhaseIncrement.valueChanged.connect(self.adjustPhase)
         self.labelSpeed = QtWidgets.QLabel(self.centralwidget)
         self.labelSpeed.setGeometry(QtCore.QRect(400, 420, 91, 21))
         self.labelSpeed.setAlignment(QtCore.Qt.AlignCenter)
@@ -155,6 +165,7 @@ class Ui_MainWindow(object):
         self.speedDial.setNotchTarget(5.0)
         self.speedDial.setNotchesVisible(True)
         self.speedDial.setObjectName("speedDial")
+        self.speedDial.valueChanged.connect(self.adjustSpeed)
         self.buttonDisplayPeaks = QtWidgets.QPushButton(self.centralwidget)
         self.buttonDisplayPeaks.setGeometry(QtCore.QRect(670, 425, 111, 55)) #670, 450, 111, 71
         self.buttonDisplayPeaks.setAcceptDrops(False)
@@ -259,7 +270,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "nTSDR - Linear Rx Beam Steering"))
         self.labelPhaseCal.setText(_translate("MainWindow", "Phase Calibration"))
         self.toggleTrackerButton.setText(_translate("MainWindow", "PAUSE"))
-        self.labelPhaseIncrement.setText(_translate("MainWindow", "0 deg"))
+        self.labelPhaseIncrement.setText(_translate("MainWindow", "1 deg"))
         self.labelSpeed.setText(_translate("MainWindow", "50 ms"))
         self.staticLabelSpeed.setText(_translate("MainWindow", "Loop Speed"))
         self.staticLabelPhaseIncrement.setText(_translate("MainWindow", "Phase Increment"))
@@ -412,7 +423,7 @@ peak_steer_angle = -10000
 delay_phases = np.arange(-180, 180, 2)  # phase delay in degrees
 i = 0 # index for iterating through phases
 phaseIncrement = 1 # dictates phase incrementation in loop - integers
-rpm = 0.01 # speed of loop in seconds
+speed = 50 # speed of loop in milliseconds
 phase_cal = 0 # start with 0 to calibrate
 rotateMode = "loop" # 'loop' or 'bounce'
 peakDisplayToggle = True # Bool for keeping track of peak values
@@ -429,7 +440,7 @@ def rescan():
     peak_steer_angle = -10000
 
 def rotate():
-    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle
+    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, speed, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle
 
     phase_delay = delay_phases[i]
     delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
@@ -450,6 +461,9 @@ def rotate():
     ui.lcdPhase.display(phase_delay)
     ui.lcdSteering.display(steer_angle)
     ui.lcdSignal.display(int(math.floor(np.max(delayed_sum))))
+    ui.lcdPeakPhase.display(0)
+    ui.lcdPeakSteering.display(0)
+    ui.lcdPeakSignal.display(0)
     if peakDisplayToggle:
         ui.lcdPeakPhase.display(peak_delay)
         ui.lcdPeakSteering.display(peak_steer_angle)
@@ -485,12 +499,14 @@ def rotate():
                 rescan()
 
 def mainLoop():
-    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, rpm, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle, resetFlag, sdr
+    global baseCurve, peakCurve, peak_steer_angle, steer_angle, steerArrow, peakSteerArrow, peak_sum, peak_delay, i, phaseIncrement, speed, phase_cal, rotateMode, peakDisplayToggle, resetPeaksToggle, resetFlag, sdr
 
     loopToggle = ui.getPauseToggle()
     newPeakDisplayToggle = ui.getPeakDisplayToggle()
     newResetPeaksToggle = ui.getResetPeaksToggle()
     newPhaseCal = ui.getPhaseCal()
+    newPhaseIncrement = ui.dialPhaseIncrement.value()
+    newSpeed = ui.speedDial.value()
 
     # If toggle is on to continue tracker
     if loopToggle:
@@ -507,10 +523,15 @@ def mainLoop():
         # If Peak Display toggle changed
         if newPeakDisplayToggle != peakDisplayToggle:
             peakDisplayToggle = newPeakDisplayToggle
-
         # If Peak Reset toggle changed
         if newResetPeaksToggle != resetPeaksToggle:
             resetPeaksToggle = newResetPeaksToggle
+        # If Phase Increment dial changed
+        if newPhaseIncrement != phaseIncrement:
+            phaseIncrement = newPhaseIncrement
+        # If Speed dial is changed
+        if newSpeed != speed:
+            speed = newSpeed
 
         rotate()
     else:
@@ -521,7 +542,7 @@ def mainLoop():
 
 
     # Control rate of rotation
-    time.sleep(rpm)
+    time.sleep(speed/1000)
 
 timer = pg.QtCore.QTimer()
 timer.timeout.connect(mainLoop)
