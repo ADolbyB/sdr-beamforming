@@ -27,6 +27,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 - Jon Kraft's [`Pluto_Beamformer`](https://github.com/jonkraft/Pluto_Beamformer) Repo for PlutoSDR.
 - Jon Kraft's [`PlutoSDR_Labs`](https://github.com/jonkraft/PlutoSDR_Labs) Repo for PlutoSDR.
+- Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the ADAR-1000.
 - KrakenRF's [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) Repo for Direction Finding.
 - mfkiwl's [`kraken_pr`](https://github.com/mfkiwl/krakensdr_pr) Repo for Passive Radar.
 - ptrkrysik's [`multi-rtl`](https://github.com/ptrkrysik/multi-rtl) Repo for Synchronizing RTL-SDRs.
@@ -40,16 +41,8 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf)
 - The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf).
     - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
+- Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
 
-<!-- <div align="center">
-<img src="./phaseCoherence/assets/CalibrationNanoVNA.png" alt="NanoVNA" width="700"/><br>
-
-<small>
-    <a href="https://nanovna.com/?page_id=2">
-        Image Source
-    </a>
-</small>
-</div> -->
 
 ## KrakenSDR Resources:
 
@@ -61,6 +54,24 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 ## Other Resources:
 
+Useful Programs:
+- [QtTinySA](https://github.com/g4ixt/QtTinySA) Linux & Windows GUI for the TinySA Spectrum Analyzer.
+- Linux:
+     - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR) and [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php?title=Tutorials)
+     - [GQRX](https://gqrx.dk/)
+- Windows:
+     - [AirSpy: SDR Sharp](https://airspy.com/download/) 
+         - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
+         - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
+     - [SDR Console](https://www.sdr-radio.com/)
+     - [HDSDR](http://www.hdsdr.de/)
+     - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
+         - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
+         - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
+     - [Unitrunker Digital Decoder](http://www.unitrunker.com/)
+
+Coding Docs:
+- [PySDR Python Docs](https://pysdr.org/index.html)
 Books: 
 - [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
 - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
@@ -79,24 +90,6 @@ SDR Online Lessons:
 
 Articles: 
 - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
-
-Coding Docs:
-- [PySDR Python Docs](https://pysdr.org/index.html)
-
-Useful SDR Programs:
-- Linux:
-     - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR) and [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php?title=Tutorials)
-     - [GQRX](https://gqrx.dk/)
-- Windows:
-     - [AirSpy: SDR Sharp](https://airspy.com/download/) 
-         - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
-         - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
-     - [SDR Console](https://www.sdr-radio.com/)
-     - [HDSDR](http://www.hdsdr.de/)
-     - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
-         - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
-         - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
-     - [Unitrunker Digital Decoder](http://www.unitrunker.com/)
 
 ## Status:
 
