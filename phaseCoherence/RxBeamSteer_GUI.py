@@ -230,7 +230,7 @@ class Ui_MainWindow(object):
         self.labelPeakSteeringLCD.setAlignment(QtCore.Qt.AlignCenter)
         self.labelPeakSteeringLCD.setObjectName("labelPeakSteeringLCD")
         self.lcdPeakPhase = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdPeakPhase.setGeometry(QtCore.QRect(280, 390, 101, 31))
+        self.lcdPeakPhase.setGeometry(QtCore.QRect(20, 390, 101, 31)) #(280, 390, 101, 31)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lcdPeakPhase.setFont(font)
@@ -252,7 +252,7 @@ class Ui_MainWindow(object):
         self.lcdPeakSteering.setSegmentStyle(QtWidgets.QLCDNumber.Flat)
         self.lcdPeakSteering.setObjectName("lcdPeakSteering")
         self.lcdPeakSignal = QtWidgets.QLCDNumber(self.centralwidget)
-        self.lcdPeakSignal.setGeometry(QtCore.QRect(20, 390, 101, 31))
+        self.lcdPeakSignal.setGeometry(QtCore.QRect(280, 390, 101, 31)) #(20, 390, 101, 31)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lcdPeakSignal.setFont(font)
@@ -538,7 +538,7 @@ def mainLoop():
         # If Phase Calibration is changed
         if newPhaseCal != phase_cal:
             phase_cal = newPhaseCal
-            resetFlag = True
+            # resetFlag = True
 
 
     # Control rate of rotation
