@@ -34,14 +34,13 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 #       on or directly connected to an Analog Devices Inc. component.
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pyqtgraph import GraphicsLayoutWidget
 import pyqtgraph as pg
 import numpy as np
-import math
-import time
-import sys
+from math import floor
+from time import sleep
+from sys import argv, exit, path
 from adi import ad9361 #, Pluto, ad936x
-#print(f'sys.path = {sys.path}')  # debug
+#print(f'sys.path = {path}')  # debug
 
 class Ui_MainWindow(object):
     def togglePause(self):
@@ -115,7 +114,7 @@ class Ui_MainWindow(object):
         self.labelPhaseCal.setGeometry(QtCore.QRect(150, 460, 101, 16))
         self.labelPhaseCal.setAlignment(QtCore.Qt.AlignCenter)
         self.labelPhaseCal.setObjectName("labelPhaseCal")
-        self.winFFT = GraphicsLayoutWidget(self.centralwidget)
+        self.winFFT = pg.GraphicsLayoutWidget(self.centralwidget)
         self.winFFT.setGeometry(QtCore.QRect(20, 20, 361, 281))
         self.winFFT.setObjectName("winFFT")
         self.toggleTrackerButton = QtWidgets.QPushButton(self.centralwidget)
@@ -128,7 +127,7 @@ class Ui_MainWindow(object):
         self.labelPhaseIncrement.setAlignment(QtCore.Qt.AlignCenter)
         self.labelPhaseIncrement.setIndent(7)
         self.labelPhaseIncrement.setObjectName("labelPhaseIncrement")
-        self.trackerView = GraphicsLayoutWidget(self.centralwidget)
+        self.trackerView = pg.GraphicsLayoutWidget(self.centralwidget)
         self.trackerView.setGeometry(QtCore.QRect(390, 20, 391, 391))
         self.trackerView.setObjectName("trackerView")
         self.dialPhaseIncrement = QtWidgets.QDial(self.centralwidget)
@@ -155,7 +154,7 @@ class Ui_MainWindow(object):
         self.staticLabelPhaseIncrement.setScaledContents(False)
         self.staticLabelPhaseIncrement.setAlignment(QtCore.Qt.AlignCenter)
         self.staticLabelPhaseIncrement.setObjectName("staticLabelPhaseIncrement")
-        self.winRADAR = GraphicsLayoutWidget(self.centralwidget)
+        self.winRADAR = pg.GraphicsLayoutWidget(self.centralwidget)
         self.winRADAR.setGeometry(QtCore.QRect(390, 20, 391, 391))
         self.winRADAR.setObjectName("winRADAR")
         self.speedDial = QtWidgets.QDial(self.centralwidget)
@@ -393,7 +392,7 @@ def dbfs(raw_data):                         # function to convert IQ samples to 
     return s_dbfs
 
 ''' Setup Main UI Window '''
-app = QtWidgets.QApplication(sys.argv)
+app = QtWidgets.QApplication(argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
@@ -461,14 +460,14 @@ def rotate():
     # Set labels
     ui.lcdPhase.display(phase_delay)
     ui.lcdSteering.display(steer_angle)
-    ui.lcdSignal.display(int(math.floor(np.max(delayed_sum))))
+    ui.lcdSignal.display(int(floor(np.max(delayed_sum))))
     ui.lcdPeakPhase.display(0)
     ui.lcdPeakSteering.display(0)
     ui.lcdPeakSignal.display(0)
     if peakDisplayToggle:
         ui.lcdPeakPhase.display(peak_delay)
         ui.lcdPeakSteering.display(peak_steer_angle)
-        ui.lcdPeakSignal.display(int(math.floor(np.max(peak_sum))))
+        ui.lcdPeakSignal.display(int(floor(np.max(peak_sum))))
 
     ''' RADAR Plot '''
     p2.removeItem(peakSteerArrow)
@@ -482,7 +481,7 @@ def rotate():
     p2.addItem(steerArrow)
 
     # Increment through phases - Reset peaks
-    i=i+math.floor(phaseIncrement)
+    i=i+floor(phaseIncrement)
     if (rotateMode == 'loop'):
         if (i>=len(delay_phases)):
             i=0
@@ -495,7 +494,7 @@ def rotate():
     elif (rotateMode == 'bounce'):
         if (i>=len(delay_phases) or i<=-1):
             phaseIncrement=-1*phaseIncrement
-            i=i+math.floor(phaseIncrement)
+            i=i+floor(phaseIncrement)
             if resetPeaksToggle:
                 rescan()
 
@@ -543,13 +542,13 @@ def mainLoop():
 
 
     # Control rate of rotation
-    time.sleep(speed/1000)
+    sleep(speed/1000)
 
 timer = pg.QtCore.QTimer()
 timer.timeout.connect(mainLoop)
 timer.start(0)
 
 if __name__ == "__main__":
-    sys.exit(app.exec_())
+    exit(app.exec_())
 
 sdr.tx_destroy_buffer()
