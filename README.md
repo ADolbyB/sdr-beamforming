@@ -11,7 +11,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 </p>
 
-<img src="./phaseCoherence/assets/GUI_initial_mockup.png" alt="GUI" width="800"/><br>
+<img src="./phaseCoherence/assets/GUI_2024-02-08.png" alt="GUI" width="800"/><br>
 <small>Courtesy of<a href="https://github.com/RayzrReptile">@RayzrReptile</a></small>
 
 </div>
