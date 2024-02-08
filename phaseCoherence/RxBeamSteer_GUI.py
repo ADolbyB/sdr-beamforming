@@ -40,8 +40,8 @@ import numpy as np
 import math
 import time
 import sys
-import adi
-print(f'sys.path = {sys.path}') 
+from adi import ad9361 #, Pluto, ad936x
+#print(f'sys.path = {sys.path}')  # debug
 
 class Ui_MainWindow(object):
     def togglePause(self):
@@ -287,10 +287,10 @@ class Ui_MainWindow(object):
 
     def setFFTGraph(self):
         p1 = self.winFFT.addPlot()
-        p1.setXRange(-1.00, 1.00)
+        p1.setXRange(-1.00, 1.00)   # TODO: Is this MHz?
         p1.setYRange(-100, 0)
-        p1.setLabel('bottom', 'frequency', '[MHz]', **{'color': '#FFF', 'size': '14pt'})
-        p1.setLabel('left', 'Rx0 + Rx1', '[dBfs]', **{'color': '#FFF', 'size': '14pt'})
+        p1.setLabel('bottom', 'frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+        p1.setLabel('left', 'Rx0 + Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
         return p1
     
     def setRADARGraph(self):
@@ -324,22 +324,23 @@ class Ui_MainWindow(object):
 '''Setup'''
 samp_rate = 2e6             # must be <= 30.72 MHz if both channels are enabled
 NumSamples = 2**12
-rx_lo = 2.3e9
+rx_lo = 2.3e9               # 2.3 GHz
 rx_mode = "manual"          # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
 tx_lo = rx_lo
 tx_gain = -3
-fc0 = int(200e3)
+fc0 = int(200e3)            # 200 kHz
 
 ''' Set distance between Rx antennas '''
 d_wavelength = 0.5                      # distance between elements as a fraction of wavelength.  This is normally 0.5
 wavelength = 3E8 / rx_lo                # wavelength of the RF carrier
 d = d_wavelength * wavelength           # distance between elements in meters
-print("Set distance between Rx Antennas to ", int(d*1000), "mm")
+#print("Set distance between Rx Antennas to ", int(d*1000), "mm")
+print(f'Set distance between Rx Antennas to {int(d*1000)} mm')
 
 '''Create Radio'''
-sdr = adi.ad9361(uri='ip:192.168.2.1')
+sdr = ad9361(uri='ip:192.168.2.1')
 
 ''' Configure properties for the Rx Pluto '''
 def setupPluto(samp_rate, fc0, rx_lo, rx_mode, rx_gain0, rx_gain1, NumSamples, tx_lo, tx_gain):
@@ -353,7 +354,7 @@ def setupPluto(samp_rate, fc0, rx_lo, rx_mode, rx_gain0, rx_gain1, NumSamples, t
     sdr.rx_buffer_size = int(NumSamples)
     sdr._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
     sdr.tx_rf_bandwidth = int(fc0*3)
-    sdr.tx_lo = int(tx_lo) #make same as rx_lo
+    sdr.tx_lo = int(tx_lo) # make same as rx_lo
     sdr.tx_cyclic_buffer = True
     sdr.tx_hardwaregain_chan0 = int(tx_gain)
     sdr.tx_hardwaregain_chan1 = int(-88)
@@ -515,7 +516,7 @@ def mainLoop():
             print("Restart Pluto")
             sdr.tx_destroy_buffer()
             # New Pluto instance
-            sdr = adi.ad9361(uri='ip:192.168.2.1')
+            sdr = ad9361(uri='ip:192.168.2.1')
             setupPluto(samp_rate, fc0, rx_lo, rx_mode, rx_gain0, rx_gain0, NumSamples, tx_lo, tx_gain)
             rescan()
             resetFlag = False
