@@ -42,6 +42,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf).
     - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
 - Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
+- Video: [How to properly use a NanoVNA V2 Vector Network Analyzer & Smith Chart](https://www.youtube.com/watch?v=_pjcEKQY_Tk)
 
 
 ## KrakenSDR Resources:
@@ -52,23 +53,47 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 - My [Previous PlutoSDR README](./PlutoSDR/README.md) Page.
 
+## GNURadio Resources:
+
+- [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR) 
+- [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php?title=Tutorials)
+
+When running a GNURadio Flow Graph which requires realtime scheduling, if the following error message in the
+console is encountered:
+
+```python
+def main(top_block_cls=transceiver_CSS_loopback, options=None):   
+    if gr.enable_realtime_scheduling() != gr.RT_OK:   
+        gr.logger("realtime").warning("Error: failed to enable real-time scheduling.")
+AttributeError: 'gnuradio.gr.gr_python.logger' object has no attribute 'warning'
+```
+
+The fix is to allow user's tasks gain the ability to ask for real-time scheduling. Run the following in a terminal:
+
+```bash
+echo "$(whoami)  -  rtprio  99" | sudo tee /etc/security/limits.d/99-rtprio.conf
+```
+
+Then perform a reboot and the problem should be solved. Thanks to [This GitHub Issue #6923](https://github.com/gnuradio/gnuradio/issues/6923) for the solution.
+
+
 ## Other Resources:
 
 Useful Programs:
 - [QtTinySA](https://github.com/g4ixt/QtTinySA) Linux & Windows GUI for the TinySA Spectrum Analyzer.
 - Linux:
-     - [GNU Radio](https://wiki.gnuradio.org/index.php/InstallingGR) and [GNU Radio Tutorials](https://wiki.gnuradio.org/index.php?title=Tutorials)
-     - [GQRX](https://gqrx.dk/)
+    - [GQRX](https://gqrx.dk/)
+
 - Windows:
-     - [AirSpy: SDR Sharp](https://airspy.com/download/) 
-         - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
-         - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
-     - [SDR Console](https://www.sdr-radio.com/)
-     - [HDSDR](http://www.hdsdr.de/)
-     - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
-         - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
-         - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
-     - [Unitrunker Digital Decoder](http://www.unitrunker.com/)
+    - [AirSpy: SDR Sharp](https://airspy.com/download/) 
+        - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
+        - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
+    - [SDR Console](https://www.sdr-radio.com/)
+    - [HDSDR](http://www.hdsdr.de/)
+    - [DSD+](https://www.dsdplus.com/) Digital Signal Decoder.
+        - Note that v1.101 is free, but the latest version is a paid one-time subscription fee.
+        - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
+    - [Unitrunker Digital Decoder](http://www.unitrunker.com/)
 
 Coding Docs:
 - [PySDR Python Docs](https://pysdr.org/index.html)
