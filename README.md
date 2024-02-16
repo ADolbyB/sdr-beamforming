@@ -12,7 +12,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 </p>
 
 <img src="./phaseCoherence/assets/GUI_2024-02-08.png" alt="GUI" width="800"/><br>
-<small>Courtesy of<a href="https://github.com/RayzrReptile">@RayzrReptile</a></small>
+<small>Courtesy of&nbsp;<a href="https://github.com/RayzrReptile">@RayzrReptile</a></small>
 
 </div>
 
@@ -31,7 +31,8 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - KrakenRF's [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) Repo for Direction Finding.
 - mfkiwl's [`kraken_pr`](https://github.com/mfkiwl/krakensdr_pr) Repo for Passive Radar.
 - ptrkrysik's [`multi-rtl`](https://github.com/ptrkrysik/multi-rtl) Repo for Synchronizing RTL-SDRs.
-
+- analogdevicesinc's [`gr-iio`](https://github.com/analogdevicesinc/gr-iio) Repo for IIO (PlutoSDR) Devices.
+- gnuradio's [`gnuradio`](https://github.com/gnuradio/gnuradio) Repo for the GNURadio Program.
 
 ## RF Theory & Test Equipment Articles:
 
@@ -43,7 +44,6 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
     - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
 - Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
 - Video: [How to properly use a NanoVNA V2 Vector Network Analyzer & Smith Chart](https://www.youtube.com/watch?v=_pjcEKQY_Tk)
-
 
 ## KrakenSDR Resources:
 
