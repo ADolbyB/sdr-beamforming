@@ -109,7 +109,7 @@ In order to set up a mobile DoA setup using a Rasperry Pi 4 or 5, The following 
             - In my case, it returned `x11`
     - In some instances, this warning was preventing the output GUI window from opening.
 
-6. When running a flow graph, if you receive a warning message popup that states:
+6. When running a GNURadio flow graph, if you receive a warning message popup that states:
 
 ``` 
 The xterm executable is missing. You can change this setting in your gnuradio.conf, 
