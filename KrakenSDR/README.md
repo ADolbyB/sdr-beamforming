@@ -2,6 +2,19 @@
 
 <div align="center">
     <p>
+        KrakenSDR Front Panel:
+    </p>
+<img src="./assets/krakensdr-enclosure.jpg" alt="KrakenSDR" width="700"/><br>
+
+<small>
+    <a href="https://www.crowdsupply.com/img/79fd/fb341482-f9bf-4afa-8129-e19dc54079fd/krakensdr-blackenclosure1_jpg_md-xl.jpg">
+        Image Source
+    </a>
+</small>
+</div>
+
+<div align="center">
+    <p>
         KrakenSDR 5 Channel Internal Breakdown:
     </p>
 <img src="../KrakenSDR/assets/KrakenSDR-1.png" alt="KrakenSDR" width="500"/><br>
@@ -11,7 +24,6 @@
         Image Source
     </a>
 </small>
-
 </div>
 
 ---
@@ -120,3 +132,22 @@ in section [grc] 'xterm_executable'
     - find the line that begins with the variable `xterm_executable=...` and change it to:
         - `xterm_executable=/usr/bin/gnome-terminal` (Assuming you are using gnome-terminal like I am)
         - CTRL+x to save and exit.
+
+7. Also see [This GitHub Issue #6923](https://github.com/gnuradio/gnuradio/issues/6923)if using GNURadio in the VM and experience the following:
+When running a GNURadio Flow Graph which requires realtime scheduling, if the following error message in the
+console is encountered:
+
+```python
+def main(top_block_cls=transceiver_CSS_loopback, options=None):   
+    if gr.enable_realtime_scheduling() != gr.RT_OK:   
+        gr.logger("realtime").warning("Error: failed to enable real-time scheduling.")
+AttributeError: 'gnuradio.gr.gr_python.logger' object has no attribute 'warning'
+```
+
+The fix is to allow user's tasks gain the ability to ask for real-time scheduling. Run the following in a terminal:
+
+```bash
+echo "$(whoami)  -  rtprio  99" | sudo tee /etc/security/limits.d/99-rtprio.conf
+```
+
+Then perform a reboot and the problem should be solved. Thanks to [This GitHub Issue #6923](https://github.com/gnuradio/gnuradio/issues/6923) for the solution.
