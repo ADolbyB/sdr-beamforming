@@ -14,14 +14,13 @@ This repo is a compilation of code and resources for the ADALM-PLUTO SDR module 
 
 </div>
 
-
-## Screenshots:
+## TX / RX Modification Screenshots:
 
 <div align="center">
 
 Pluto Settings for TX and RX Modifications:
 
-<img src="./assets/Pluto2r2t-1.PNG" alt="Pluto SDR Before Mod" width="600"/><br>
+<img src="./assets/setEnv.png" alt="Pluto SDR Before Mod" width="600"/><br>
 
 </div>
 
@@ -31,7 +30,29 @@ Pluto Settings for TX and RX Modifications:
 Verify Updated Firmware & Modified Settings.<br>
 Note that `root` password = `analog`
 
-<img src="./assets/Pluto2r2t-2.PNG" alt="Pluto SDR After Mod" width="600"/><br>
+<img src="./assets/printEnv.png" alt="Pluto SDR After Mod" width="600"/><br>
+
+</div>
+
+## External Clock Source Modification Screenshots:
+
+</div>
+
+<div align="center">
+
+Pluto Settings to accept an external clock source 
+    
+Please note: The PlutoSDR being modded in this case MUST HAVE A u.FL on the board for an external clock source!! Make sure to check. The early revision PlutoSDRs did not have them.
+
+<img src="./assets/extClock.png" alt="Pluto SDR Before Mod" width="600"/><br>
+
+</div>
+
+<div align="center">
+
+Again, Verify the changed settings:
+
+<img src="./assets/checkClockMod.png" alt="Pluto SDR After Mod" width="600"/><br>
 
 </div>
 
