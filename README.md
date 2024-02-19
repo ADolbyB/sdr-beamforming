@@ -60,12 +60,16 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 ## Other Resources:
 
-Useful Programs:
-- [QtTinySA](https://github.com/g4ixt/QtTinySA) Linux & Windows GUI for the TinySA Spectrum Analyzer.
-- Linux:
-    - [GQRX](https://gqrx.dk/)
+### Useful Programs:
 
-Windows:
+#### Linux & Windows:
+
+- [QtTinySA](https://github.com/g4ixt/QtTinySA) Desktop GUI for the TinySA Spectrum Analyzer.
+
+#### Linux:
+- [GQRX](https://gqrx.dk/)
+
+#### Windows:
 - [AirSpy: SDR Sharp](https://airspy.com/download/) 
     - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
     - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
@@ -76,26 +80,28 @@ Windows:
     - Also see [This RadioReference Get Started Guide](https://forums.radioreference.com/threads/need-beginners-guide-to-dsd-fastlane.463963/).
 - [Unitrunker Digital Decoder](http://www.unitrunker.com/)
 
-Coding Docs:
+---
+
+#### Coding Docs:
 - [PySDR Python Docs](https://pysdr.org/index.html)
 
-Books: 
+#### Books: 
 - [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
 - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
 - [Phased Array Antenna Handbook](http://twanclik.free.fr/electricity/electronic/pdfdone11/Phased.Array.Antenna.Handbook.Artech.House.Publishers.Second.Edition.eBook-kB.pdf)
 - [Antenna Theory Analysis and Design](https://cds.cern.ch/record/1416310/files/047166782X_TOC.pdf)
 
-Videos:
+#### Videos:
 - [Advances in Phased Array Analog Beamforming Solutions](https://ez.analog.com/webinar/c/e/182)
 - [What Is Beamforming?](https://www.youtube.com/watch?v=VOGjHxlisyo)
 - [What Are Phased Arrays?](https://www.youtube.com/watch?v=9WxWun0E-PM)
 - [Why Is Digital Beamforming Useful?](https://www.youtube.com/watch?v=Hb6BhqOgmAI)
 - [Software Defined Radio Systems and Analysis Playlist](https://www.youtube.com/playlist?list=PLBfTSoOqoRnOTBTLahXBlxaDUNWdZ3FdS): 26 Lectures
 
-SDR Online Lessons:
+#### SDR Online Lessons:
 - [Great Scott Gadgets](https://greatscottgadgets.com/sdr/) Tutorials
 
-Articles: 
+#### Articles: 
 - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
 
 ## Status:
