@@ -10,8 +10,12 @@ This is a research project repo for Software Defined Radio Phased Array Beamform
 Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project Repo for more information.
 
 </p>
+<!-- <img src="./phaseCoherence/assets/GUI_initial_mockup.png" alt="GUI" width="800"/><br> -->
+<!-- <img src="./phaseCoherence/assets/GUI_2-0_nTSDR.png" alt="GUI" width="800"/><br> -->
+<video width="800" height="600" controls="controls">
+    <source src="./phaseCoherence/assets/GUI_Record-2024-02-07_Fixed.mp4" type="video/mp4">
+</video>
 
-<img src="./phaseCoherence/assets/GUI_2-0_nTSDR.png" alt="GUI" width="800"/><br>
 <small>Courtesy of&nbsp;<a href="https://github.com/RayzrReptile">@RayzrReptile</a></small>
 
 </div>
@@ -36,6 +40,8 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 ## RF Theory & Test Equipment Articles:
 
+- [Antenna Theory](https://www.antenna-theory.com/) Website
+    - [Smith Charts](https://www.antenna-theory.com/tutorial/smith/chart.php)!!!! (My Favorite)
 - [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
 - Mathworks [Quadrature](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
 - [The RF Engineer's Essential Guide to Frequency Counters](https://www.keysight.com/blogs/en/tech/educ/2023/frequency-counter-essential-guide)
@@ -103,6 +109,11 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 #### Articles: 
 - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
+
+#### Other:
+
+- What About the Frequency Domain?
+    - The [Fourier Transform](https://www.thefouriertransform.com/) Website
 
 ## Status:
 
