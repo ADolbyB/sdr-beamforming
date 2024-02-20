@@ -133,9 +133,7 @@ in section [grc] 'xterm_executable'
         - `xterm_executable=/usr/bin/gnome-terminal` (Assuming you are using gnome-terminal like I am)
         - CTRL+x to save and exit.
 
-7. Also see [This GitHub Issue #6923](https://github.com/gnuradio/gnuradio/issues/6923)if using GNURadio in the VM and experience the following:
-When running a GNURadio Flow Graph which requires realtime scheduling, if the following error message in the
-console is encountered:
+7. When running a GNURadio Flow Graph in the VM which requires realtime scheduling and the following error message in the console is encountered:
 
 ```python
 def main(top_block_cls=transceiver_CSS_loopback, options=None):   
@@ -144,7 +142,8 @@ def main(top_block_cls=transceiver_CSS_loopback, options=None):
 AttributeError: 'gnuradio.gr.gr_python.logger' object has no attribute 'warning'
 ```
 
-The fix is to allow user's tasks gain the ability to ask for real-time scheduling. Run the following in a terminal:
+The fix is to allow user's tasks gain the ability to ask for real-time scheduling.
+- Run the following in a terminal:
 
 ```bash
 echo "$(whoami)  -  rtprio  99" | sudo tee /etc/security/limits.d/99-rtprio.conf
