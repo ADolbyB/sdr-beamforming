@@ -40,7 +40,7 @@ Note that `root` password = `analog`
 
 <div align="center">
 
-Pluto Settings to accept an external clock source 
+Pluto Settings to accept an external 40MHz clock source 
     
 Please note: The PlutoSDR being modded in this case MUST HAVE A u.FL on the board for an external clock source!! Make sure to check. The early revision PlutoSDRs did not have them.
 
@@ -63,7 +63,7 @@ Enable Dual Receive, Dual Transmit and Expand Tuning Range to 0.7 - 6.0GHz for R
  - Code: [Jon Kraft: Pluto SDR Labs](https://github.com/jonkraft/PlutoSDR_Labs/tree/master)
  - Settings Table: [Environmental Settings](https://wiki.analog.com/university/tools/pluto/devs/booting)
      - Use [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) for Windows or a Terminal in Linux for shell access.
-     - In my case, I connected via the serial COM port with PuTTY in Windows 10.
+     - In my case, I connected via the serial COM port with PuTTY in Linux Mint.
 
 Coding Docs:
 - [Pluto SDR in Python](https://pysdr.org/content/pluto.html)
