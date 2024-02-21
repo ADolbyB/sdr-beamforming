@@ -3,7 +3,7 @@
     This is a Python script that reads data from specified binary folders.
     Using this script, it may be possible to exam the precise accuracy of the streams found in multiple Pluto SDR sources by plotting them along the same graph.
 
-    The actual metadata for the stream output is not clear
+    The actual data for the stream output does not indicate any relatice domain. For this script, it is written to be displayed in the frequency domain to help aid in confirming frequency lock across multiple Pluto SDRs disciplined to a single external clock source.
 '''
 
 import numpy as np
