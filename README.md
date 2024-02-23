@@ -1,6 +1,6 @@
 # SDR Beamforming
 
-This is a research project repo for Software Defined Radio Phased Array Beamforming. Previously, we had extensively researched the PlutoSDR to evaluate it for a beamforming project. That was previously the `pluto-sdr` repo, which is now an additional folder inside this repo. Currently, we are researching the KrakenSDR as a stepping stone platform to a complete beamforming system.
+This is a research project repo for Software Defined Radio Phased Array Beamforming. Previously, we had extensively researched the PlutoSDR to evaluate it for a beamforming project. That was previously the `pluto-sdr` repo, which is now an additional folder inside this repo. Currently, we are researching many different options.
 
 ## Project GUI: `PyQT_GUI`
 
@@ -35,19 +35,39 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - analogdevicesinc's [`gr-iio`](https://github.com/analogdevicesinc/gr-iio) Repo for IIO (PlutoSDR) Devices.
 - gnuradio's [`gnuradio`](https://github.com/gnuradio/gnuradio) Repo for the GNURadio Program.
 
-## RF Theory & Test Equipment Articles:
+## RF Theory, Components, and Test Equipment Articles:
 
+### Theory:
+
+- [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
+- [Rohde & Schwarz's `dB or not dB?`](https://www.rohde-schwarz.com/us/applications/db-or-not-db-educational-note_230850-15534.html) downloadable PDF. Also on that same page are download links for dB Calculator mobile apps.
+- Mathworks [Quadrature](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
+- The [Fourier Transform](https://www.thefouriertransform.com/) Website
+
+
+### Antennas:
+- MathWorks Video: [Array Design and Beamforming for Wireless MIMO Systems](https://www.mathworks.com/support/search.html/videos/array-design-and-beamforming-for-wireless-mimo-systems-1639591309094.html?fq%5B%5D=asset_type_name:video&fq%5B%5D=category:comm/index&page=1)
 - [Antenna Theory](https://www.antenna-theory.com/) Website
     - [Smith Charts](https://www.antenna-theory.com/tutorial/smith/chart.php)!!!! (My Favorite)
-- [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
-- Mathworks [Quadrature](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
-- [The RF Engineer's Essential Guide to Frequency Counters](https://www.keysight.com/blogs/en/tech/educ/2023/frequency-counter-essential-guide)
-- [TinySA Ultra Wiki Page](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage) and all the supporting docs for the pocket sized Spectrum Ananlyzer ~ 0.1MHz to 5.3GHz range.
-- [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf)
-- The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf).
+
+### Test Equipment:
+
+- ~ $150 TinySA Handheld Spectrum Analyzer: [tinySA Home](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage)
+    - [Wiki Page](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage) and all the supporting docs for the pocket sized Spectrum Ananlyzer ~ 0.1MHz to 5.3GHz range.
+
+- The ~ $120 NanoVNA: [NanoVNA Home](https://nanovna.com/)
+    - [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf) downloadable PDF.
+    - The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf) PDF.
     - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
-- Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
-- Video: [How to properly use a NanoVNA V2 Vector Network Analyzer & Smith Chart](https://www.youtube.com/watch?v=_pjcEKQY_Tk)
+    - [Rigol's `Basic Measurements with a VNA`](https://www.rigolna.com/pdfs/VNA-Measurements.pdf) downloadable PDF.
+    - Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
+    - Video: [How to properly use a NanoVNA V2 Vector Network Analyzer & Smith Chart](https://www.youtube.com/watch?v=_pjcEKQY_Tk)
+
+- Newer ~ $789.00 5kHz - 6 Ghz handheld VNA Unit: [NanoRFE VNA6000](https://nanorfe.com/vna6000.html) information Page.
+    - NanoRFE [Home Page](https://nanorfe.com/nanovna-v2.html).
+    - They also have a V2 version that is an older less capable model for $299.00.
+
+- [The RF Engineer's Essential Guide to Frequency Counters](https://www.keysight.com/blogs/en/tech/educ/2023/frequency-counter-essential-guide)
 
 ## KrakenSDR Resources:
 
@@ -106,11 +126,6 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 #### Articles: 
 - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
-
-#### Other:
-
-- What About the Frequency Domain?
-    - The [Fourier Transform](https://www.thefouriertransform.com/) Website
 
 ## Status:
 
