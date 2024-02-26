@@ -7,7 +7,10 @@
 # Unignore all directories:
 !*/
 
-## The above lines make it so any binary with no extension is ignored
+## JB: The above lines make it so any binary with no extension is ignored
+
+# JB: Raw IQ Samples from testing
+*.iq
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
