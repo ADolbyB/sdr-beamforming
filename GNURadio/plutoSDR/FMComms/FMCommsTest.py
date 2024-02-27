@@ -76,7 +76,7 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
         ##################################################
         self.samp_rate = samp_rate = 521000
         self.pluto1 = pluto1 = "ip:192.168.2.1"
-        self.freq = freq = 98100000
+        self.freq = freq = 98800000
 
         ##################################################
         # Blocks

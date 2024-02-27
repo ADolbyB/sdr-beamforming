@@ -37,7 +37,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '98100000'
+    value: '98800000'
   states:
     bus_sink: false
     bus_source: false
@@ -485,7 +485,7 @@ blocks:
     grid: 'False'
     gui_hint: ''
     label: Relative Gain
-    label1: ''
+    label1: Single Pluto Rx1
     label10: ''''''
     label2: ''''''
     label3: ''''''
@@ -520,13 +520,13 @@ blocks:
     width8: '1'
     width9: '1'
     wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    ymax: '-50'
+    ymin: '-180'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1208, 308.0]
+    coordinate: [1200, 388.0]
     rotation: 0
     state: disabled
 - name: qtgui_time_sink_x_0_0
@@ -658,9 +658,9 @@ blocks:
     entags: 'True'
     grid: 'False'
     gui_hint: ''
-    label1: Signal 1
+    label1: Single Pluto Rx1
     label10: Signal 10
-    label2: Signal 2
+    label2: ''
     label3: Signal 3
     label4: Signal 4
     label5: Signal 5
@@ -686,7 +686,7 @@ blocks:
     stemplot: 'False'
     style1: '1'
     style10: '1'
-    style2: '1'
+    style2: '0'
     style3: '1'
     style4: '1'
     style5: '1'
@@ -713,14 +713,14 @@ blocks:
     width8: '1'
     width9: '1'
     ylabel: Amplitude
-    ymax: '1'
-    ymin: '-1'
+    ymax: '0.005'
+    ymin: '-0.005'
     yunit: '""'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1208, 388.0]
+    coordinate: [1200, 308.0]
     rotation: 0
     state: disabled
 
