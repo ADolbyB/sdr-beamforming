@@ -184,30 +184,6 @@ blocks:
     coordinate: [744, 292.0]
     rotation: 0
     state: disabled
-- name: low_pass_filter_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [320, 116.0]
-    rotation: 0
-    state: enabled
 - name: low_pass_filter_0_0
   id: low_pass_filter
   parameters:
@@ -230,30 +206,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [320, 260.0]
-    rotation: 0
-    state: enabled
-- name: low_pass_filter_0_0_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [320, 548.0]
     rotation: 0
     state: enabled
 - name: low_pass_filter_0_1
@@ -726,14 +678,12 @@ blocks:
 
 connections:
 - [analog_sig_source_x_0, '0', low_pass_filter_0_2, '0']
-- [iio_fmcomms2_source_0, '0', low_pass_filter_0, '0']
 - [iio_fmcomms2_source_0, '0', low_pass_filter_0_0, '0']
-- [iio_fmcomms2_source_0, '1', low_pass_filter_0_0_0, '0']
 - [iio_fmcomms2_source_0, '1', low_pass_filter_0_1, '0']
 - [iio_pluto_source_0, '0', low_pass_filter_0_3, '0']
-- [low_pass_filter_0, '0', qtgui_time_sink_x_0_0, '0']
 - [low_pass_filter_0_0, '0', qtgui_freq_sink_x_0_0_0, '0']
-- [low_pass_filter_0_0_0, '0', qtgui_freq_sink_x_0_0_0, '1']
+- [low_pass_filter_0_0, '0', qtgui_time_sink_x_0_0, '0']
+- [low_pass_filter_0_1, '0', qtgui_freq_sink_x_0_0_0, '1']
 - [low_pass_filter_0_1, '0', qtgui_time_sink_x_0_0, '1']
 - [low_pass_filter_0_2, '0', iio_pluto_sink_0, '0']
 - [low_pass_filter_0_3, '0', qtgui_freq_sink_x_0_1, '0']

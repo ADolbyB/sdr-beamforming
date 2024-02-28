@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: fileSinkTest
+    id: GNURadioDelayTest
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: File Sink Test
+    title: Not titled yet
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -33,30 +33,84 @@ options:
     state: enabled
 
 blocks:
-- name: Rx1_path
+- name: Rx1_Delay
   id: variable
   parameters:
     comment: ''
-    value: '"/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/fileOutput/fileOutputRx1"'
+    value: '50'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 12.0]
+    coordinate: [288, 372.0]
     rotation: 0
-    state: true
-- name: Rx2_path
-  id: variable
+    state: disabled
+- name: Rx1_Delay
+  id: variable_qtgui_range
   parameters:
     comment: ''
-    value: '"/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/fileOutput/fileOutputRx2"'
+    gui_hint: ''
+    label: Rx1 Delay
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '200'
+    value: '0'
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 12.0]
+    coordinate: [712, 228.0]
     rotation: 0
-    state: true
+    state: disabled
+- name: Rx1_Delay_Sec
+  id: variable
+  parameters:
+    comment: ''
+    value: Rx1_Delay * samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [368, 12.0]
+    rotation: 0
+    state: disabled
+- name: Rx2_Delay
+  id: variable
+  parameters:
+    comment: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 436.0]
+    rotation: 0
+    state: disabled
+- name: Rx2_Delay
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Rx2 Delay
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '200'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 516.0]
+    rotation: 0
+    state: disabled
 - name: freq
   id: variable
   parameters:
@@ -69,6 +123,27 @@ blocks:
     coordinate: [280, 12.0]
     rotation: 0
     state: true
+- name: freq_gui
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Frequency
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '70000000'
+    step: '5000000'
+    stop: '90000000'
+    value: '70000000'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1488, 228.0]
+    rotation: 0
+    state: true
 - name: pluto1
   id: variable
   parameters:
@@ -78,7 +153,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 76.0]
+    coordinate: [216, 76.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -93,72 +168,63 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
-- name: single_path
-  id: variable
-  parameters:
-    comment: ''
-    value: '"/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/fileOutput/fileOutput"'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [368, 12.0]
-    rotation: 0
-    state: true
-- name: blocks_file_sink_0
-  id: blocks_file_sink
+- name: blocks_delay_0
+  id: blocks_delay
   parameters:
     affinity: ''
     alias: ''
-    append: 'False'
     comment: ''
-    file: single_path
+    delay: Rx1_Delay
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
     type: complex
-    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 212.0]
+    coordinate: [304, 304.0]
     rotation: 0
     state: disabled
-- name: blocks_file_sink_0_0
-  id: blocks_file_sink
+- name: blocks_delay_0_0
+  id: blocks_delay
   parameters:
     affinity: ''
     alias: ''
-    append: 'False'
     comment: ''
-    file: Rx1_path
+    delay: Rx2_Delay
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
     type: complex
-    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 164.0]
+    coordinate: [304, 496.0]
     rotation: 0
-    state: enabled
-- name: blocks_file_sink_0_0_0
-  id: blocks_file_sink
+    state: disabled
+- name: blocks_throttle_0
+  id: blocks_throttle
   parameters:
     affinity: ''
     alias: ''
-    append: 'False'
     comment: ''
-    file: Rx2_path
+    ignoretag: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
     type: complex
-    unbuffered: 'False'
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 404.0]
+    coordinate: [1312, 412.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: iio_fmcomms2_source_0
   id: iio_fmcomms2_source
   parameters:
@@ -192,11 +258,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 204.0]
+    coordinate: [32, 308.0]
     rotation: 0
-    state: enabled
-- name: iio_pluto_source_0
-  id: iio_pluto_source
+    state: disabled
+- name: iio_fmcomms2_source_0_0
+  id: iio_fmcomms2_source
   parameters:
     affinity: ''
     alias: ''
@@ -207,50 +273,31 @@ blocks:
     filter: ''
     filter_source: '''Auto'''
     fpass: '0'
-    frequency: freq
+    frequency: freq_gui
     fstop: '0'
-    gain1: '''manual'''
+    gain1: '''slow_attack'''
+    gain2: '''slow_attack'''
     len_tag_key: packet_len
     manual_gain1: '64'
+    manual_gain2: '64'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
+    rf_port_select: '''B_BALANCED'''
     rfdc: 'True'
+    rx1_en: 'True'
+    rx2_en: 'False'
     samplerate: samp_rate
     type: fc32
-    uri: ip:192.168.2.1
+    uri: pluto1
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [64, 228.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1008, 180.0]
+    coordinate: [880, 316.0]
     rotation: 0
     state: enabled
-- name: low_pass_filter_0_1
+- name: low_pass_filter_0
   id: low_pass_filter
   parameters:
     affinity: ''
@@ -271,10 +318,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [304, 260.0]
+    coordinate: [440, 268.0]
     rotation: 0
     state: disabled
-- name: low_pass_filter_0_1_0
+- name: low_pass_filter_0_0_0
   id: low_pass_filter
   parameters:
     affinity: ''
@@ -295,22 +342,33 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 324.0]
+    coordinate: [440, 460.0]
+    rotation: 0
+    state: disabled
+- name: low_pass_filter_0_3
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: ''
+    cutoff_freq: '5000'
+    decim: '1'
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    type: fir_filter_ccf
+    width: '2000'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120, 364.0]
     rotation: 0
     state: enabled
-- name: note_0
-  id: note
-  parameters:
-    alias: ''
-    comment: ''
-    note: Single Pluto - Rx1
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [64, 180.0]
-    rotation: 0
-    state: disabled
 - name: note_0_0
   id: note
   parameters:
@@ -321,90 +379,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 156.0]
+    coordinate: [32, 260.0]
     rotation: 0
-    state: enabled
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
+    state: disabled
+- name: note_1
+  id: note
   parameters:
-    affinity: ''
     alias: ''
-    alpha1: '1.0'
-    alpha10: '1.0'
-    alpha2: '1.0'
-    alpha3: '1.0'
-    alpha4: '1.0'
-    alpha5: '1.0'
-    alpha6: '1.0'
-    alpha7: '1.0'
-    alpha8: '1.0'
-    alpha9: '1.0'
-    autoscale: 'False'
-    average: '1.0'
-    axislabels: 'True'
-    bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
     comment: ''
-    ctrlpanel: 'False'
-    fc: '0'
-    fftsize: '1024'
-    freqhalf: 'True'
-    grid: 'False'
-    gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
-    legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: '""'
-    nconnections: '1'
-    norm_window: 'False'
-    showports: 'False'
-    tr_chan: '0'
-    tr_level: '0.0'
-    tr_mode: qtgui.TRIG_MODE_FREE
-    tr_tag: '""'
-    type: complex
-    units: dB
-    update_time: '0.10'
-    width1: '1'
-    width10: '1'
-    width2: '1'
-    width3: '1'
-    width4: '1'
-    width5: '1'
-    width6: '1'
-    width7: '1'
-    width8: '1'
-    width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    note: 'README: Single Pluto - Single Rx - This is a test to control frequency
+      for GUI influence'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 292.0]
+    coordinate: [880, 268.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_freq_sink_x_0_0_0
   id: qtgui_freq_sink_x
   parameters:
@@ -483,11 +474,11 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 324.0]
+    coordinate: [712, 436.0]
     rotation: 0
-    state: enabled
-- name: qtgui_time_sink_x_0
-  id: qtgui_time_sink_x
+    state: disabled
+- name: qtgui_freq_sink_x_0_1
+  id: qtgui_freq_sink_x
   parameters:
     affinity: ''
     alias: ''
@@ -502,65 +493,50 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
+    average: '1.0'
     axislabels: 'True'
-    color1: blue
-    color10: dark blue
-    color2: red
-    color3: green
-    color4: black
-    color5: cyan
-    color6: magenta
-    color7: yellow
-    color8: dark red
-    color9: dark green
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
     comment: ''
     ctrlpanel: 'False'
-    entags: 'True'
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
     grid: 'False'
     gui_hint: ''
-    label1: Signal 1
-    label10: Signal 10
-    label2: Signal 2
-    label3: Signal 3
-    label4: Signal 4
-    label5: Signal 5
-    label6: Signal 6
-    label7: Signal 7
-    label8: Signal 8
-    label9: Signal 9
+    label: Relative Gain
+    label1: Single Pluto Rx1
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
     legend: 'True'
-    marker1: '-1'
-    marker10: '-1'
-    marker2: '-1'
-    marker3: '-1'
-    marker4: '-1'
-    marker5: '-1'
-    marker6: '-1'
-    marker7: '-1'
-    marker8: '-1'
-    marker9: '-1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
     name: '""'
     nconnections: '1'
-    size: '1024'
-    srate: samp_rate
-    stemplot: 'False'
-    style1: '1'
-    style10: '1'
-    style2: '1'
-    style3: '1'
-    style4: '1'
-    style5: '1'
-    style6: '1'
-    style7: '1'
-    style8: '1'
-    style9: '1'
+    norm_window: 'False'
+    showports: 'False'
     tr_chan: '0'
-    tr_delay: '0'
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
-    tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
     type: complex
+    units: dB
     update_time: '0.10'
     width1: '1'
     width10: '1'
@@ -572,17 +548,16 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    ylabel: Amplitude
-    ymax: '1'
-    ymin: '-1'
-    yunit: '""'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '-50'
+    ymin: '-180'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [544, 372.0]
+    coordinate: [1488, 436.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -677,23 +652,120 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1264, 244.0]
+    coordinate: [712, 356.0]
+    rotation: 0
+    state: disabled
+- name: qtgui_time_sink_x_0_1
+  id: qtgui_time_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
+    comment: ''
+    ctrlpanel: 'False'
+    entags: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label1: Single Pluto Rx1
+    label10: Signal 10
+    label2: ''
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
+    legend: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    name: '""'
+    nconnections: '1'
+    size: '1024'
+    srate: samp_rate
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '0'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
+    tr_chan: '0'
+    tr_delay: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    ylabel: Amplitude
+    ymax: '0.005'
+    ymin: '-0.005'
+    yunit: '""'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1488, 356.0]
     rotation: 0
     state: enabled
 
 connections:
-- [iio_fmcomms2_source_0, '0', low_pass_filter_0_0, '0']
-- [iio_fmcomms2_source_0, '1', low_pass_filter_0_1_0, '0']
-- [iio_pluto_source_0, '0', low_pass_filter_0_1, '0']
-- [low_pass_filter_0_0, '0', blocks_file_sink_0_0, '0']
-- [low_pass_filter_0_0, '0', qtgui_freq_sink_x_0_0_0, '0']
-- [low_pass_filter_0_0, '0', qtgui_time_sink_x_0_0, '0']
-- [low_pass_filter_0_1, '0', blocks_file_sink_0, '0']
-- [low_pass_filter_0_1, '0', qtgui_freq_sink_x_0, '0']
-- [low_pass_filter_0_1, '0', qtgui_time_sink_x_0, '0']
-- [low_pass_filter_0_1_0, '0', blocks_file_sink_0_0_0, '0']
-- [low_pass_filter_0_1_0, '0', qtgui_freq_sink_x_0_0_0, '1']
-- [low_pass_filter_0_1_0, '0', qtgui_time_sink_x_0_0, '1']
+- [blocks_delay_0, '0', low_pass_filter_0, '0']
+- [blocks_delay_0_0, '0', low_pass_filter_0_0_0, '0']
+- [blocks_throttle_0, '0', qtgui_freq_sink_x_0_1, '0']
+- [blocks_throttle_0, '0', qtgui_time_sink_x_0_1, '0']
+- [iio_fmcomms2_source_0, '0', blocks_delay_0, '0']
+- [iio_fmcomms2_source_0, '1', blocks_delay_0_0, '0']
+- [iio_fmcomms2_source_0_0, '0', low_pass_filter_0_3, '0']
+- [low_pass_filter_0, '0', qtgui_freq_sink_x_0_0_0, '0']
+- [low_pass_filter_0, '0', qtgui_time_sink_x_0_0, '0']
+- [low_pass_filter_0_0_0, '0', qtgui_freq_sink_x_0_0_0, '1']
+- [low_pass_filter_0_0_0, '0', qtgui_time_sink_x_0_0, '1']
+- [low_pass_filter_0_3, '0', blocks_throttle_0, '0']
 
 metadata:
   file_format: 1
