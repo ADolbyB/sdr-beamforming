@@ -112,9 +112,10 @@ find_package(Gnuradio)
 find_package(CppUnit)
 find_package(Doxygen)
 
-if(NOT GNURADIO_RUNTIME_FOUND)
-    message(FATAL_ERROR "GnuRadio Runtime required to compile gr-gsm")
-endif()
+# Not required for Pluto SDR
+# if(NOT GNURADIO_RUNTIME_FOUND)
+#     message(FATAL_ERROR "GnuRadio Runtime required to compile gr-gsm")
+# endif()
 if(NOT CPPUNIT_FOUND)
     message(FATAL_ERROR "CppUnit required to compile multi_rtl")
 endif()

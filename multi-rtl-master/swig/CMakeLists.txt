@@ -31,9 +31,10 @@ endif(NOT multi_rtl_sources)
 find_package(SWIG)
 find_package(PythonLibs 2)
 
+# Location path bugged
 if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
-    message( FATAL_ERROR "swig package not found. You need to Install Package swig")
-    return()
+    # message( FATAL_ERROR "swig package not found. You need to Install Package swig")
+    # return()
 elseif(NOT PYTHONLIBS_FOUND)
     message( FATAL_ERROR "PythonLibs not found. You need to Install Package python-scipy")
     return()

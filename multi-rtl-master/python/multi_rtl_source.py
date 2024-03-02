@@ -202,7 +202,7 @@ class multi_rtl_source(gr.hier_block2):
             self.vsink.reset()
     
     def apply_synchronization_settings(self):
-        for chan in xrange(0,self.num_channels):
+        for chan in range(0,self.num_channels):
             self.rtlsdr_sources[chan].set_center_freq(self.sync_center_freq, 0)
             if(len(self.sync_gains) == self.num_channels):
                 self.rtlsdr_sources[chan].set_gain(self.sync_gains[chan], 0)
@@ -211,7 +211,7 @@ class multi_rtl_source(gr.hier_block2):
                                                           #TODO: decide if this is good
                 
     def apply_operational_settings(self):
-        for chan in xrange(0,self.num_channels):
+        for chan in range(0,self.num_channels):
             self.rtlsdr_sources[chan].set_gain(self.gains[chan], 0)    
             self.rtlsdr_sources[chan].set_center_freq(self.center_freqs[chan], 0)
 
@@ -280,13 +280,13 @@ class multi_rtl_source(gr.hier_block2):
         self.if_gains[chan] = gain
 
     def get_if_gain(self, chan=0):
-        if chan in if_gains:
+        if chan in self.if_gains:
             return self.if_gains[chan]
         else:
             return None
 
 #synchronization options
-    def set_sync_center_freq(self, freq): #b. istotna
+    def set_sync_center_freq(self, freq, chan=0): #b. istotna
         self.sync_center_freq = freq
         if self.state == "sync":
             self.rtlsdr_sources[chan].set_center_freq(freq, 0)
