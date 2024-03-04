@@ -38,17 +38,20 @@ class phaseLock(gr.hier_block2):
         # Self-Assign Variables
         self.num_channels = num_channels
         self.delays = {}
+        self.phase_amplitude_corrections = {}  
 
-        # Block Creation
-        self.phase_amplitude_corrections = {}        
+        # Block Creation    
         self.phase_and_amplitude_correctors = {}
-        self.sdr_sources = {}
         self.delay_blocks = {}
         self.vsinks = {}
 
         for chan in range(0, num_channels):
             # Assign Blocks
             self.delay_blocks[chan] = blocks.delay(gr.sizeof_gr_complex*1, 0)
+            self.phase_amplitude_corrections[chan]=1.0
+            self.phase_and_amplitude_correctors[chan] = blocks.multiply_const_vcc((self.phase_amplitude_corrections[chan], ))
+
             # Connect Blocks
             self.connect((self, chan), (self.delay_blocks[chan], 0))
-            self.connect((self.delay_blocks[chan], 0), (self, chan))
+            self.connect((self.delay_blocks[chan], 0), (self.phase_and_amplitude_correctors[chan], 0))
+            self.connect((self.phase_and_amplitude_correctors[chan], 0), (self, chan))
