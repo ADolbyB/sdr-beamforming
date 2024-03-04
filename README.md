@@ -54,6 +54,8 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - [Rohde & Schwarz's `dB or not dB?`](https://www.rohde-schwarz.com/us/applications/db-or-not-db-educational-note_230850-15534.html) downloadable PDF. Also on that same page are download links for dB Calculator mobile apps.
 - Mathworks [Quadrature](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
 - The [Fourier Transform](https://www.thefouriertransform.com/) Website
+- [I/Q Data for Dummies](http://whiteboard.ping.se/SDR/IQ)
+- [How to Process I/Q Signals in a Software-Defined RF Receiver](https://www.allaboutcircuits.com/technical-articles/how-to-process-iq-signals-software-defined-rf-receiver-dsp-digital-signal/)
 - [SDR For Engineers](https://www.analog.com/en/education/education-library/software-defined-radio-for-engineers.html)
 - [Field Expedient SDR Volumes 1-3](https://www.factorialabs.com/fieldxp/)
 - [Phased Array Antenna Handbook](http://twanclik.free.fr/electricity/electronic/pdfdone11/Phased.Array.Antenna.Handbook.Artech.House.Publishers.Second.Edition.eBook-kB.pdf)
