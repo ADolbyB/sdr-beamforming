@@ -1,5 +1,5 @@
 id: nTSDR_phaseLock
-label: phaseLock
+label: Phase Sync
 category: '[nTSDR]'
 
 templates:
@@ -29,18 +29,18 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
+- domain: stream
+  dtype: complex
+  multiplicity: ${num_channels}
 
 outputs:
-#- label: ...
-#  domain: ...
-#  dtype: ...
-#  vlen: ...
-#  optional: ...
+- domain: stream
+  dtype: complex
+  multiplicity: ${num_channels}
+
+asserts:
+- ${ num_channels > 1 }
+- ${ num_channels < 9 }
 
 #  'file_format' specifies the version of the GRC yml format used in the file
 #  and should usually not be changed.

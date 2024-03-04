@@ -22,16 +22,17 @@
 # 
 
 from gnuradio import gr
+from gnuradio import blocks
 
 class phaseLock(gr.hier_block2):
     """
-    docstring for block phaseLock
+    Synchronize the phase of homogenous IQ streams.
     """
     def __init__(self, 
                  num_channels=2):
         gr.hier_block2.__init__(self,
-            "phaseLock",
-            gr.io_signature(0,0,0),  # Input signature
+            "Phase Sync",
+            gr.io_signature(num_channels, num_channels, gr.sizeof_gr_complex),  # Input signature
             gr.io_signature(num_channels, num_channels, gr.sizeof_gr_complex) # Output signature
         )
         # Self-Assign Variables
@@ -45,5 +46,9 @@ class phaseLock(gr.hier_block2):
         self.delay_blocks = {}
         self.vsinks = {}
 
-        for inp in range(0, num_channels):
-            self.connect((self, inp), (self, inp)) # Input straight to Output [test only]
+        for chan in range(0, num_channels):
+            # Assign Blocks
+            self.delay_blocks[chan] = blocks.delay(gr.sizeof_gr_complex*1, 0)
+            # Connect Blocks
+            self.connect((self, chan), (self.delay_blocks[chan], 0))
+            self.connect((self.delay_blocks[chan], 0), (self, chan))
