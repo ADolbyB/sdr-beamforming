@@ -1,0 +1,6 @@
+/*!
+ * \defgroup block GNU Radio NTSDR_LOCAL C++ Signal Processing Blocks
+ * \brief All C++ blocks that can be used from the NTSDR_LOCAL GNU Radio
+ *        module are listed here or in the subcategories below.
+ *
+ */
