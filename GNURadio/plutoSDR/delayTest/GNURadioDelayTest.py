@@ -7,40 +7,28 @@
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
 # Author: ubuntu
-# GNU Radio version: 3.10.1.1
+# GNU Radio version: 3.10.7.0
 
 from packaging.version import Version as StrictVersion
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print("Warning: failed to XInitThreads()")
-
 from PyQt5 import Qt
 from gnuradio import qtgui
-from gnuradio.filter import firdes
-import sip
 from gnuradio import blocks
 from gnuradio import filter
+from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
+from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import iio
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
+import sip
 
 
-
-from gnuradio import qtgui
 
 class GNURadioDelayTest(gr.top_block, Qt.QWidget):
 
@@ -51,8 +39,8 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -72,8 +60,8 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
         # Variables
@@ -86,6 +74,7 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
+
         self._freq_gui_range = Range(70000000, 90000000, 5000000, 70000000, 200)
         self._freq_gui_win = RangeWidget(self._freq_gui_range, self.set_freq_gui, "Frequency", "counter_slider", int, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._freq_gui_win)
@@ -150,7 +139,7 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0_1.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0_1.set_y_axis(-180, -50)
+        self.qtgui_freq_sink_x_0_1.set_y_axis((-180), (-50))
         self.qtgui_freq_sink_x_0_1.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0_1.enable_autoscale(False)
@@ -205,16 +194,16 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0_0.set_rfdc(True)
         self.iio_fmcomms2_source_0_0.set_bbdc(True)
         self.iio_fmcomms2_source_0_0.set_filter_params('Auto', '', 0, 0)
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
+        self.blocks_throttle2_0 = blocks.throttle( gr.sizeof_gr_complex*1, samp_rate, True, 0 if "auto" == "auto" else max( int(float(0.1) * samp_rate) if "auto" == "time" else int(0.1), 1) )
 
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0_1, 0))
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0_1, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.qtgui_freq_sink_x_0_1, 0))
+        self.connect((self.blocks_throttle2_0, 0), (self.qtgui_time_sink_x_0_1, 0))
         self.connect((self.iio_fmcomms2_source_0_0, 0), (self.low_pass_filter_0_3, 0))
-        self.connect((self.low_pass_filter_0_3, 0), (self.blocks_throttle_0, 0))
+        self.connect((self.low_pass_filter_0_3, 0), (self.blocks_throttle2_0, 0))
 
 
     def closeEvent(self, event):
@@ -230,11 +219,11 @@ class GNURadioDelayTest(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.iio_fmcomms2_source_0_0.set_samplerate(self.samp_rate)
         self.low_pass_filter_0_3.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 2000, window.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0_1.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0_1.set_samp_rate(self.samp_rate)
+        self.blocks_throttle2_0.set_sample_rate(self.samp_rate)
 
     def get_pluto1(self):
         return self.pluto1
