@@ -52,6 +52,15 @@
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html): A Tower mount 5 channel antenna for direction finding with the KrakenSDR.
 - [KiwiSDR Resources](http://kiwisdr.com/)
 
+## Current Issues:
+
+Please see my GitHub [Issue #5](https://github.com/krakenrf/gr-krakensdr/issues/5) regarding KrakenSDR and GNURadio.
+- I do a complete x86_64 [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) and [`gr-krakensdr`](https://github.com/krakenrf/gr-krakensdr) install from scratch using the install scripts on a fresh install of Linux Mint 21.3.
+- This issue deals with the error message "Exception: Failed to get IQ Samples" when running a GNU Radio flow graph.
+- The root cause comes from the `rtlsdr_demod_write_reg failed with -9` error in the `rtl_daq.log` file.
+    - Per user KrakenRF: "This is the core problem. This usually means that there is some problem communicating with the KrakenSDR. So most likely a USB data cable problem. Please try another high quality USB cable, and also try the ports on the back of your PC. Sometimes the ports on the front of desktop computers are internally connected with very low quality cabling, and so they won't work well with high data rate devices."
+    - At the moment, no solution for this problem has been found.
+
 ## Notes on KrakenSDR Mobile Power Requirements:
 In order to set up a mobile DoA setup using a Rasperry Pi 4 or 5, The following power requirements need to be taken into account:
 - The [Raspberry Pi 4](https://www.raspberrypi.com/products/type-c-power-supply/) requires at least a 5V 3.0A (15W) power supply. Note that the CanaKit Pi 4 power supply we used was rated at 18W.
