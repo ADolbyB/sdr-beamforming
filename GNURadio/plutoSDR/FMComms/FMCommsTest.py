@@ -6,37 +6,25 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.10.1.1
+# GNU Radio version: 3.10.7.0
 
 from packaging.version import Version as StrictVersion
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print("Warning: failed to XInitThreads()")
-
 from PyQt5 import Qt
 from gnuradio import qtgui
-from gnuradio.filter import firdes
-import sip
 from gnuradio import filter
+from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
+from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import iio
+import sip
 
 
-
-from gnuradio import qtgui
 
 class FMCommsTest(gr.top_block, Qt.QWidget):
 
@@ -47,8 +35,8 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -68,19 +56,23 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 521000
-        self.pluto1 = pluto1 = "ip:192.168.2.1"
+        self.pluto3 = pluto3 = "ip:192.168.3.1"
+        self.pluto2 = pluto2 = "ip:192.168.2.1"
+        self.pluto1 = pluto1 = "ip:192.168.1.1"
+        self.pluto0 = pluto0 = "ip:192.168.0.1"
         self.freq = freq = 98800000
 
         ##################################################
         # Blocks
         ##################################################
+
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -142,7 +134,7 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
             None # parent
         )
         self.qtgui_freq_sink_x_0_0_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0_0_0.set_y_axis(-180, -50)
+        self.qtgui_freq_sink_x_0_0_0.set_y_axis((-180), (-50))
         self.qtgui_freq_sink_x_0_0_0.set_y_label('Relative Gain', 'dB')
         self.qtgui_freq_sink_x_0_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
         self.qtgui_freq_sink_x_0_0_0.enable_autoscale(False)
@@ -183,15 +175,6 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
                 2000,
                 window.WIN_HAMMING,
                 6.76))
-        self.low_pass_filter_0_0_0 = filter.fir_filter_ccf(
-            1,
-            firdes.low_pass(
-                1,
-                samp_rate,
-                5000,
-                2000,
-                window.WIN_HAMMING,
-                6.76))
         self.low_pass_filter_0_0 = filter.fir_filter_ccf(
             1,
             firdes.low_pass(
@@ -201,16 +184,7 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
                 2000,
                 window.WIN_HAMMING,
                 6.76))
-        self.low_pass_filter_0 = filter.fir_filter_ccf(
-            1,
-            firdes.low_pass(
-                1,
-                samp_rate,
-                5000,
-                2000,
-                window.WIN_HAMMING,
-                6.76))
-        self.iio_fmcomms2_source_0 = iio.fmcomms2_source_fc32(pluto1, [True, True, True, True], 32768)
+        self.iio_fmcomms2_source_0 = iio.fmcomms2_source_fc32(pluto2, [True, True, True, True], 32768)
         self.iio_fmcomms2_source_0.set_len_tag_key('packet_len')
         self.iio_fmcomms2_source_0.set_frequency(freq)
         self.iio_fmcomms2_source_0.set_samplerate(samp_rate)
@@ -229,13 +203,11 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.iio_fmcomms2_source_0, 0), (self.low_pass_filter_0, 0))
         self.connect((self.iio_fmcomms2_source_0, 0), (self.low_pass_filter_0_0, 0))
-        self.connect((self.iio_fmcomms2_source_0, 1), (self.low_pass_filter_0_0_0, 0))
         self.connect((self.iio_fmcomms2_source_0, 1), (self.low_pass_filter_0_1, 0))
-        self.connect((self.low_pass_filter_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.low_pass_filter_0_0, 0), (self.qtgui_freq_sink_x_0_0_0, 0))
-        self.connect((self.low_pass_filter_0_0_0, 0), (self.qtgui_freq_sink_x_0_0_0, 1))
+        self.connect((self.low_pass_filter_0_0, 0), (self.qtgui_time_sink_x_0_0, 0))
+        self.connect((self.low_pass_filter_0_1, 0), (self.qtgui_freq_sink_x_0_0_0, 1))
         self.connect((self.low_pass_filter_0_1, 0), (self.qtgui_time_sink_x_0_0, 1))
 
 
@@ -253,18 +225,34 @@ class FMCommsTest(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.iio_fmcomms2_source_0.set_samplerate(self.samp_rate)
-        self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 2000, window.WIN_HAMMING, 6.76))
         self.low_pass_filter_0_0.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 2000, window.WIN_HAMMING, 6.76))
-        self.low_pass_filter_0_0_0.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 2000, window.WIN_HAMMING, 6.76))
         self.low_pass_filter_0_1.set_taps(firdes.low_pass(1, self.samp_rate, 5000, 2000, window.WIN_HAMMING, 6.76))
         self.qtgui_freq_sink_x_0_0_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+
+    def get_pluto3(self):
+        return self.pluto3
+
+    def set_pluto3(self, pluto3):
+        self.pluto3 = pluto3
+
+    def get_pluto2(self):
+        return self.pluto2
+
+    def set_pluto2(self, pluto2):
+        self.pluto2 = pluto2
 
     def get_pluto1(self):
         return self.pluto1
 
     def set_pluto1(self, pluto1):
         self.pluto1 = pluto1
+
+    def get_pluto0(self):
+        return self.pluto0
+
+    def set_pluto0(self, pluto0):
+        self.pluto0 = pluto0
 
     def get_freq(self):
         return self.freq

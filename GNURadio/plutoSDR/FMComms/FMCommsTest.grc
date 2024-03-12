@@ -118,6 +118,7 @@ blocks:
     offset: '0'
     phase: '0'
     samp_rate: samp_rate
+    showports: 'False'
     type: complex
     waveform: analog.GR_COS_WAVE
   states:
@@ -155,7 +156,7 @@ blocks:
     rx2_en: 'True'
     samplerate: samp_rate
     type: fc32
-    uri: pluto1
+    uri: pluto2
   states:
     bus_sink: false
     bus_source: false
@@ -198,7 +199,7 @@ blocks:
     bus_structure: null
     coordinate: [24, 604.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: iio_fmcomms2_source_0_0_0
   id: iio_fmcomms2_source
   parameters:
@@ -234,7 +235,7 @@ blocks:
     bus_structure: null
     coordinate: [24, 900.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: iio_fmcomms2_source_0_0_0_0
   id: iio_fmcomms2_source
   parameters:
@@ -270,7 +271,7 @@ blocks:
     bus_structure: null
     coordinate: [32, 1188.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: iio_fmcomms2_source_0_0_0_1
   id: iio_fmcomms2_source
   parameters:
@@ -306,7 +307,7 @@ blocks:
     bus_structure: null
     coordinate: [32, 1476.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: iio_pluto_sink_0
   id: iio_pluto_sink
   parameters:
@@ -411,7 +412,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 588.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_0_0_0
   id: low_pass_filter
   parameters:
@@ -435,7 +436,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 876.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_0_0_0_0
   id: low_pass_filter
   parameters:
@@ -459,7 +460,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 1164.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_0_0_0_1
   id: low_pass_filter
   parameters:
@@ -483,7 +484,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 1452.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_1
   id: low_pass_filter
   parameters:
@@ -531,7 +532,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 732.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_1_0_0
   id: low_pass_filter
   parameters:
@@ -555,7 +556,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 1020.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_1_0_0_0
   id: low_pass_filter
   parameters:
@@ -579,7 +580,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 1308.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_1_0_0_1
   id: low_pass_filter
   parameters:
@@ -603,7 +604,7 @@ blocks:
     bus_structure: null
     coordinate: [320, 1596.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: low_pass_filter_0_2
   id: low_pass_filter
   parameters:
@@ -690,7 +691,7 @@ blocks:
     bus_structure: null
     coordinate: [32, 556.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: note_1
   id: note
   parameters:
@@ -865,7 +866,7 @@ blocks:
     bus_structure: null
     coordinate: [728, 1164.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_freq_sink_x_0_1
   id: qtgui_freq_sink_x
   parameters:
@@ -1140,7 +1141,7 @@ blocks:
     bus_structure: null
     coordinate: [728, 904.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_0_0_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -1237,7 +1238,7 @@ blocks:
     bus_structure: null
     coordinate: [728, 1032.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_time_sink_x_0_1
   id: qtgui_time_sink_x
   parameters:
@@ -1375,3 +1376,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: 3.10.7.0
