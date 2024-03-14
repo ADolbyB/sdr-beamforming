@@ -140,26 +140,6 @@ blocks:
     coordinate: [192, 140.0]
     rotation: 0
     state: enabled
-- name: blocks_delay_0
-  id: blocks_delay
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    delay: '0'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_ports: '1'
-    showports: 'False'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [536, 412.0]
-    rotation: 0
-    state: true
 - name: blocks_file_sink_0
   id: blocks_file_sink
   parameters:
@@ -258,11 +238,11 @@ blocks:
     fpass: '0'
     frequency: freq
     fstop: '0'
-    gain1: '''slow_attack'''
-    gain2: '''slow_attack'''
+    gain1: '''manual'''
+    gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '64'
-    manual_gain2: '64'
+    manual_gain1: '30'
+    manual_gain2: '30'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
@@ -549,12 +529,11 @@ blocks:
 connections:
 - [analog_sig_source_x_0, '0', blocks_file_sink_0, '0']
 - [analog_sig_source_x_0, '0', iio_fmcomms2_sink_0, '0']
-- [blocks_delay_0, '0', blocks_file_sink_0_1, '0']
-- [blocks_delay_0, '0', qtgui_freq_sink_x_0_0, '0']
-- [blocks_delay_0, '0', qtgui_time_sink_x_0_0, '0']
 - [iio_fmcomms2_source_0, '0', low_pass_filter_0_0, '0']
 - [iio_fmcomms2_source_0, '1', low_pass_filter_1, '0']
-- [low_pass_filter_0_0, '0', blocks_delay_0, '0']
+- [low_pass_filter_0_0, '0', blocks_file_sink_0_1, '0']
+- [low_pass_filter_0_0, '0', qtgui_freq_sink_x_0_0, '0']
+- [low_pass_filter_0_0, '0', qtgui_time_sink_x_0_0, '0']
 - [low_pass_filter_1, '0', blocks_file_sink_0_0, '0']
 - [low_pass_filter_1, '0', qtgui_freq_sink_x_0_0, '1']
 - [low_pass_filter_1, '0', qtgui_time_sink_x_0_0, '1']

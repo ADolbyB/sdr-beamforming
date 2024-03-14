@@ -193,11 +193,11 @@ class local_SP_PhaseSync(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0.set_frequency(freq)
         self.iio_fmcomms2_source_0.set_samplerate(samp_rate)
         if True:
-            self.iio_fmcomms2_source_0.set_gain_mode(0, 'slow_attack')
-            self.iio_fmcomms2_source_0.set_gain(0, 64)
+            self.iio_fmcomms2_source_0.set_gain_mode(0, 'manual')
+            self.iio_fmcomms2_source_0.set_gain(0, 30)
         if True:
-            self.iio_fmcomms2_source_0.set_gain_mode(1, 'slow_attack')
-            self.iio_fmcomms2_source_0.set_gain(1, 64)
+            self.iio_fmcomms2_source_0.set_gain_mode(1, 'manual')
+            self.iio_fmcomms2_source_0.set_gain(1, 30)
         self.iio_fmcomms2_source_0.set_quadrature(True)
         self.iio_fmcomms2_source_0.set_rfdc(True)
         self.iio_fmcomms2_source_0.set_bbdc(True)
@@ -216,7 +216,6 @@ class local_SP_PhaseSync(gr.top_block, Qt.QWidget):
         self.blocks_file_sink_0_1.set_unbuffered(False)
         self.blocks_file_sink_0_0 = blocks.file_sink(gr.sizeof_gr_complex*1, Rx2_path, False)
         self.blocks_file_sink_0_0.set_unbuffered(False)
-        self.blocks_delay_0 = blocks.delay(gr.sizeof_gr_complex*1, 0)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, baseband, 1, 0, 0)
 
 
@@ -224,12 +223,11 @@ class local_SP_PhaseSync(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.iio_fmcomms2_sink_0, 0))
-        self.connect((self.blocks_delay_0, 0), (self.blocks_file_sink_0_1, 0))
-        self.connect((self.blocks_delay_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
-        self.connect((self.blocks_delay_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.iio_fmcomms2_source_0, 0), (self.low_pass_filter_0_0, 0))
         self.connect((self.iio_fmcomms2_source_0, 1), (self.low_pass_filter_1, 0))
-        self.connect((self.low_pass_filter_0_0, 0), (self.blocks_delay_0, 0))
+        self.connect((self.low_pass_filter_0_0, 0), (self.blocks_file_sink_0_1, 0))
+        self.connect((self.low_pass_filter_0_0, 0), (self.qtgui_freq_sink_x_0_0, 0))
+        self.connect((self.low_pass_filter_0_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.low_pass_filter_1, 0), (self.blocks_file_sink_0_0, 0))
         self.connect((self.low_pass_filter_1, 0), (self.qtgui_freq_sink_x_0_0, 1))
         self.connect((self.low_pass_filter_1, 0), (self.qtgui_time_sink_x_0_0, 1))

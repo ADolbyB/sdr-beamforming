@@ -63,20 +63,26 @@ def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
     max_position = np.argmax(abs(result_corr))
     delay = len(result_corr)/2-max_position
 
-    phase_amplitude_correction = result_corr[max_position]/sqrt(mean(real(Rx_data)**2+imag(Rx_data)**2))
+    phase_diff = result_corr[max_position]/sqrt(mean(real(Rx_data)**2+imag(Rx_data)**2))
+    # phase_diff = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_diff)))
+    phase_diff = angle(phase_diff)/pi*180
+
+    print ("Delay of ", Rx_name, ": ", delay,' | Phase Diff: ', phase_diff, " [deg]")
 
     # Set phase amplitude correction
     # INSERT
     # phase_amplitude_correction = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_amplitude_correction)))
 
     # Set delay     
-    print ("Delay of ", Rx_name, ": ", delay,' | Phase Diff: ', (angle(phase_amplitude_correction)/pi*180), " [deg]")
-    if delay < 0:
-        return trimDelay(Rx_data, int(-delay*samp_rate))
-    elif delay > 0:
-        return padDelay(Rx_data, int(delay*samp_rate))
-    else:
-        return Rx_data
+    # if delay < 0:
+    #     return trimDelay(Rx_data, int(-delay)) # *samp_rate
+    # elif delay > 0:
+    #     return padDelay(Rx_data, int(delay)) # *samp_rate
+    # else:
+    #     return Rx_data
+
+    # return Rx_data * np.exp(1j*np.deg2rad(phase_diff))
+    return Rx_data * (exp(1j*np.deg2rad(phase_diff)))
     
 
 ''' File names go here '''
@@ -94,11 +100,12 @@ SAMPLE_RATE = 2e6  # should be the same as it was in GNU Radio
 NUM_SAMPLES = fRx1.shape[0] # this ensures that it is relative to what is captured
 
 '''Cross-Correlation and Delay Values'''
-DfRx2 = fRx1
-# DfRx2 = compute_and_set_delay(fRx1, fRx2, "Rx2", SAMPLE_RATE)
+# DfRx2 = fRx2
+DfRx2 = compute_and_set_delay(fRx1, fRx2, "Rx2", SAMPLE_RATE)
+DfRx2 = compute_and_set_delay(fRx1, DfRx2, "Rx2", SAMPLE_RATE)
 
 '''Create a main QT Window'''
-win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Raw File Output")
+win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="File Output")
 
 '''Visualizing the raw data'''
 
@@ -135,12 +142,13 @@ elif DOMAIN == "time":
 
     # QT does not accept complex data, so we separate IQ samples by their real values from their imaginary values
     fRx1_r = real(fRx1)
-    fRx2_r = real(fRx2)
+    fRx2_r_raw = real(fRx2)
+    fRx2_r_adj = real(DfRx2)
 
     # Time axis
     taxs = arange(NUM_SAMPLES)/SAMPLE_RATE
     
-    # Visualize data
+    # Visualize raw data
     p1 = win_raw.addPlot()
     p1.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
     p1.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
@@ -153,9 +161,27 @@ elif DOMAIN == "time":
     label1.setParentItem(p1)
     label1.setPos(65, 2)
     curve2 = p1.plot(pen=pg.mkPen('r'))
-    curve2.setData(taxs, fRx2_r)
-    label2 = pg.TextItem("Rx2 in RED")
+    curve2.setData(taxs, fRx2_r_raw)
+    label2 = pg.TextItem("Rx2 (raw) in RED")
     label2.setParentItem(p1)
+    label2.setPos(65, 24) # Change Y position for each label
+
+    # Visualize synced data
+    p2 = win_raw.addPlot()
+    p2.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
+    p2.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
+    p2.setYRange(-2, 2, padding=0)
+    # p1.setXRange(0, 0.25, padding=0)
+    # Change the pen to any other color for clarity - 'b' is blue
+    curve1 = p2.plot(pen=pg.mkPen('b'))
+    curve1.setData(taxs, fRx1_r)
+    label1 = pg.TextItem("Rx1 in BLUE")
+    label1.setParentItem(p2)
+    label1.setPos(65, 2)
+    curve2 = p2.plot(pen=pg.mkPen('r'))
+    curve2.setData(taxs, fRx2_r_adj)
+    label2 = pg.TextItem("Rx2 (adjusted) in RED")
+    label2.setParentItem(p2)
     label2.setPos(65, 24) # Change Y position for each label
     
 else: 
