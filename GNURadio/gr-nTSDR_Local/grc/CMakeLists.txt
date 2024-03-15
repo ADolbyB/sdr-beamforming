@@ -7,9 +7,5 @@
 #
 
 install(FILES
-    nTSDR_Local_vector_sink_cn.xml 
-    DESTINATION share/gnuradio/grc/blocks
-)
-install(FILES
     nTSDR_Local_phaseLock_Local.block.yml DESTINATION share/gnuradio/grc/blocks
 )

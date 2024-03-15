@@ -82,7 +82,7 @@ def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
     #     return Rx_data
 
     # return Rx_data * np.exp(1j*np.deg2rad(phase_diff))
-    return Rx_data * (exp(1j*np.deg2rad(phase_diff)))
+    return Rx_data * (np.exp(1j*np.deg2rad(phase_diff)))
     
 
 ''' File names go here '''

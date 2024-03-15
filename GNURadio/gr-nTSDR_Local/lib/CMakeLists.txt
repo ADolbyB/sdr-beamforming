@@ -11,10 +11,8 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND nTSDR_Local_sources
-    vector_sink_cn_impl.cc )
+)
 
 set(nTSDR_Local_sources "${nTSDR_Local_sources}" PARENT_SCOPE)
 if(NOT nTSDR_Local_sources)
@@ -22,17 +20,16 @@ if(NOT nTSDR_Local_sources)
     return()
 endif(NOT nTSDR_Local_sources)
 
-add_library(nTSDR_Local SHARED ${nTSDR_Local_sources})
-# target_link_libraries(nTSDR_Local ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
-target_link_libraries(nTSDR_Local gnuradio::gnuradio-runtime)
-target_include_directories(nTSDR_Local
+add_library(gnuradio-nTSDR_Local SHARED ${nTSDR_Local_sources})
+target_link_libraries(gnuradio-nTSDR_Local gnuradio::gnuradio-runtime)
+target_include_directories(gnuradio-nTSDR_Local
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
-set_target_properties(nTSDR_Local PROPERTIES DEFINE_SYMBOL "nTSDR_Local_EXPORTS")
+set_target_properties(gnuradio-nTSDR_Local PROPERTIES DEFINE_SYMBOL "gnuradio_nTSDR_Local_EXPORTS")
 
 if(APPLE)
-    set_target_properties(nTSDR_Local PROPERTIES
+    set_target_properties(gnuradio-nTSDR_Local PROPERTIES
         INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
     )
 endif(APPLE)
@@ -41,13 +38,7 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-GR_LIBRARY_FOO(nTSDR_Local)
-install(TARGETS nTSDR_Local
-    LIBRARY DESTINATION lib${LIB_SUFFIX} # .so/.dylib file
-    ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
-    RUNTIME DESTINATION bin              # .dll file
-)
-
+GR_LIBRARY_FOO(gnuradio-nTSDR_Local)
 
 ########################################################################
 # Print summary
@@ -66,7 +57,7 @@ include(GrTest)
 list(APPEND test_nTSDR_Local_sources
 )
 # Anything we need to link to for the unit tests go here
-list(APPEND GR_TEST_TARGET_DEPS nTSDR_Local)
+list(APPEND GR_TEST_TARGET_DEPS gnuradio-nTSDR_Local)
 
 if(NOT test_nTSDR_Local_sources)
     MESSAGE(STATUS "No C++ unit tests... skipping")

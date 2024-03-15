@@ -12,14 +12,10 @@ description here (python/__init__.py).
 '''
 import os
 
-# import swig generated symbols into the nTSDR namespace
-import nTSDR_Local_swig
-
-
 # import pybind11 generated symbols into the nTSDR_Local namespace
 try:
     # this might fail if the module is python-only
-    import nTSDR_Local_python 
+    from .nTSDR_Local_python import *
 except ModuleNotFoundError:
     pass
 

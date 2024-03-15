@@ -13,7 +13,7 @@
 
 #include <gnuradio/attributes.h>
 
-#ifdef nTSDR_Local_EXPORTS
+#ifdef gnuradio_nTSDR_Local_EXPORTS
 #define NTSDR_LOCAL_API __GR_ATTR_EXPORT
 #else
 #define NTSDR_LOCAL_API __GR_ATTR_IMPORT

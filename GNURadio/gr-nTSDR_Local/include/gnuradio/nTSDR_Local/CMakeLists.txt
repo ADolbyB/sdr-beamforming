@@ -11,5 +11,5 @@
 ########################################################################
 install(FILES
     api.h
-    vector_sink_cn.h DESTINATION include/nTSDR_Local
+    DESTINATION include/gnuradio/nTSDR_Local
 )
