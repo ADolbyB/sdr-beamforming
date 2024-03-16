@@ -241,8 +241,8 @@ blocks:
     gain1: '''manual'''
     gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '30'
-    manual_gain2: '30'
+    manual_gain1: '64'
+    manual_gain2: '64'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
@@ -427,7 +427,7 @@ blocks:
     bus_structure: null
     coordinate: [720, 428.0]
     rotation: 0
-    state: true
+    state: disabled
 - name: qtgui_time_sink_x_0_0
   id: qtgui_time_sink_x
   parameters:
@@ -524,7 +524,7 @@ blocks:
     bus_structure: null
     coordinate: [720, 508.0]
     rotation: 0
-    state: true
+    state: disabled
 
 connections:
 - [analog_sig_source_x_0, '0', blocks_file_sink_0, '0']
