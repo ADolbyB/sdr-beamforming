@@ -1,13 +1,16 @@
+## JB: Ignore any compliled binary with no extension:
 # Ignore All:
 *
-
 # Unignore all files with extensions:
 !*.*
-
 # Unignore all directories:
 !*/
 
-## JB: The above lines make it so any binary with no extension is ignored
+# ignore all libraries
+lib/
+
+# unignore the multi-rtl libraries
+!**/multi-rtl-master/lib
 
 # JB: Raw IQ Samples from testing
 *.iq
@@ -31,7 +34,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
