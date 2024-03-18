@@ -10,7 +10,7 @@
 lib/
 
 # unignore the multi-rtl libraries
-!**/multi-rtl-master/lib
+!**/multiRTL/lib
 
 # JB: Raw IQ Samples from testing
 *.iq
