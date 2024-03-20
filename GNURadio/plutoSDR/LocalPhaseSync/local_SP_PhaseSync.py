@@ -100,10 +100,10 @@ class local_SP_PhaseSync(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0.set_samplerate(samp_rate)
         if True:
             self.iio_fmcomms2_source_0.set_gain_mode(0, 'manual')
-            self.iio_fmcomms2_source_0.set_gain(0, 64)
+            self.iio_fmcomms2_source_0.set_gain(0, 40)
         if True:
             self.iio_fmcomms2_source_0.set_gain_mode(1, 'manual')
-            self.iio_fmcomms2_source_0.set_gain(1, 64)
+            self.iio_fmcomms2_source_0.set_gain(1, 40)
         self.iio_fmcomms2_source_0.set_quadrature(True)
         self.iio_fmcomms2_source_0.set_rfdc(True)
         self.iio_fmcomms2_source_0.set_bbdc(True)

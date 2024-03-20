@@ -241,8 +241,8 @@ blocks:
     gain1: '''manual'''
     gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '64'
-    manual_gain2: '64'
+    manual_gain1: '40'
+    manual_gain2: '40'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'

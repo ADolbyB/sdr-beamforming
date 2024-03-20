@@ -103,7 +103,7 @@ NUM_SAMPLES = fRx1.shape[0] # this ensures that it is relative to what is captur
 '''Cross-Correlation and Delay Values'''
 # DfRx2 = fRx2
 DfRx2 = compute_and_set_delay(fRx1, fRx2, "Rx2", SAMPLE_RATE)
-DfRx2 = compute_and_set_delay(fRx1, DfRx2, "Rx2", SAMPLE_RATE)
+nil = compute_and_set_delay(fRx1, DfRx2, "Rx2", SAMPLE_RATE)
 
 '''Create a main QT Window'''
 win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="File Output")
@@ -174,16 +174,16 @@ elif DOMAIN == "time":
     p2.setYRange(-2, 2, padding=0)
     # p1.setXRange(0, 0.25, padding=0)
     # Change the pen to any other color for clarity - 'b' is blue
-    curve1 = p2.plot(pen=pg.mkPen('b'))
-    curve1.setData(taxs, fRx1_r)
-    label1 = pg.TextItem("Rx1 in BLUE")
-    label1.setParentItem(p2)
-    label1.setPos(65, 2)
-    curve2 = p2.plot(pen=pg.mkPen('r'))
-    curve2.setData(taxs, fRx2_r_adj)
-    label2 = pg.TextItem("Rx2 (adjusted) in RED")
-    label2.setParentItem(p2)
-    label2.setPos(65, 24) # Change Y position for each label
+    curve3 = p2.plot(pen=pg.mkPen('b'))
+    curve3.setData(taxs, fRx1_r)
+    label3 = pg.TextItem("Rx1 in BLUE")
+    label3.setParentItem(p2)
+    label3.setPos(65, 2)
+    curve4 = p2.plot(pen=pg.mkPen('r'))
+    curve4.setData(taxs, fRx2_r_adj)
+    label4 = pg.TextItem("Rx2 (adjusted) in RED")
+    label4.setParentItem(p2)
+    label4.setPos(65, 24) # Change Y position for each label
     
 else: 
     raise ValueError(print("Not a valid domain type."))
