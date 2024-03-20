@@ -38,11 +38,13 @@ Note that `root` password = `analog`
 
 </div>
 
+Please note: 
+- The PlutoSDR being modded in this case MUST HAVE A u.FL on the board for an external clock source!! 
+- Make sure to check. The early revision PlutoSDRs did not have them.
+
 <div align="center">
 
-Pluto Settings to accept an external 40MHz clock source 
-    
-Please note: The PlutoSDR being modded in this case MUST HAVE A u.FL on the board for an external clock source!! Make sure to check. The early revision PlutoSDRs did not have them.
+Pluto Settings to accept an external 40MHz clock source:
 
 <img src="./assets/extClock.png" alt="Pluto SDR Before Mod" width="600"/><br>
 
@@ -53,6 +55,20 @@ Please note: The PlutoSDR being modded in this case MUST HAVE A u.FL on the boar
 Again, Verify the changed settings:
 
 <img src="./assets/checkClockMod.png" alt="Pluto SDR After Mod" width="600"/><br>
+
+</div>
+
+## Using a PlutoSDR with GNU Radio
+
+If the PlutoSDR in use has the 2 Channel Tx & 2 Channel Rx Modification:
+To access all channels use the following blocks:
+- `FMComms2/3/4 Sink`
+- `FMComms2/3/4 Source`
+- See Screenshot from GNU Radio Companion:
+
+<div align="center">
+
+<img src="./assets/FMCommsBlock.png" alt="Pluto Source and Sink Blocks" width="400"/><br>
 
 </div>
 

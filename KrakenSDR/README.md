@@ -52,6 +52,11 @@
 - [Arrow Antennas 5 Element Dipole Array](https://www.arrowantennas.com/arrowii/krsdr.html): A Tower mount 5 channel antenna for direction finding with the KrakenSDR.
 - [KiwiSDR Resources](http://kiwisdr.com/)
 
+## Alternatives to KrakenSDR Multi-Channel Phase Coherent SDR:
+
+- The $2,165.00 Ettus [USRB B210](https://www.ettus.com/all-products/ub210-kit/) 2 channel phase coherent transceiver.
+
+
 ## Current Issues:
 
 Please see my GitHub [Issue #5](https://github.com/krakenrf/gr-krakensdr/issues/5) regarding KrakenSDR and GNURadio.
@@ -60,6 +65,11 @@ Please see my GitHub [Issue #5](https://github.com/krakenrf/gr-krakensdr/issues/
 - The root cause comes from the `rtlsdr_demod_write_reg failed with -9` error in the `rtl_daq.log` file.
     - Per user KrakenRF: "This is the core problem. This usually means that there is some problem communicating with the KrakenSDR. So most likely a USB data cable problem. Please try another high quality USB cable, and also try the ports on the back of your PC. Sometimes the ports on the front of desktop computers are internally connected with very low quality cabling, and so they won't work well with high data rate devices."
     - At the moment, no solution for this problem has been found.
+
+## Known Issues:
+
+- [Cross Correlation Sample and Phase Coherent Check](https://github.com/krakenrf/heimdall_daq_fw/issues/7)
+- [Exception Failed to put IQ Samples into the Queue](https://github.com/krakenrf/heimdall_daq_fw/issues/7)
 
 ## Notes on KrakenSDR Power Requirements:
 

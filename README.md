@@ -89,14 +89,14 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 ### Test Equipment:
 
-- ~ $150 TinySA Handheld Spectrum Analyzer: [tinySA Home](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage)
+- The ~ $150 TinySA Handheld Spectrum Analyzer: [tinySA Home](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage)
     - [Wiki Page](https://tinysa.org/wiki/pmwiki.php?n=Main.HomePage) and all the supporting docs for the pocket sized Spectrum Ananlyzer ~ 0.1MHz to 5.3GHz range.
 
 - The ~ $120 NanoVNA: [NanoVNA Home](https://nanovna.com/)
     - [Absolute Beginner's Guide to the NanoVNA](http://www.nemarc.org/Absolute_Beginner_Guide_NanoVNA.pdf) downloadable PDF.
     - The [Unofficial NanoVNA User Guide](https://www.qsl.net/g0ftd/other/nano-vna-original/docs/NanoVNA%20User%20Guide-English-reformat-Oct-2-19.pdf) PDF.
     - [NanoVNA Calibration Routine](https://nanovna.com/?page_id=2)
-    - [Rigol's `Basic Measurements with a VNA`](https://www.rigolna.com/pdfs/VNA-Measurements.pdf) downloadable PDF.
+    - Rigol's [`Basic Measurements with a VNA`](https://www.rigolna.com/pdfs/VNA-Measurements.pdf) downloadable PDF.
     - Video: [NanoVNA H4 Setup & Calibration](https://www.youtube.com/watch?v=rQGTG7GuPtM)
     - Video: [How to properly use a NanoVNA V2 Vector Network Analyzer & Smith Chart](https://www.youtube.com/watch?v=_pjcEKQY_Tk)
 
