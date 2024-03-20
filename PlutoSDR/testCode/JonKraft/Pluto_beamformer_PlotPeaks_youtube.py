@@ -32,7 +32,61 @@ print(f'sys.path = {sys.path}')     # Edit JB: may need to add path to PYTHONPAT
 import adi
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy import *
+from pylab import *
 import time
+import math
+
+## The following addition is not written by Jon Kraft and serves to test cross-correlation calculations potentially used for estimating phase offsets between Rx nodes
+
+'''Function for corss-correlation - Krysik'''
+def xcorrelate(X,Y,maxlag):
+    N = max(len(X), len(Y))
+    N_nextpow2 = math.ceil(math.log(N + maxlag,2))
+    M = 2**N_nextpow2
+    if len(X) < M:
+        postpad_X = int(M-len(X)-maxlag)
+    else:
+        postpad_X = 0
+
+    if len(Y) < M:
+        postpad_Y = int(M-len(Y))
+    else:
+        postpad_Y = 0
+        
+    pre  = fft( pad(X, (maxlag,postpad_X), 'constant', constant_values=(0, 0)) )
+    post = fft( pad(Y, (0,postpad_Y), 'constant', constant_values=(0, 0)) )
+    cor  = ifft( pre * conj(post) )
+    R = cor[0:2*maxlag]
+    return R
+
+'''Function for computing and finding delays - Krysik'''
+def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
+
+    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data)/2))
+    max_position = np.argmax(abs(result_corr))
+    delay = len(result_corr)/2-max_position
+
+    phase_diff = result_corr[max_position]/sqrt(mean(real(Rx_data)**2+imag(Rx_data)**2))
+    # phase_diff = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_diff)))
+    phase_diff = angle(phase_diff)/pi*180
+
+    # print ("Delay of ", Rx_name, ": ", delay,' | Phase Diff: ', phase_diff, " [deg]")
+
+    # Set phase amplitude correction
+    # INSERT
+    # phase_amplitude_correction = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_amplitude_correction)))
+
+    # Set delay     
+    # if delay < 0:
+    #     return trimDelay(Rx_data, int(-delay)) # *samp_rate
+    # elif delay > 0:
+    #     return padDelay(Rx_data, int(delay)) # *samp_rate
+    # else:
+    #     return Rx_data
+
+    # return Rx_data * np.exp(1j*np.deg2rad(phase_diff))
+    return phase_diff, delay
 
 '''Setup'''
 samp_rate = 2e6                     # must be <=30.72 MHz if both channels are enabled
@@ -44,7 +98,7 @@ rx_gain1 = 40
 tx_lo = rx_lo
 tx_gain = -3
 fc0 = int(200e3)
-phase_cal = 92
+phase_cal = 0
 num_scans = 500
 Plot_Compass = False
 
@@ -116,6 +170,7 @@ for i in range(num_scans):
     data = sdr.rx()
     Rx_0=data[0]
     Rx_1=data[1]
+    phase_diff, calc_delay = compute_and_set_delay(Rx_0, Rx_1, "Rx_1", samp_rate)
     peak_sum = []
     delay_phases = np.arange(-180, 180, 2)    # phase delay in degrees
     for phase_delay in delay_phases:   
@@ -130,7 +185,9 @@ for i in range(num_scans):
         plt.clf()
         plt.plot(delay_phases, peak_sum)
         plt.axvline(x=peak_delay, color='r', linestyle=':')
-        plt.text(-180, -26, "Peak signal occurs with phase shift = {} deg".format(round(peak_delay,1)))
+        plt.text(-180, -22, "Peak signal occurs with phase shift = {} deg".format(round(peak_delay,1)))
+        plt.text(-180, -24, "Calculated phase offset = {} deg".format(int(phase_diff)))
+        plt.text(-180, -26, "Calculated delay = {}".format(int(calc_delay)))
         plt.text(-180, -28, "If d={}mm, then steering angle = {} deg".format(int(d*1000), steer_angle))
         plt.ylim(top=0, bottom=-30)        
         plt.xlabel("phase shift [deg]")
