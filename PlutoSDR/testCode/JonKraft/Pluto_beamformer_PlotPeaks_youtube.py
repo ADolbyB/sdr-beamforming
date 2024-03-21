@@ -1,9 +1,11 @@
-"""
-Jon Kraft, Oct 30 2022
-https://github.com/jonkraft/Pluto_Beamformer
-video walkthrough of this at:  https://www.youtube.com/@jonkraft
-
-"""
+'''
+Joel Brigida & Peyton Adkins
+Modified Plot Peaks Code for Testing multiple PlutoSDR units simultaneously.
+All modifications are ours: Copyright 2023 Joel Brigida & Peyton Adkins
+'''
+# Jon Kraft, Oct 30 2022
+# https://github.com/jonkraft/Pluto_Beamformer
+# video walkthrough of this at:  https://www.youtube.com/@jonkraft
 # Copyright (C) 2020 Analog Devices, Inc.
 #
 # All rights reserved.
@@ -26,19 +28,31 @@ video walkthrough of this at:  https://www.youtube.com/@jonkraft
 #     - Use of the software either in source or binary form, must be run
 #       on or directly connected to an Analog Devices Inc. component.
 
-import sys
-print(f'sys.path = {sys.path}')     # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+'''
+JB: Valid US ISM Bands: https://en.wikipedia.org/wiki/ISM_radio_band
+Note that ISM bands in the USA do not require a license to operate on.
+The original PlotPeaks used 2.3 GHz which is outside of the ISM band.
+These ISM bands should work with a TX modified PlutoSDR, please use RESPONSIBLY.
+40.66 MHz - 40.7 MHz
+433.05 MHz - 434.79 MHz
+902 MHz - 928 MHz
+2.4 GHz - 2.5 GHz
+5.725 GHz - 5.875 GHz
+'''
 
-import adi
+from sys import path
+print(f'sys.path = {path}')     # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+
+from adi import ad9361
 import matplotlib.pyplot as plt
 import numpy as np
 import time
 
-'''Setup'''
-samp_rate = 2e6                     # must be <=30.72 MHz if both channels are enabled
+''' Setup '''
+samp_rate = 2e6                     # 2e6 = 2MHz: must be <=30.72 MHz if both channels are enabled
 NumSamples = 2**12
-rx_lo = 2.3e9
-rx_mode = "manual"  # can be "manual" or "slow_attack"
+rx_lo = 2.45e9                      # 2.45GHz (Keep it inside the USA ISM band: 2.4GHz - 2.5GHz)
+rx_mode = "manual"                  # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
 tx_lo = rx_lo
@@ -50,44 +64,81 @@ Plot_Compass = False
 
 ''' Set distance between Rx antennas '''
 d_wavelength = 0.5                  # distance between elements as a fraction of wavelength.  This is normally 0.5
-wavelength = 3E8/rx_lo              # wavelength of the RF carrier
-d = d_wavelength*wavelength         # distance between elements in meters
-print("Set distance between Rx Antennas to ", int(d*1000), "mm")
+wavelength = 3E8 / rx_lo            # wavelength of the RF carrier
+d = d_wavelength * wavelength       # distance between elements in meters
+print("Set distance between Rx Antennas to ", int(d * 1000), "mm")
 
-'''Create Radio'''
-sdr = adi.ad9361(uri='ip:192.168.2.1')
+''' Create Radio '''
+sdr1 = ad9361(uri='ip:192.168.2.1') # Pluto #1
+sdr2 = ad9361(uri='ip:192.168.3.1') # Pluto #2
+#sdr3 = ad9361(uri='ip:192.168.4.1') # Pluto #3
+#sdr4 = ad9361(uri='ip:192.168.5.1') # Pluto #4
 
-'''Configure properties for the Radio'''
-sdr.rx_enabled_channels = [0, 1]
-sdr.sample_rate = int(samp_rate)
-sdr.rx_rf_bandwidth = int(fc0*3)
-sdr.rx_lo = int(rx_lo)
-sdr.gain_control_mode = rx_mode
-sdr.rx_hardwaregain_chan0 = int(rx_gain0)
-sdr.rx_hardwaregain_chan1 = int(rx_gain1)
-sdr.rx_buffer_size = int(NumSamples)
-sdr._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
-sdr.tx_rf_bandwidth = int(fc0*3)
-sdr.tx_lo = int(tx_lo)
-sdr.tx_cyclic_buffer = True
-sdr.tx_hardwaregain_chan0 = int(tx_gain)
-sdr.tx_hardwaregain_chan1 = int(-88)
-sdr.tx_buffer_size = int(2**18)
 
-'''Program Tx and Send Data'''
-fs = int(sdr.sample_rate)
-N = 2**16
+''' Configure All PlutoSDR Radio Channels '''
+sdr1.rx_enabled_channels = [0, 1]
+sdr2.rx_enabled_channels = [0, 1]
+# sdr3.rx_enabled_channels = [0, 1]
+# sdr4.rx_enabled_channels = [0, 1]
+sdr1.sample_rate = int(samp_rate)
+sdr2.sample_rate = int(samp_rate)
+# sdr3.sample_rate = int(samp_rate)
+# sdr4.sample_rate = int(samp_rate)
+sdr1.rx_rf_bandwidth = int(fc0 * 3)
+sdr2.rx_rf_bandwidth = int(fc0 * 3)
+# sdr3.rx_rf_bandwidth = int(fc0 * 3)
+# sdr4.rx_rf_bandwidth = int(fc0 * 3)
+sdr1.rx_lo = int(rx_lo)
+sdr2.rx_lo = int(rx_lo)
+# sdr3.rx_lo = int(rx_lo)
+# sdr4.rx_lo = int(rx_lo)
+sdr1.gain_control_mode = rx_mode
+sdr2.gain_control_mode = rx_mode
+# sdr3.gain_control_mode = rx_mode
+# sdr4.gain_control_mode = rx_mode
+sdr1.rx_hardwaregain_chan0 = int(rx_gain0)
+sdr2.rx_hardwaregain_chan0 = int(rx_gain0)
+# sdr3.rx_hardwaregain_chan0 = int(rx_gain0)
+# sdr4.rx_hardwaregain_chan0 = int(rx_gain0)
+sdr1.rx_hardwaregain_chan1 = int(rx_gain1)
+sdr2.rx_hardwaregain_chan1 = int(rx_gain1)
+# sdr3.rx_hardwaregain_chan1 = int(rx_gain1)
+# sdr4.rx_hardwaregain_chan1 = int(rx_gain1)
+sdr1.rx_buffer_size = int(NumSamples)
+sdr2.rx_buffer_size = int(NumSamples)
+# sdr3.rx_buffer_size = int(NumSamples)
+# sdr4.rx_buffer_size = int(NumSamples)
+sdr1._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+sdr2._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+# sdr3._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+# sdr4._rxadc.set_kernel_buffers_count(1)   # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+sdr1.tx_rf_bandwidth = int(fc0 * 3)         # ONLY TX 1 of PlutoSDR 1 will have TX capability.
+sdr1.tx_lo = int(tx_lo)
+sdr1.tx_cyclic_buffer = True
+sdr1.tx_hardwaregain_chan0 = int(tx_gain)   # ONLY TX1 of PlutoSDR 1 is the transmitter.
+sdr2.tx_hardwaregain_chan0 = int(-88)       # Shut Off TX Channel 2 for all Plutos
+# sdr3.tx_hardwaregain_chan0 = int(-88)
+# sdr4.tx_hardwaregain_chan0 = int(-88)
+sdr1.tx_hardwaregain_chan1 = int(-88)
+sdr2.tx_hardwaregain_chan1 = int(-88)
+# sdr3.tx_hardwaregain_chan1 = int(-88)
+# sdr4.tx_hardwaregain_chan1 = int(-88)
+sdr1.tx_buffer_size = int(2 ** 18)
+
+''' Program SDR1 TX1 and Send Data From PlutoSDR 1 to all other RX Nodes '''
+fs = int(sdr1.sample_rate)
+N = 2 ** 16
 ts = 1 / float(fs)
 t = np.arange(0, N * ts, ts)
 i0 = np.cos(2 * np.pi * t * fc0) * 2 ** 14
 q0 = np.sin(2 * np.pi * t * fc0) * 2 ** 14
 iq0 = i0 + 1j * q0
-sdr.tx([iq0,iq0])  # Send Tx data.
+sdr1.tx([iq0, iq0])  # Send Tx data.
 
 xf = np.fft.fftfreq(NumSamples, ts) # Assign frequency bins and "zoom in" to the fc0 signal on those frequency bins
-xf = np.fft.fftshift(xf)/1e6
-signal_start = int(NumSamples*(samp_rate/2+fc0/2)/samp_rate)
-signal_end = int(NumSamples*(samp_rate/2+fc0*2)/samp_rate)
+xf = np.fft.fftshift(xf) / 1e6
+signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
+signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
 def calcTheta(phase):
     # calculates the steering angle for a given phase delta (phase is in deg)
@@ -107,13 +158,13 @@ def dbfs(raw_data):
     s_dbfs = 20*np.log10(np.abs(s_shift)/(2**11))     # Pluto is a signed 12 bit ADC, so use 2^11 to convert to dBFS
     return s_dbfs
 
-'''Collect Data'''
+''' Collect Data '''
 for i in range(20):  
     # let Pluto run for a bit, to do all its calibrations, then get a buffer
-    data = sdr.rx()
+    data = sdr1.rx()
 
 for i in range(num_scans):
-    data = sdr.rx()
+    data = sdr1.rx()
     Rx_0=data[0]
     Rx_1=data[1]
     peak_sum = []
