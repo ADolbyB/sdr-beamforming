@@ -46,6 +46,9 @@ print(f'sys.path = {path}')     # Edit JB: may need to add path to PYTHONPATH fo
 from adi import ad9361
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy import *
+from pylab import *
+import math
 import time
 
 ''' Setup '''
@@ -140,6 +143,39 @@ xf = np.fft.fftshift(xf) / 1e6
 signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
 signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
+'''Function for corss-correlation - Krysik'''
+def xcorrelate(X,Y,maxlag):
+    N = max(len(X), len(Y))
+    N_nextpow2 = math.ceil(math.log(N + maxlag,2))
+    M = 2**N_nextpow2
+    if len(X) < M:
+        postpad_X = int(M-len(X)-maxlag)
+    else:
+        postpad_X = 0
+
+    if len(Y) < M:
+        postpad_Y = int(M-len(Y))
+    else:
+        postpad_Y = 0
+        
+    pre  = fft( pad(X, (maxlag,postpad_X), 'constant', constant_values=(0, 0)) )
+    post = fft( pad(Y, (0,postpad_Y), 'constant', constant_values=(0, 0)) )
+    cor  = ifft( pre * conj(post) )
+    R = cor[0:2*maxlag]
+    return R
+
+'''Function for computing and finding delays - Krysik'''
+def compute_phase_offset(ref_data, Rx_data):
+
+    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data)/2))
+    max_position = np.argmax(abs(result_corr))
+    delay = len(result_corr)/2-max_position
+
+    phase_diff = result_corr[max_position]/sqrt(mean(real(Rx_data)**2+imag(Rx_data)**2))
+    phase_diff = angle(phase_diff)/pi*180
+
+    return int(phase_diff)
+
 def calcTheta(phase):
     # calculates the steering angle for a given phase delta (phase is in deg)
     # steering angle is theta = arcsin(c * deltaphase / (2 * pi * f * d)
@@ -166,6 +202,29 @@ for i in range(20):
     # data3 = sdr3.rx()
     # data4 = sdr4.rx()
 
+'''Calculate and find phase offsets for each Rx node'''
+# This assumes the linear array has the P1Tx node set at 0deg to P1Rx1
+AVERAGING_PHASE = 15
+phase_cal_1a = []
+phase_cal_0b = []
+phase_cal_1b = []
+for i in range(AVERAGING_PHASE):
+    data1 = sdr1.rx()
+    data2 = sdr2.rx()
+    Rx_0a = data1[0]        # PlutoSDR 1, RX 0
+    Rx_1a = data1[1]        # PlutoSDR 1, RX 1
+    Rx_0b = data2[0]        # PlutoSDR 2, RX 0
+    Rx_1b = data2[1]        # PlutoSDR 2, RX 1
+    phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
+    phase_cal_0b.append(compute_phase_offset(Rx_0a, Rx_0b))
+    phase_cal_1b.append(compute_phase_offset(Rx_0a, Rx_1b))
+
+phase_cal_1a = int(sum(phase_cal_1a)/len(phase_cal_1a))
+phase_cal_0b = int(sum(phase_cal_0b)/len(phase_cal_0b))
+phase_cal_1b = int(sum(phase_cal_1b)/len(phase_cal_1b))
+
+'''Scans'''
+AVERAGING_SCANS = 5
 for i in range(num_scans):
     data1 = sdr1.rx()
     data2 = sdr2.rx()
@@ -179,63 +238,89 @@ for i in range(num_scans):
     # Rx_1c = data3[1]      # PlutoSDR 3, RX 1
     # Rx_0d = data4[0]      # PlutoSDR 4, RX 0
     # Rx_1d = data4[1]      # PlutoSDR 4, RX 1
-    peak_sum_1a = []
-    peak_sum_0b = []
-    peak_sum_1b = []
+    # peak_sum_1a = [] X
+    # peak_sum_0b = [] X
+    # peak_sum_1b = [] X
+    peak_sum = []
     
     delay_phases = np.arange(-180, 180, 2)    # Create an Array for -180 - 180 degrees sweep
-    
-    for phase_delay in delay_phases:   
-        delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(phase_delay + phase_cal))    # PlutoSDR 1 RX 1
-        delayed_Rx_0b = Rx_1a * np.exp(1j * np.deg2rad(phase_delay + phase_cal))    # PlutoSDR 2 RX 0
-        delayed_Rx_1b = Rx_1a * np.exp(1j * np.deg2rad(phase_delay + phase_cal))    # PlutoSDR 2 RX 1
-        delayed_sum_rx_1a = dbfs(Rx_0a + delayed_Rx_1a)      # PlutoSDR 1 RX 1
-        delayed_sum_rx_0b = dbfs(Rx_0b + delayed_Rx_0b)      # PlutoSDR 2 RX 0
-        delayed_sum_rx_1b = dbfs(Rx_1b + delayed_Rx_1b)      # PlutoSDR 2 RX 1
-        peak_sum_1a.append(np.max(delayed_sum_rx_1a[signal_start:signal_end]))
-        peak_sum_0b.append(np.max(delayed_sum_rx_0b[signal_start:signal_end]))
-        peak_sum_1b.append(np.max(delayed_sum_rx_1b[signal_start:signal_end]))
-    
-    peak_dbfs_1a = np.max(peak_sum_1a)
-    peak_dbfs_0b = np.max(peak_sum_0b)
-    peak_dbfs_1b = np.max(peak_sum_1b)
-    
-    peak_delay_index_1a = np.where(peak_sum_1a == peak_dbfs_1a)
-    peak_delay_index_0b = np.where(peak_sum_0b == peak_dbfs_0b)
-    peak_delay_index_1b = np.where(peak_sum_1b == peak_dbfs_1b)
-    
-    peak_delay_1a = delay_phases[peak_delay_index_1a[0][0]]
-    peak_delay_0b = delay_phases[peak_delay_index_0b[0][0]]
-    peak_delay_1b = delay_phases[peak_delay_index_1b[0][0]]
-    
-    ## TODO: There maybe an add'l function needed to average the peak delays here
 
-    steer_angle_1a = int(calcTheta(peak_delay_1a))
-    steer_angle_0b = int(calcTheta(peak_delay_0b))
-    steer_angle_1b = int(calcTheta(peak_delay_1b))
+    peak_delay_avg = []
+    for i in range(AVERAGING_SCANS):
+        
+        '''Phase shift by each degree from -180 to 180 and store peak signal'''
+        for phase_delay in delay_phases:   
+            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1*phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
+            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2*phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
+            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3*phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 1
+            delayed_sum = dbfs(Rx_0a + delayed_Rx_1a + delayed_Rx_0b + delayed_Rx_1b) #+ delayed_Rx_0b + delayed_Rx_1b
+            peak_sum.append(np.max(delayed_sum[signal_start:signal_end]))
+            # delayed_sum_rx_1a = dbfs(Rx_0a + delayed_Rx_1a)      # PlutoSDR 1 RX 1 X
+            # delayed_sum_rx_0b = dbfs(Rx_0b + delayed_Rx_0b)      # PlutoSDR 2 RX 0 X
+            # delayed_sum_rx_1b = dbfs(Rx_1b + delayed_Rx_1b)      # PlutoSDR 2 RX 1 X
+            # peak_sum_1a.append(np.max(delayed_sum_rx_1a[signal_start:signal_end])) X
+            # peak_sum_0b.append(np.max(delayed_sum_rx_0b[signal_start:signal_end])) X
+            # peak_sum_1b.append(np.max(delayed_sum_rx_1b[signal_start:signal_end])) X
+        
+        # peak_dbfs_1a = np.max(peak_sum_1a) X
+        # peak_dbfs_0b = np.max(peak_sum_0b) X
+        # peak_dbfs_1b = np.max(peak_sum_1b) X
+        peak_dbfs = np.max(peak_sum)
+        
+        # peak_delay_index_1a = np.where(peak_sum_1a == peak_dbfs_1a) X
+        # peak_delay_index_0b = np.where(peak_sum_0b == peak_dbfs_0b) X
+        # peak_delay_index_1b = np.where(peak_sum_1b == peak_dbfs_1b) X
+        peak_delay_index = np.where(peak_sum == peak_dbfs)
+        
+        # peak_delay_1a = delay_phases[peak_delay_index_1a[0][0]] X
+        # peak_delay_0b = delay_phases[peak_delay_index_0b[0][0]] X
+        # peak_delay_1b = delay_phases[peak_delay_index_1b[0][0]] X
+        peak_delay_avg.append(delay_phases[peak_delay_index[0][0]])
+        
+        ## TODO: Fix / remove current logic for averaging (peak_sum needs to be considered)
 
-    ## TODO: Can we just average the steering angles here? May need add'l logic here
+        # steer_angle_1a = int(calcTheta(peak_delay_1a)) X 
+        # steer_angle_0b = int(calcTheta(peak_delay_0b)) X
+        # steer_angle_1b = int(calcTheta(peak_delay_1b)) X
+
+    peak_delay = int(sum(peak_delay_avg)/len(peak_delay_avg))
+    steer_angle = int(calcTheta(peak_delay))
 
     if Plot_Compass == False:
         plt.clf()
-        plt.plot(delay_phases, peak_sum_1a)     # PlutoSDR 1 RX 1
-        plt.plot(delay_phases, peak_sum_0b)     # PlutoSDR 2 RX 0
-        plt.plot(delay_phases, peak_sum_1b)     # PlutoSDR 2 RX 1
-        plt.axvline(x = peak_delay_1a, color='r', linestyle=':')    # PlutoSDR 1 RX 1
-        plt.axvline(x = peak_delay_0b, color='g', linestyle=':')    # PlutoSDR 2 RX 0
-        plt.axvline(x = peak_delay_1b, color='b', linestyle=':')    # PlutoSDR 2 RX 1
-        plt.text(-180, -22, f'Peak signal 1a occurs with phase shift = {format(round(peak_delay_1a, 1))} deg')
-        plt.text(-180, -24, f'Peak signal 0b occurs with phase shift = {format(round(peak_delay_0b, 1))} deg')
-        plt.text(-180, -26, f'Peak signal 1b occurs with phase shift = {format(round(peak_delay_1b, 1))} deg')
-        plt.text(-180, -28, f'RX 1A: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_1a} deg')
-        plt.text(-180, -30, f'RX 0B: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_0b} deg')
-        plt.text(-180, -32, f'RX 1B: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_1b} deg')
-        plt.ylim(top = 0, bottom = -34)
-        plt.xlabel("Phase Shift [deg]")
-        plt.ylabel("Rx0 + Rx1 [dBfs]")
+        plt.plot(delay_phases, peak_sum)
+        plt.axvline(x=peak_delay, color='r', linestyle=':')
+        plt.text(-180, -22, "Peak signal occurs with phase shift = {} deg".format(round(peak_delay,1)))
+        plt.text(-180, -24, "Phase offset P1_Rx1 = {} deg".format(phase_cal_1a))
+        # plt.text(-180, -25, "Phase offset P2_Rx0 = {} deg".format(phase_cal_0b))
+        # plt.text(-180, -26, "Phase offset P2_Rx1 = {} deg".format(phase_cal_1b))
+        plt.text(-180, -28, "If d={}mm, then steering angle = {} deg".format(int(d*1000), steer_angle))
+        plt.ylim(top=0, bottom=-30)        
+        plt.xlabel("phase shift [deg]")
+        plt.ylabel("P1_Rx0 + P1_Rx1 + P2_Rx0 + P2_Rx1 [dBfs]")
         plt.draw()
         plt.pause(0.05)
         time.sleep(0.1)
+
+        # plt.clf()
+        # plt.plot(delay_phases, peak_sum_1a)     # PlutoSDR 1 RX 1
+        # plt.plot(delay_phases, peak_sum_0b)     # PlutoSDR 2 RX 0
+        # plt.plot(delay_phases, peak_sum_1b)     # PlutoSDR 2 RX 1
+        # plt.axvline(x = peak_delay_1a, color='r', linestyle=':')    # PlutoSDR 1 RX 1
+        # plt.axvline(x = peak_delay_0b, color='g', linestyle=':')    # PlutoSDR 2 RX 0
+        # plt.axvline(x = peak_delay_1b, color='b', linestyle=':')    # PlutoSDR 2 RX 1
+        # plt.text(-180, -22, f'Peak signal 1a occurs with phase shift = {format(round(peak_delay_1a, 1))} deg')
+        # plt.text(-180, -24, f'Peak signal 0b occurs with phase shift = {format(round(peak_delay_0b, 1))} deg')
+        # plt.text(-180, -26, f'Peak signal 1b occurs with phase shift = {format(round(peak_delay_1b, 1))} deg')
+        # plt.text(-180, -28, f'RX 1A: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_1a} deg')
+        # plt.text(-180, -30, f'RX 0B: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_0b} deg')
+        # plt.text(-180, -32, f'RX 1B: If d = {int(d * 1000)}mm, then steering angle = {steer_angle_1b} deg')
+        # plt.ylim(top = 0, bottom = -34)
+        # plt.xlabel("Phase Shift [deg]")
+        # plt.ylabel("Rx0 + Rx1 [dBfs]")
+        # plt.draw()
+        # plt.pause(0.05)
+        # time.sleep(0.1)
 
     else:
         plt.clf()
