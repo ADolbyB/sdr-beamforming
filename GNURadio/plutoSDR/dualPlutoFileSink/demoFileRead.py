@@ -40,7 +40,7 @@ fP5 = pl.fromfile(open(FILE_P5), dtype=np.complex64)
 fP5 = pl.resize(fP5, fP2.shape)
 
 GRAPHS = "all" # stack, raster or all
-DOMAIN = "all" # freq, time or all
+DOMAIN = "time" # freq, time or all
 SAMPLE_RATE = 2e6  # should be the same as it was in GNU Radio
 NUM_SAMPLES = fP2.shape[0] # this ensures that it is relative to what is captured
 
@@ -130,18 +130,18 @@ elif DOMAIN == "freq" and GRAPHS == "raster":
     curve2 = p2.plot(pen=pg.mkPen('r'))
     curve2.setData(xf, fRx2_db)
     label2 = pg.TextItem("P2.1 Rx2 in RED")
-    label2.setParentItem(p1)
-    label2.setPos(65, 24) # Change Y position for each label
+    label2.setParentItem(p2)
+    label2.setPos(65, 2) # Change Y position for each label
     curve3 = p3.plot(pen=pg.mkPen('g'))
     curve3.setData(xf, fRx3_db)
     label3 = pg.TextItem("P3.1 Rx1 in GREEN")
-    label3.setParentItem(p1)
-    label3.setPos(65, 46) # Change Y position for each label
+    label3.setParentItem(p3)
+    label3.setPos(65, 2) # Change Y position for each label
     curve4 = p4.plot(pen=pg.mkPen('y'))
     curve4.setData(xf, fRx4_db)
     label4 = pg.TextItem("P3.1 Rx2 in YELLOW")
-    label4.setParentItem(p1)
-    label4.setPos(65, 68) # Change Y position for each label
+    label4.setParentItem(p4)
+    label4.setPos(65, 2) # Change Y position for each label
 
 elif DOMAIN == "freq" and GRAPHS == "all":
     ## Frequency Domain
@@ -211,18 +211,18 @@ elif DOMAIN == "freq" and GRAPHS == "all":
     curve2a = p3.plot(pen=pg.mkPen('r'))
     curve2a.setData(xf, fRx2_db)
     label2a = pg.TextItem("P2.1 Rx2 in RED")
-    label2a.setParentItem(p2)
-    label2a.setPos(65, 24) # Change Y position for each label
+    label2a.setParentItem(p3)
+    label2a.setPos(65, 2) # Change Y position for each label
     curve3a = p4.plot(pen=pg.mkPen('g'))
     curve3a.setData(xf, fRx3_db)
     label3a = pg.TextItem("P3.1 Rx1 in GREEN")
-    label3a.setParentItem(p2)
-    label3a.setPos(65, 46) # Change Y position for each label
+    label3a.setParentItem(p4)
+    label3a.setPos(65, 2) # Change Y position for each label
     curve4a = p5.plot(pen=pg.mkPen('y'))
     curve4a.setData(xf, fRx4_db)
     label4a = pg.TextItem("P3.1 Rx2 in YELLOW")
-    label4a.setParentItem(p2)
-    label4a.setPos(65, 68) # Change Y position for each label
+    label4a.setParentItem(p5)
+    label4a.setPos(65, 2) # Change Y position for each label
 
 elif DOMAIN == "time":
     ## Time Domain
@@ -292,26 +292,26 @@ elif DOMAIN == "all":
     p1_t.setYRange(-1, 1, padding=0)
 
     # Change the pen for clarity - 'b' is blue
-    curve1 = p1_t.plot(pen=pg.mkPen('b'))
-    curve1.setData(t_ax, fRx1_r)
-    label1 = pg.TextItem("P2.1 Rx1 in BLUE")
-    label1.setParentItem(p1_t)
-    label1.setPos(65, 2)
-    curve2 = p1_t.plot(pen=pg.mkPen('r'))
-    curve2.setData(t_ax, fRx2_r)
-    label2 = pg.TextItem("P2.1 Rx2 in RED")
-    label2.setParentItem(p1_t)
-    label2.setPos(65, 24) # Change Y position for each label
-    curve3 = p1_t.plot(pen=pg.mkPen('g'))
-    curve3.setData(t_ax, fRx3_r)
-    label3 = pg.TextItem("P3.1 Rx1 in GREEN")
-    label3.setParentItem(p1_t)
-    label3.setPos(65, 46) # Change Y position for each label
-    curve4 = p1_t.plot(pen=pg.mkPen('y'))
-    curve4.setData(t_ax, fRx4_r)
-    label4 = pg.TextItem("P3.1 Rx2 in YELLOW")
-    label4.setParentItem(p1_t)
-    label4.setPos(65, 68) # Change Y position for each label
+    curve1_t = p1_t.plot(pen=pg.mkPen('b'))
+    curve1_t.setData(t_ax, fRx1_r)
+    label1_t = pg.TextItem("P2.1 Rx1 in BLUE")
+    label1_t.setParentItem(p1_t)
+    label1_t.setPos(65, 2)
+    curve2_t = p1_t.plot(pen=pg.mkPen('r'))
+    curve2_t.setData(t_ax, fRx2_r)
+    label2_t = pg.TextItem("P2.1 Rx2 in RED")
+    label2_t.setParentItem(p1_t)
+    label2_t.setPos(65, 24) # Change Y position for each label
+    curve3_t = p1_t.plot(pen=pg.mkPen('g'))
+    curve3_t.setData(t_ax, fRx3_r)
+    label3_t = pg.TextItem("P3.1 Rx1 in GREEN")
+    label3_t.setParentItem(p1_t)
+    label3_t.setPos(65, 46) # Change Y position for each label
+    curve4_t = p1_t.plot(pen=pg.mkPen('y'))
+    curve4_t.setData(t_ax, fRx4_r)
+    label4_t = pg.TextItem("P3.1 Rx2 in YELLOW")
+    label4_t.setParentItem(p1_t)
+    label4_t.setPos(65, 68) # Change Y position for each label
 
     ''' Freq Domain Display: 2 Windows '''
     fs = int(SAMPLE_RATE)                       # frequency size
@@ -375,18 +375,18 @@ elif DOMAIN == "all":
     curve2a = p3.plot(pen=pg.mkPen('r'))
     curve2a.setData(xf, fRx2_db)
     label2a = pg.TextItem("P2.1 Rx2 in RED")
-    label2a.setParentItem(p2)
-    label2a.setPos(65, 24) # Change Y position for each label
+    label2a.setParentItem(p3)
+    label2a.setPos(65, 2) # Change Y position for each label
     curve3a = p4.plot(pen=pg.mkPen('g'))
     curve3a.setData(xf, fRx3_db)
     label3a = pg.TextItem("P3.1 Rx1 in GREEN")
-    label3a.setParentItem(p2)
-    label3a.setPos(65, 46) # Change Y position for each label
+    label3a.setParentItem(p4)
+    label3a.setPos(65, 2) # Change Y position for each label
     curve4a = p5.plot(pen=pg.mkPen('y'))
     curve4a.setData(xf, fRx4_db)
     label4a = pg.TextItem("P3.1 Rx2 in YELLOW")
-    label4a.setParentItem(p2)
-    label4a.setPos(65, 68) # Change Y position for each label
+    label4a.setParentItem(p5)
+    label4a.setPos(65, 2) # Change Y position for each label
     
 else: 
     raise ValueError(print("Not a valid domain/graph type."))
