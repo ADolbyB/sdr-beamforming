@@ -38,6 +38,17 @@ These ISM bands should work with a TX modified PlutoSDR, please use RESPONSIBLY.
 902 MHz - 928 MHz
 2.4 GHz - 2.5 GHz
 5.725 GHz - 5.875 GHz
+
+Note 1) on Pluto TX Gain Settings: https://wiki.gnuradio.org/index.php/PlutoSDR_Sink
+Attenuation TX1 (dB):
+Controls attenuation for TX1. The range is from 0 to 89.75 dB in 0.25dB steps. Note: Maximum output occurs at 0 attenuation.
+** In python, this must be a negative number, but in GNU Radio the number is positive.
+
+Note 2) Pluto RX Gain Settings: https://wiki.gnuradio.org/index.php/PlutoSDR_Source
+RF Bandwidth:
+Configures RX analog filters: RX TIA LPF and RX BB LPF. limits: >= 200000 and <= 52000000
+Manual Gain (Rx1)(dB):
+gain value, max of 71 dB, or 62 dB when over 4 GHz center freq
 '''
 
 from sys import path
@@ -46,37 +57,34 @@ print(f'sys.path = {path}')     # Edit JB: may need to add path to PYTHONPATH fo
 from adi import ad9361
 import matplotlib.pyplot as plt
 import numpy as np
-from numpy import *
-from pylab import *
+import pylab as pl
 import math
 import time
 
 ''' Setup '''
 samp_rate = 2e6                     # 2e6 = 2MHz: must be <=30.72 MHz if both channels are enabled
 NumSamples = 2**12
-rx_lo = 2.3e9                      # 2.45GHz (Keep it inside the USA ISM band: 2.4GHz - 2.5GHz)
+rx_lo = 915e6                       # 915 MHz (Keep it inside the USA ISM band: 902 - 928 MHz)
 rx_mode = "manual"                  # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
 tx_lo = rx_lo
-tx_gain = -3
+tx_gain = -9
 fc0 = int(200e3)
-phase_cal = 92
 num_scans = 500
 Plot_Compass = False
 
 ''' Set distance between Rx antennas '''
 d_wavelength = 0.5                  # distance between elements as a fraction of wavelength.  This is normally 0.5
-wavelength = 3E8 / rx_lo            # wavelength of the RF carrier
+wavelength = 3e8 / rx_lo            # wavelength of the RF carrier
 d = d_wavelength * wavelength       # distance between elements in meters
-print("Set distance between Rx Antennas to ", int(d * 1000), "mm")
+print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
 ''' Create Radio '''
 sdr1 = ad9361(uri='ip:192.168.2.1') # Pluto #1
-sdr2 = ad9361(uri='ip:192.168.3.1') # Pluto #2
+sdr2 = ad9361(uri='ip:192.168.4.1') # Pluto #2
 #sdr3 = ad9361(uri='ip:192.168.4.1') # Pluto #3
 #sdr4 = ad9361(uri='ip:192.168.5.1') # Pluto #4
-
 
 ''' Configure All PlutoSDR Radio Channels '''
 sdr1.rx_enabled_channels = [0, 1]
@@ -126,15 +134,17 @@ sdr1.tx_hardwaregain_chan1 = int(-88)
 sdr2.tx_hardwaregain_chan1 = int(-88)
 # sdr3.tx_hardwaregain_chan1 = int(-88)
 # sdr4.tx_hardwaregain_chan1 = int(-88)
-sdr1.tx_buffer_size = int(2 ** 18)
+sdr1.tx_buffer_size = int(2**18)            # TX Buffer size: 2^18 = 262144
 
 ''' Program SDR1 TX1 and Send Data From PlutoSDR 1 to all other RX Nodes '''
+# TODO: Implement a Barker Code (?) that continuously repeats.
+
 fs = int(sdr1.sample_rate)
-N = 2 ** 16
+N = 2**16
 ts = 1 / float(fs)
 t = np.arange(0, N * ts, ts)
-i0 = np.cos(2 * np.pi * t * fc0) * 2 ** 14
-q0 = np.sin(2 * np.pi * t * fc0) * 2 ** 14
+i0 = np.cos(2 * np.pi * t * fc0) * 2**14
+q0 = np.sin(2 * np.pi * t * fc0) * 2**14
 iq0 = i0 + 1j * q0
 sdr1.tx([iq0, iq0])  # Send Tx data.
 
@@ -143,43 +153,45 @@ xf = np.fft.fftshift(xf) / 1e6
 signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
 signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
-'''Function for corss-correlation - Krysik'''
+
+''' Function for cross-correlation - Krysik '''
+
 def xcorrelate(X,Y,maxlag):
     N = max(len(X), len(Y))
     N_nextpow2 = math.ceil(math.log(N + maxlag,2))
     M = 2**N_nextpow2
     if len(X) < M:
-        postpad_X = int(M-len(X)-maxlag)
+        postpad_X = int(M - len(X) - maxlag)
     else:
         postpad_X = 0
 
     if len(Y) < M:
-        postpad_Y = int(M-len(Y))
+        postpad_Y = int(M - len(Y))
     else:
         postpad_Y = 0
         
-    pre  = fft( pad(X, (maxlag,postpad_X), 'constant', constant_values=(0, 0)) )
-    post = fft( pad(Y, (0,postpad_Y), 'constant', constant_values=(0, 0)) )
-    cor  = ifft( pre * conj(post) )
-    R = cor[0:2*maxlag]
+    pre = pl.fft(pl.pad(X, (maxlag,postpad_X), 'constant', constant_values=(0, 0)))
+    post = pl.fft(pl.pad(Y, (0,postpad_Y), 'constant', constant_values=(0, 0)))
+    cor = pl.ifft(pre * pl.conj(post))
+    R = cor[0:2 * maxlag]
     return R
 
-'''Function for computing and finding delays - Krysik'''
+''' Function for computing and finding delays - Krysik '''
 def compute_phase_offset(ref_data, Rx_data):
 
-    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data)/2))
+    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data) / 2))
     max_position = np.argmax(abs(result_corr))
-    delay = len(result_corr)/2-max_position
+    delay = len(result_corr) / 2 - max_position
 
-    phase_diff = result_corr[max_position]/sqrt(mean(real(Rx_data)**2+imag(Rx_data)**2))
-    phase_diff = angle(phase_diff)/pi*180
+    phase_diff = result_corr[max_position] / pl.sqrt(pl.mean(pl.real(Rx_data)**2 + pl.imag(Rx_data)**2))
+    phase_diff = pl.angle(phase_diff)/ pl.pi * 180
 
     return int(phase_diff)
 
 def calcTheta(phase):
     # calculates the steering angle for a given phase delta (phase is in deg)
     # steering angle is theta = arcsin(c * deltaphase / (2 * pi * f * d)
-    arcsin_arg = np.deg2rad(phase) * 3E8 / (2 * np.pi * rx_lo * d)
+    arcsin_arg = np.deg2rad(phase) * 3e8 / (2 * np.pi * rx_lo * d)
     arcsin_arg = max(min(1, arcsin_arg), -1) # arcsin argument must be between 1 and -1, or numpy will throw a warning
     calc_theta = np.rad2deg(np.arcsin(arcsin_arg))
     return calc_theta
@@ -203,7 +215,7 @@ for i in range(20):
 # for i in range(20):  
 #     data2 = sdr2.rx()
 
-'''Calculate and find phase offsets for each Rx node'''
+''' Calculate and find phase offsets for each Rx node '''
 # This assumes the linear array has the P1Tx node set at 0deg to P1Rx1
 AVERAGING_PHASE = 15
 phase_cal_1a = []
@@ -224,7 +236,7 @@ phase_cal_1a = int(sum(phase_cal_1a)/len(phase_cal_1a))
 phase_cal_0b = int(sum(phase_cal_0b)/len(phase_cal_0b))
 phase_cal_1b = int(sum(phase_cal_1b)/len(phase_cal_1b))
 
-'''Scans'''
+''' Scans '''
 AVERAGING_SCANS = 1
 for i in range(num_scans):
     data1 = sdr1.rx()
@@ -251,12 +263,12 @@ for i in range(num_scans):
     for phase_delay in delay_phases:   
         peak_sum_avg = []
         for i in range(AVERAGING_SCANS):
-            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1*phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
-            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2*phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
-            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3*phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 1
+            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
+            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
+            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 1
             delayed_sum = dbfs(Rx_0a + delayed_Rx_1a) #+ delayed_Rx_0b + delayed_Rx_1b
             peak_sum_avg.append(delayed_sum[signal_start:signal_end])
-        peak_sum_value = sum(peak_sum_avg)/len(peak_sum_avg)
+        peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
         peak_sum.append(np.max(peak_sum_value)) # np.max(delayed_sum[signal_start:signal_end])
     
     peak_dbfs = np.max(peak_sum)
@@ -268,12 +280,12 @@ for i in range(num_scans):
         plt.clf()
         plt.plot(delay_phases, peak_sum)
         plt.axvline(x=peak_delay, color='r', linestyle=':')
-        plt.text(-180, -22, "Peak signal occurs with phase shift = {} deg".format(round(peak_delay,1)))
-        plt.text(-180, -24, "Phase offset P1_Rx1 = {} deg".format(phase_cal_1a))
-        plt.text(-180, -25, "Phase offset P2_Rx0 = {} deg".format(phase_cal_0b))
-        plt.text(-180, -26, "Phase offset P2_Rx1 = {} deg".format(phase_cal_1b))
-        plt.text(-180, -28, "If d={}mm, then steering angle = {} deg".format(int(d*1000), steer_angle))
-        plt.ylim(top=0, bottom=-90)        
+        plt.text(-180, -20, f'Peak signal occurs with phase shift = {round(peak_delay,1)} deg')
+        plt.text(-180, -24, f'Phase offset P1_Rx1 = {phase_cal_1a} deg')
+        plt.text(-180, -28, f'Phase offset P2_Rx0 = {phase_cal_0b} deg')
+        plt.text(-180, -32, f'Phase offset P2_Rx1 = {phase_cal_1b} deg')
+        plt.text(-180, -36, f'If d = {int(d*1000)}mm, then steering angle = {steer_angle} deg')
+        plt.ylim(top=10, bottom=-100)        
         plt.xlabel("phase shift [deg]")
         plt.ylabel("P1_Rx0 + P1_Rx1 + P2_Rx0 + P2_Rx1 [dBfs]")
         plt.draw()
@@ -290,12 +302,12 @@ for i in range(num_scans):
         ax.set_thetamax(90)
         ax.set_rlim(bottom=-20, top=0)
         ax.set_yticklabels([])
-        ax.vlines(np.deg2rad(steer_angle_0b), 0, -20)
-        ax.vlines(np.deg2rad(steer_angle_1a), 0, -20)
-        ax.vlines(np.deg2rad(steer_angle_1b), 0, -20)
-        ax.text(-2, -12, f'P1 RX1 Steering Angle: {steer_angle_0b} deg')
-        ax.text(-2, -14, f'P2 RX0 Steering Angle: {steer_angle_1a} deg')
-        ax.text(-2, -16, f'P2 RX1 Steering Angle: {steer_angle_1b} deg')
+        # ax.vlines(np.deg2rad(steer_angle_0b), 0, -20)
+        # ax.vlines(np.deg2rad(steer_angle_1a), 0, -20)
+        # ax.vlines(np.deg2rad(steer_angle_1b), 0, -20)
+        # ax.text(-2, -12, f'P1 RX1 Steering Angle: {steer_angle_0b} deg')
+        # ax.text(-2, -14, f'P2 RX0 Steering Angle: {steer_angle_1a} deg')
+        # ax.text(-2, -16, f'P2 RX1 Steering Angle: {steer_angle_1b} deg')
         plt.draw()
         plt.pause(0.05)
         time.sleep(0.1)
