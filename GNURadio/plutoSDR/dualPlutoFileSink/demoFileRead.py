@@ -124,22 +124,22 @@ elif DOMAIN == "freq" and GRAPHS == "raster":
     # Change the pen to any other color for clarity - 'b' is blue
     curve1 = p1.plot(pen=pg.mkPen('b'))
     curve1.setData(xf, fRx1_db)
-    label1 = pg.TextItem("Pluto 2.1 Rx1 in BLUE")
+    label1 = pg.TextItem("P2.1 Rx1 in BLUE")
     label1.setParentItem(p1)
     label1.setPos(65, 2)
     curve2 = p2.plot(pen=pg.mkPen('r'))
     curve2.setData(xf, fRx2_db)
-    label2 = pg.TextItem("Pluto 2.1 Rx2 in RED")
+    label2 = pg.TextItem("P2.1 Rx2 in RED")
     label2.setParentItem(p1)
     label2.setPos(65, 24) # Change Y position for each label
     curve3 = p3.plot(pen=pg.mkPen('g'))
     curve3.setData(xf, fRx3_db)
-    label3 = pg.TextItem("Pluto 3.1 Rx1 in GREEN")
+    label3 = pg.TextItem("P3.1 Rx1 in GREEN")
     label3.setParentItem(p1)
     label3.setPos(65, 46) # Change Y position for each label
     curve4 = p4.plot(pen=pg.mkPen('y'))
     curve4.setData(xf, fRx4_db)
-    label4 = pg.TextItem("Pluto 3.1 Rx2 in YELLOW")
+    label4 = pg.TextItem("P3.1 Rx2 in YELLOW")
     label4.setParentItem(p1)
     label4.setPos(65, 68) # Change Y position for each label
 
@@ -188,7 +188,7 @@ elif DOMAIN == "freq" and GRAPHS == "all":
     label4.setParentItem(p1)
     label4.setPos(65, 68) # Change Y position for each label
     
-    # Visualize data
+    # Visualize data: Window 2 (Raster)
     p2 = win_raw2.addPlot()
     p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
     p2.setLabel('left', 'Relative Gain - Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
@@ -205,52 +205,66 @@ elif DOMAIN == "freq" and GRAPHS == "all":
     # Change the pen to any other color for clarity - 'b' is blue
     curve1a = p2.plot(pen=pg.mkPen('b'))
     curve1a.setData(xf, fRx1_db)
-    label1a = pg.TextItem("Pluto 2.1 Rx1 in BLUE")
+    label1a = pg.TextItem("P2.1 Rx1 in BLUE")
     label1a.setParentItem(p2)
     label1a.setPos(65, 2)
     curve2a = p3.plot(pen=pg.mkPen('r'))
     curve2a.setData(xf, fRx2_db)
-    label2a = pg.TextItem("Pluto 2.1 Rx2 in RED")
+    label2a = pg.TextItem("P2.1 Rx2 in RED")
     label2a.setParentItem(p2)
     label2a.setPos(65, 24) # Change Y position for each label
     curve3a = p4.plot(pen=pg.mkPen('g'))
     curve3a.setData(xf, fRx3_db)
-    label3a = pg.TextItem("Pluto 3.1 Rx1 in GREEN")
+    label3a = pg.TextItem("P3.1 Rx1 in GREEN")
     label3a.setParentItem(p2)
     label3a.setPos(65, 46) # Change Y position for each label
     curve4a = p5.plot(pen=pg.mkPen('y'))
     curve4a.setData(xf, fRx4_db)
-    label4a = pg.TextItem("Pluto 3.1 Rx2 in YELLOW")
+    label4a = pg.TextItem("P3.1 Rx2 in YELLOW")
     label4a.setParentItem(p2)
     label4a.setPos(65, 68) # Change Y position for each label
 
-# elif DOMAIN == "time":
-#     # # # Time Domain
-
-#     # QT does not accept complex data, so we separate IQ samples by their real values from their imaginary values
-#     fRx1_r = real(fRx1)
-#     fRx2_r = real(fRx2)
-
-#     # Time axis
-#     taxs = arange(NUM_SAMPLES)/SAMPLE_RATE
+elif DOMAIN == "time":
+    ## Time Domain
+    ''' Create a main QT Window '''
+    win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Raw File Output")
     
-#     # Visualize data
-#     p1 = win_raw.addPlot()
-#     p1.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
-#     p1.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
-#     p1.setYRange(-2, 2, padding=0)
-#     # p1.setXRange(0, 0.25, padding=0)
-#     # Change the pen to any other color for clarity - 'b' is blue
-#     curve1 = p1.plot(pen=pg.mkPen('b'))
-#     curve1.setData(taxs, fRx1_r)
-#     label1 = pg.TextItem("Rx1 in BLUE")
-#     label1.setParentItem(p1)
-#     label1.setPos(65, 2)
-#     curve2 = p1.plot(pen=pg.mkPen('r'))
-#     curve2.setData(taxs, fRx2_r)
-#     label2 = pg.TextItem("Rx2 in RED")
-#     label2.setParentItem(p1)
-#     label2.setPos(65, 24) # Change Y position for each label
+    # QT does not accept complex data, so we separate IQ samples by their real values from their imaginary values
+    fRx1_r = np.real(fP2)
+    fRx2_r = np.real(fP3)
+    fRx3_r = np.real(fP4)
+    fRx4_r = np.real(fP5)
+
+    # Time axis
+    t_ax = np.arange(NUM_SAMPLES) / SAMPLE_RATE
+    
+    # Visualize data
+    p1 = win_raw.addPlot()
+    p1.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
+    p1.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
+    p1.setYRange(-1, 1, padding=0)
+
+    # Change the pen for clarity - 'b' is blue
+    curve1 = p1.plot(pen=pg.mkPen('b'))
+    curve1.setData(t_ax, fRx1_r)
+    label1 = pg.TextItem("P2.1 Rx1 in BLUE")
+    label1.setParentItem(p1)
+    label1.setPos(65, 2)
+    curve2 = p1.plot(pen=pg.mkPen('r'))
+    curve2.setData(t_ax, fRx2_r)
+    label2 = pg.TextItem("P2.1 Rx2 in RED")
+    label2.setParentItem(p1)
+    label2.setPos(65, 24) # Change Y position for each label
+    curve3 = p1.plot(pen=pg.mkPen('g'))
+    curve3.setData(t_ax, fRx3_r)
+    label3 = pg.TextItem("P3.1 Rx1 in GREEN")
+    label3.setParentItem(p1)
+    label3.setPos(65, 46) # Change Y position for each label
+    curve4 = p1.plot(pen=pg.mkPen('y'))
+    curve4.setData(t_ax, fRx4_r)
+    label4 = pg.TextItem("P3.1 Rx2 in YELLOW")
+    label4.setParentItem(p1)
+    label4.setPos(65, 68) # Change Y position for each label
     
 else: 
     raise ValueError(print("Not a valid domain/graph type."))
