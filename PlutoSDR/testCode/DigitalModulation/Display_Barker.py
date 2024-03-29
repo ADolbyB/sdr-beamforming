@@ -29,15 +29,17 @@ b13 = np.array([1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1])
 # Carrier Signal
 fc0 = int(200e3)
 fs = int(samp_rate)
-N = 2**16
+N = 2**6 #2**16
 ts = 1 / float(fs)
 t = np.arange(0, N * ts, ts)
-i0 = np.cos(2 * np.pi * t * fc0) * 2**14
-q0 = np.sin(2 * np.pi * t * fc0) * 2**14
+i0 = np.cos(2 * np.pi * t * fc0) * 2**2 #2**14
+q0 = np.sin(2 * np.pi * t * fc0) * 2**2
 iq0 = i0 + 1j * q0
 
 # BPSK
-bpsk = generate_bpsk(b13, 50, 13)
+x = np.hstack((np.zeros(5), b13, iq0, np.zeros(5)))
+
+bpsk = generate_bpsk(x, 50, 13)
 
 plt.plot(np.arange(bpsk.size), bpsk)
 # plt.ylim(top=10, bottom=-100)        
