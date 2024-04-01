@@ -66,10 +66,16 @@ samp_rate = 2e6                     # 2e6 = 2MHz: must be <=30.72 MHz if both ch
 NumSamples = 2**12
 rx_lo = 915e6                       # 915 MHz (Keep it inside the USA ISM band: 902 - 928 MHz)
 rx_mode = "manual"                  # can be "manual" or "slow_attack"
-rx_gain0 = 40
-rx_gain1 = 40
+#rx0_gain_sdr1 = 20                  # Each RX Channel now has its own gain setting (Tested with GNURadio)
+#rx1_gain_sdr1 = 20
+rx0_gain_sdr2 = 20
+rx1_gain_sdr2 = 20
+rx0_gain_sdr3 = 20
+rx1_gain_sdr3 = 20
+#rx0_gain_sdr4 = 20
+#rx1_gain_sdr4 = 20
 tx_lo = rx_lo
-tx_gain = -9
+tx_gain = -3                        # Same as positive value in GNU Radio Sink
 fc0 = int(200e3)
 num_scans = 500
 Plot_Compass = False
@@ -81,57 +87,57 @@ d = d_wavelength * wavelength       # distance between elements in meters
 print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
 ''' Create Radio '''
-sdr1 = ad9361(uri='ip:192.168.2.1') # Pluto #1
-sdr2 = ad9361(uri='ip:192.168.4.1') # Pluto #2
-#sdr3 = ad9361(uri='ip:192.168.4.1') # Pluto #3
-#sdr4 = ad9361(uri='ip:192.168.5.1') # Pluto #4
+sdr1 = ad9361(uri='ip:192.168.4.1') # Pluto #2
+sdr2 = ad9361(uri='ip:192.168.2.1') # Pluto #3
+sdr3 = ad9361(uri='ip:192.168.5.1') # Pluto #4
+#sdr4 = ad9361(uri='ip:192.168.5.1') # Pluto #5
 
 ''' Configure All PlutoSDR Radio Channels '''
-sdr1.rx_enabled_channels = [0, 1]
+#sdr1.rx_enabled_channels = [0, 1]
 sdr2.rx_enabled_channels = [0, 1]
-# sdr3.rx_enabled_channels = [0, 1]
+sdr3.rx_enabled_channels = [0, 1]
 # sdr4.rx_enabled_channels = [0, 1]
-sdr1.sample_rate = int(samp_rate)
+#sdr1.sample_rate = int(samp_rate)
 sdr2.sample_rate = int(samp_rate)
-# sdr3.sample_rate = int(samp_rate)
+sdr3.sample_rate = int(samp_rate)
 # sdr4.sample_rate = int(samp_rate)
-sdr1.rx_rf_bandwidth = int(fc0 * 3)
+#sdr1.rx_rf_bandwidth = int(fc0 * 3)
 sdr2.rx_rf_bandwidth = int(fc0 * 3)
-# sdr3.rx_rf_bandwidth = int(fc0 * 3)
+sdr3.rx_rf_bandwidth = int(fc0 * 3)
 # sdr4.rx_rf_bandwidth = int(fc0 * 3)
-sdr1.rx_lo = int(rx_lo)
+#sdr1.rx_lo = int(rx_lo)
 sdr2.rx_lo = int(rx_lo)
-# sdr3.rx_lo = int(rx_lo)
+sdr3.rx_lo = int(rx_lo)
 # sdr4.rx_lo = int(rx_lo)
-sdr1.gain_control_mode = rx_mode
+#sdr1.gain_control_mode = rx_mode
 sdr2.gain_control_mode = rx_mode
-# sdr3.gain_control_mode = rx_mode
+sdr3.gain_control_mode = rx_mode
 # sdr4.gain_control_mode = rx_mode
-sdr1.rx_hardwaregain_chan0 = int(rx_gain0)
-sdr2.rx_hardwaregain_chan0 = int(rx_gain0)
-# sdr3.rx_hardwaregain_chan0 = int(rx_gain0)
-# sdr4.rx_hardwaregain_chan0 = int(rx_gain0)
-sdr1.rx_hardwaregain_chan1 = int(rx_gain1)
-sdr2.rx_hardwaregain_chan1 = int(rx_gain1)
-# sdr3.rx_hardwaregain_chan1 = int(rx_gain1)
-# sdr4.rx_hardwaregain_chan1 = int(rx_gain1)
-sdr1.rx_buffer_size = int(NumSamples)
+#sdr1.rx_hardwaregain_chan0 = int(rx0_gain_sdr1)
+sdr2.rx_hardwaregain_chan0 = int(rx0_gain_sdr2)
+sdr3.rx_hardwaregain_chan0 = int(rx0_gain_sdr3)
+# sdr4.rx_hardwaregain_chan0 = int(rx0_gain_sdr4)
+#sdr1.rx_hardwaregain_chan1 = int(rx1_gain_sdr1)
+sdr2.rx_hardwaregain_chan1 = int(rx1_gain_sdr2)
+sdr3.rx_hardwaregain_chan1 = int(rx1_gain_sdr3)
+# sdr4.rx_hardwaregain_chan1 = int(rx1_gain_sdr4)
+#sdr1.rx_buffer_size = int(NumSamples)
 sdr2.rx_buffer_size = int(NumSamples)
-# sdr3.rx_buffer_size = int(NumSamples)
+sdr3.rx_buffer_size = int(NumSamples)
 # sdr4.rx_buffer_size = int(NumSamples)
-sdr1._rxadc.set_kernel_buffers_count(1)     # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+#sdr1._rxadc.set_kernel_buffers_count(1)     # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
 sdr2._rxadc.set_kernel_buffers_count(1)
-# sdr3._rxadc.set_kernel_buffers_count(1)
+sdr3._rxadc.set_kernel_buffers_count(1)
 # sdr4._rxadc.set_kernel_buffers_count(1)
 sdr1.tx_rf_bandwidth = int(fc0 * 3)         # ONLY TX 1 of PlutoSDR 1 will have TX capability.
 sdr1.tx_lo = int(tx_lo)
 sdr1.tx_cyclic_buffer = True
 sdr1.tx_hardwaregain_chan0 = int(tx_gain)   # ONLY TX1 of PlutoSDR 1 is the transmitter.
-sdr2.tx_hardwaregain_chan0 = int(-88)       # Shut Off all other TX Channels for all Plutos
+#sdr2.tx_hardwaregain_chan0 = int(-88)       # Shut Off all other TX Channels for all Plutos
 # sdr3.tx_hardwaregain_chan0 = int(-88)
 # sdr4.tx_hardwaregain_chan0 = int(-88)
 sdr1.tx_hardwaregain_chan1 = int(-88)
-sdr2.tx_hardwaregain_chan1 = int(-88)
+#sdr2.tx_hardwaregain_chan1 = int(-88)
 # sdr3.tx_hardwaregain_chan1 = int(-88)
 # sdr4.tx_hardwaregain_chan1 = int(-88)
 sdr1.tx_buffer_size = int(2**18)            # TX Buffer size: 2^18 = 262144
@@ -153,9 +159,7 @@ xf = np.fft.fftshift(xf) / 1e6
 signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
 signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
-
 ''' Function for cross-correlation - Krysik '''
-
 def xcorrelate(X,Y,maxlag):
     N = max(len(X), len(Y))
     N_nextpow2 = math.ceil(math.log(N + maxlag,2))
@@ -209,64 +213,89 @@ def dbfs(raw_data):
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
 for i in range(20):  
-    data1 = sdr1.rx()
+    #data1 = sdr1.rx()
     data2 = sdr2.rx()
-
-# for i in range(20):  
-#     data2 = sdr2.rx()
+    data3 = sdr3.rx()
+    #data4 = sdr4.rx()
 
 ''' Calculate and find phase offsets for each Rx node '''
 # This assumes the linear array has the P1Tx node set at 0deg to P1Rx1
 AVERAGING_PHASE = 15
-phase_cal_1a = []
-phase_cal_0b = []
+#phase_cal_1a = []
+#phase_cal_0b = []
 phase_cal_1b = []
+phase_cal_0c = []
+phase_cal_1c = []
+#phase_cal_0d = []
+#phase_cal_1d = []
 for i in range(AVERAGING_PHASE):
-    data1 = sdr1.rx()
+    #data1 = sdr1.rx()
     data2 = sdr2.rx()
-    Rx_0a = data1[0]        # PlutoSDR 1, RX 0
-    Rx_1a = data1[1]        # PlutoSDR 1, RX 1
+    data3 = sdr3.rx()
+    #data4 = sdr4.rx()
+    
+    #Rx_0a = data1[0]        # PlutoSDR 1, RX 0
+    #Rx_1a = data1[1]        # PlutoSDR 1, RX 1
     Rx_0b = data2[0]        # PlutoSDR 2, RX 0
     Rx_1b = data2[1]        # PlutoSDR 2, RX 1
-    phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
-    phase_cal_0b.append(compute_phase_offset(Rx_0a, Rx_0b))
-    phase_cal_1b.append(compute_phase_offset(Rx_0a, Rx_1b))
+    Rx_0c = data3[0]        # PlutoSDR 2, RX 0
+    Rx_1c = data3[1]        # PlutoSDR 2, RX 1
+    #Rx_0d = data4[0]        # PlutoSDR 2, RX 0
+    #Rx_1d = data4[1]        # PlutoSDR 2, RX 1
+    #phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
+    #phase_cal_0b.append(compute_phase_offset(Rx_0b, Rx_1b))
+    phase_cal_1b.append(compute_phase_offset(Rx_0b, Rx_1b))
+    phase_cal_0c.append(compute_phase_offset(Rx_0b, Rx_0c))
+    phase_cal_1c.append(compute_phase_offset(Rx_0b, Rx_1c))
 
-phase_cal_1a = int(sum(phase_cal_1a)/len(phase_cal_1a))
-phase_cal_0b = int(sum(phase_cal_0b)/len(phase_cal_0b))
-phase_cal_1b = int(sum(phase_cal_1b)/len(phase_cal_1b))
+#phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
+#phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
+phase_cal_1b = int(sum(phase_cal_1b) / len(phase_cal_1b))
+phase_cal_0c = int(sum(phase_cal_0c) / len(phase_cal_0c))
+phase_cal_1c = int(sum(phase_cal_1c) / len(phase_cal_1c))
+#phase_cal_0d = int(sum(phase_cal_1b) / len(phase_cal_1b))
+#phase_cal_1d = int(sum(phase_cal_1b) / len(phase_cal_1b))
 
 ''' Scans '''
 AVERAGING_SCANS = 1
 for i in range(num_scans):
     data1 = sdr1.rx()
-    data2 = sdr2.rx()
+    #data2 = sdr2.rx()
     # data3 = sdr3.rx()
     # data4 = sdr4.rx()
-    Rx_0a = data1[0]        # PlutoSDR 1, RX 0
-    Rx_1a = data1[1]        # PlutoSDR 1, RX 1
-    Rx_0b = data2[0]        # PlutoSDR 2, RX 0
-    Rx_1b = data2[1]        # PlutoSDR 2, RX 1
-    # Rx_0c = data3[0]      # PlutoSDR 3, RX 0
-    # Rx_1c = data3[1]      # PlutoSDR 3, RX 1
-    # Rx_0d = data4[0]      # PlutoSDR 4, RX 0
-    # Rx_1d = data4[1]      # PlutoSDR 4, RX 1
+    # Rx_0a = data1[0]        # PlutoSDR 1, RX 0
+    # Rx_1a = data1[1]        # PlutoSDR 1, RX 1
+    Rx_0b = data2[0]          # PlutoSDR 2, RX 0
+    Rx_1b = data2[1]          # PlutoSDR 2, RX 1
+    Rx_0c = data3[0]          # PlutoSDR 3, RX 0
+    Rx_1c = data3[1]          # PlutoSDR 3, RX 1
+    # Rx_0d = data4[0]        # PlutoSDR 4, RX 0
+    # Rx_1d = data4[1]        # PlutoSDR 4, RX 1
     peak_sum = []
     #
-    phase_cal_1a = compute_phase_offset(Rx_0a, Rx_1a)
-    phase_cal_0b = compute_phase_offset(Rx_0a, Rx_0b)
-    phase_cal_1b = compute_phase_offset(Rx_0a, Rx_1b)
+    #phase_cal_1a = compute_phase_offset(Rx_0a, Rx_1a)
+    #phase_cal_0b = compute_phase_offset(Rx_0a, Rx_0b)
+    phase_cal_1b = compute_phase_offset(Rx_0b, Rx_1b)
+    phase_cal_0c = compute_phase_offset(Rx_0b, Rx_0c)
+    phase_cal_1c = compute_phase_offset(Rx_0b, Rx_1c)
+    #phase_cal_0d = compute_phase_offset(Rx_0b, Rx_0d)
+    #phase_cal_1d = compute_phase_offset(Rx_0b, Rx_1d)
     #
     delay_phases = np.arange(-180, 180, 2)    # Create an Array for -180 - 180 degrees sweep
         
-    '''Phase shift by each degree from -180 to 180 and store peak signal'''
+    ''' Phase shift by each degree from -180 to 180 and store peak signal '''
     for phase_delay in delay_phases:   
         peak_sum_avg = []
         for i in range(AVERAGING_SCANS):
-            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
-            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
-            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 1
-            delayed_sum = dbfs(Rx_0a + delayed_Rx_1a) #+ delayed_Rx_0b + delayed_Rx_1b
+            #delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))
+            #delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
+            #delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
+            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1b))     # PlutoSDR 2 RX 1
+            delayed_Rx_0c = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_1b))     # PlutoSDR 3 RX 0
+            delayed_Rx_1c = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1b))     # PlutoSDR 3 RX 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ))    # PlutoSDR 3 RX 1
+            #delayed_Rx_0d = Rx_0b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 4 RX 0
+            #delayed_Rx_1d = Rx_1b * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_1a))    # PlutoSDR 4 RX 1
+            delayed_sum = dbfs(Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c)
             peak_sum_avg.append(delayed_sum[signal_start:signal_end])
         peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
         peak_sum.append(np.max(peak_sum_value)) # np.max(delayed_sum[signal_start:signal_end])
@@ -281,9 +310,13 @@ for i in range(num_scans):
         plt.plot(delay_phases, peak_sum)
         plt.axvline(x=peak_delay, color='r', linestyle=':')
         plt.text(-180, -20, f'Peak signal occurs with phase shift = {round(peak_delay,1)} deg')
-        plt.text(-180, -24, f'Phase offset P1_Rx1 = {phase_cal_1a} deg')
-        plt.text(-180, -28, f'Phase offset P2_Rx0 = {phase_cal_0b} deg')
-        plt.text(-180, -32, f'Phase offset P2_Rx1 = {phase_cal_1b} deg')
+        #plt.text(-180, -24, f'Phase offset P1_Rx1 = {phase_cal_1a} deg')
+        #plt.text(-180, -28, f'Phase offset P2_Rx0 = {phase_cal_0b} deg')
+        plt.text(-180, -24, f'Phase offset P2_Rx1 = {phase_cal_1b} deg')
+        plt.text(-180, -28, f'Phase offset P1_Rx1 = {phase_cal_0c} deg')
+        plt.text(-180, -32, f'Phase offset P2_Rx0 = {phase_cal_1c} deg')
+        #plt.text(-180, -32, f'Phase offset P2_Rx1 = {phase_cal_0d} deg')
+        #plt.text(-180, -32, f'Phase offset P2_Rx1 = {phase_cal_1d} deg')
         plt.text(-180, -36, f'If d = {int(d*1000)}mm, then steering angle = {steer_angle} deg')
         plt.ylim(top=10, bottom=-100)        
         plt.xlabel("phase shift [deg]")
