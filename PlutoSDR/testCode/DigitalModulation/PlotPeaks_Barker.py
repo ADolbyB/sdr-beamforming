@@ -164,7 +164,7 @@ q0 = np.sin(2 * np.pi * t * fc0) * 2**14
 iq0 = i0 + 1j * q0
 
 # BPSK
-bpsk = generate_bpsk(iq0, 50, 13)
+# bpsk = generate_bpsk(iq0, 50, 13)
 
 sdr1.tx([iq0, iq0])  # Send Tx data.
 
