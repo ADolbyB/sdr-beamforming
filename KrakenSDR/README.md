@@ -63,8 +63,12 @@ Please see my GitHub [Issue #5](https://github.com/krakenrf/gr-krakensdr/issues/
 - I do a complete x86_64 [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) and [`gr-krakensdr`](https://github.com/krakenrf/gr-krakensdr) install from scratch using the install scripts on a fresh install of Linux Mint 21.3.
 - This issue deals with the error message "Exception: Failed to get IQ Samples" when running a GNU Radio flow graph.
 - The root cause comes from the `rtlsdr_demod_write_reg failed with -9` error in the `rtl_daq.log` file.
-    - Per user KrakenRF: "This is the core problem. This usually means that there is some problem communicating with the KrakenSDR. So most likely a USB data cable problem. Please try another high quality USB cable, and also try the ports on the back of your PC. Sometimes the ports on the front of desktop computers are internally connected with very low quality cabling, and so they won't work well with high data rate devices."
-    - At the moment, no solution for this problem has been found.
+    - Per user KrakenRF: "This is the core problem. This usually means that there is some problem communicating 
+    with the KrakenSDR. So most likely a USB data cable problem. Please try another high quality USB cable, and 
+    also try the ports on the back of your PC. Sometimes the ports on the front of desktop computers are 
+    internally connected with very low quality cabling, and so they won't work well with high data rate devices."
+    - Update: after extensive testing, the problem was with my laptop USB ports. For whatever reason, they do not 
+    like the KrakenSDR. I wish I had a better answer. I fired up another laptop with a fresh Win10 image and WSL2 running Ubuntu 22.04. I installed the `USBIPD-WIN` package and was able to bind the 5 KrakenSDR radios to WSL. I did a manual x86_64 install of the `krakensdr_doa` and `gr-krakensdr` in WSL2 the same way as I described at the beginning of the GH Issue. When I run `kraken_fft_display.grc` it seems to work pretty well. No dropped IQ samples this time and no failures. Although this is not ideal, it is something I can deal with. It appears to be some problem with my laptop USB ports and not related to the KrakenSDR.
 
 ## Known Issues:
 
