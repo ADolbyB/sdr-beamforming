@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: FMCommsTest
+    id: FMCommsFileSink
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,13 +22,13 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
+    title: FMComms File Sink
     window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 8]
+    coordinate: [312, 92.0]
     rotation: 0
     state: enabled
 
@@ -81,6 +81,18 @@ blocks:
     coordinate: [8, 284.0]
     rotation: 0
     state: true
+- name: Tx_path
+  id: variable
+  parameters:
+    comment: ''
+    value: '"/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 28.0]
+    rotation: 0
+    state: true
 - name: baseband
   id: variable
   parameters:
@@ -90,7 +102,26 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [368, 12.0]
+    coordinate: [408, 180.0]
+    rotation: 0
+    state: true
+- name: const
+  id: variable_constellation
+  parameters:
+    comment: ''
+    const_points: '[-1-1j, -1+1j, 1+1j, 1-1j]'
+    dims: '1'
+    normalization: digital.constellation.AMPLITUDE_NORMALIZATION
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 3, 2]'
+    type: bpsk
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 236.0]
     rotation: 0
     state: true
 - name: freq
@@ -102,7 +133,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [280, 12.0]
+    coordinate: [312, 244.0]
     rotation: 0
     state: true
 - name: pluto2
@@ -157,20 +188,40 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '2000000'
+    value: '2600000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [312, 180.0]
     rotation: 0
     state: enabled
+- name: analog_random_source_x_0
+  id: analog_random_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    max: '256'
+    maxoutbuf: '0'
+    min: '0'
+    minoutbuf: '0'
+    num_samps: '10000'
+    repeat: 'True'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [536, 316.0]
+    rotation: 0
+    state: disabled
 - name: analog_sig_source_x_0
   id: analog_sig_source_x
   parameters:
     affinity: ''
     alias: ''
-    amp: '1'
+    amp: '2'
     comment: ''
     freq: baseband
     maxoutbuf: '0'
@@ -185,7 +236,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 140.0]
+    coordinate: [608, 468.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -203,9 +254,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 364.0]
+    coordinate: [360, 412.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_file_sink_0_0
   id: blocks_file_sink
   parameters:
@@ -221,7 +272,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 996.0]
+    coordinate: [360, 988.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: P4_path
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 1268.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_1
@@ -239,7 +308,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 1252.0]
+    coordinate: [360, 1076.0]
+    rotation: 0
+    state: disabled
+- name: blocks_file_sink_0_1_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: P5_path
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 1364.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_2
@@ -257,9 +344,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 652.0]
+    coordinate: [360, 692.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_file_sink_0_2_0
   id: blocks_file_sink
   parameters:
@@ -275,9 +362,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 796.0]
+    coordinate: [360, 780.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: blocks_file_sink_0_3
   id: blocks_file_sink
   parameters:
@@ -293,9 +380,49 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [872, 508.0]
+    coordinate: [360, 492.0]
     rotation: 0
-    state: true
+    state: enabled
+- name: blocks_file_sink_0_4
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: Tx_path
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [992, 356.0]
+    rotation: 0
+    state: enabled
+- name: digital_constellation_modulator_0
+  id: digital_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: const
+    differential: 'True'
+    excess_bw: '0.35'
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_symbol: '2'
+    truncate: 'False'
+    verbose: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 308.0]
+    rotation: 0
+    state: disabled
 - name: iio_fmcomms2_sink_0
   id: iio_fmcomms2_sink
   parameters:
@@ -323,7 +450,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [776, 164.0]
+    coordinate: [968, 436.0]
     rotation: 0
     state: true
 - name: iio_fmcomms2_source_0_0
@@ -343,8 +470,8 @@ blocks:
     gain1: '''manual'''
     gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '40'
-    manual_gain2: '40'
+    manual_gain1: '20'
+    manual_gain2: '16'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
@@ -359,7 +486,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 332.0]
+    coordinate: [8, 348.0]
     rotation: 0
     state: enabled
 - name: iio_fmcomms2_source_0_0_0
@@ -377,17 +504,17 @@ blocks:
     frequency: freq
     fstop: '0'
     gain1: '''manual'''
-    gain2: '''slow_attack'''
+    gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '32'
-    manual_gain2: '64'
+    manual_gain1: '20'
+    manual_gain2: '20'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
     rf_port_select: '''A_BALANCED'''
     rfdc: 'True'
     rx1_en: 'True'
-    rx2_en: 'False'
+    rx2_en: 'True'
     samplerate: samp_rate
     type: fc32
     uri: pluto4
@@ -395,7 +522,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 908.0]
+    coordinate: [8, 924.0]
     rotation: 0
     state: disabled
 - name: iio_fmcomms2_source_0_0_0_0
@@ -413,17 +540,17 @@ blocks:
     frequency: freq
     fstop: '0'
     gain1: '''manual'''
-    gain2: '''slow_attack'''
+    gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '32'
-    manual_gain2: '64'
+    manual_gain1: '20'
+    manual_gain2: '20'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
     rf_port_select: '''A_BALANCED'''
     rfdc: 'True'
     rx1_en: 'True'
-    rx2_en: 'False'
+    rx2_en: 'True'
     samplerate: samp_rate
     type: fc32
     uri: pluto5
@@ -431,7 +558,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 1164.0]
+    coordinate: [8, 1212.0]
     rotation: 0
     state: disabled
 - name: iio_fmcomms2_source_0_0_1
@@ -451,8 +578,8 @@ blocks:
     gain1: '''manual'''
     gain2: '''manual'''
     len_tag_key: packet_len
-    manual_gain1: '40'
-    manual_gain2: '40'
+    manual_gain1: '20'
+    manual_gain2: '30'
     maxoutbuf: '0'
     minoutbuf: '0'
     quadrature: 'True'
@@ -462,208 +589,14 @@ blocks:
     rx2_en: 'True'
     samplerate: samp_rate
     type: fc32
-    uri: pluto4
+    uri: pluto5
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [328, 620.0]
+    coordinate: [8, 636.0]
     rotation: 0
     state: enabled
-- name: iio_pluto_sink_0
-  id: iio_pluto_sink
-  parameters:
-    affinity: ''
-    alias: ''
-    attenuation1: '20'
-    bandwidth: '20000000'
-    buffer_size: '32768'
-    comment: ''
-    cyclic: 'False'
-    filter: ''
-    filter_source: '''Auto'''
-    fpass: '0'
-    frequency: freq
-    fstop: '0'
-    len_tag_key: ''
-    samplerate: samp_rate
-    type: fc32
-    uri: pluto2
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [776, 4.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 332.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 964.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0_0_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 1220.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0_1
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 620.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0_1_0
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 764.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_0_0_2
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [600, 476.0]
-    rotation: 0
-    state: disabled
-- name: low_pass_filter_0_2
-  id: low_pass_filter
-  parameters:
-    affinity: ''
-    alias: ''
-    beta: '6.76'
-    comment: ''
-    cutoff_freq: '5000'
-    decim: '1'
-    gain: '1'
-    interp: '1'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    samp_rate: samp_rate
-    type: fir_filter_ccf
-    width: '2000'
-    win: window.WIN_HAMMING
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [568, 132.0]
-    rotation: 0
-    state: disabled
 - name: note_0_0
   id: note
   parameters:
@@ -674,7 +607,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 92.0]
+    coordinate: [512, 268.0]
     rotation: 0
     state: enabled
 - name: note_0_1
@@ -687,31 +620,24 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 284.0]
+    coordinate: [352, 356.0]
     rotation: 0
     state: enabled
 
 connections:
+- [analog_random_source_x_0, '0', digital_constellation_modulator_0, '0']
+- [analog_sig_source_x_0, '0', blocks_file_sink_0_4, '0']
 - [analog_sig_source_x_0, '0', iio_fmcomms2_sink_0, '0']
-- [analog_sig_source_x_0, '0', iio_pluto_sink_0, '0']
-- [analog_sig_source_x_0, '0', low_pass_filter_0_2, '0']
+- [digital_constellation_modulator_0, '0', blocks_file_sink_0_4, '0']
+- [digital_constellation_modulator_0, '0', iio_fmcomms2_sink_0, '0']
 - [iio_fmcomms2_source_0_0, '0', blocks_file_sink_0, '0']
-- [iio_fmcomms2_source_0_0, '0', low_pass_filter_0_0_0, '0']
 - [iio_fmcomms2_source_0_0, '1', blocks_file_sink_0_3, '0']
-- [iio_fmcomms2_source_0_0, '1', low_pass_filter_0_0_0_2, '0']
-- [iio_fmcomms2_source_0_0_0, '0', low_pass_filter_0_0_0_0, '0']
-- [iio_fmcomms2_source_0_0_0_0, '0', low_pass_filter_0_0_0_0_0, '0']
+- [iio_fmcomms2_source_0_0_0, '0', blocks_file_sink_0_0, '0']
+- [iio_fmcomms2_source_0_0_0, '1', blocks_file_sink_0_1, '0']
+- [iio_fmcomms2_source_0_0_0_0, '0', blocks_file_sink_0_0_0, '0']
+- [iio_fmcomms2_source_0_0_0_0, '1', blocks_file_sink_0_1_0, '0']
 - [iio_fmcomms2_source_0_0_1, '0', blocks_file_sink_0_2, '0']
-- [iio_fmcomms2_source_0_0_1, '0', low_pass_filter_0_0_0_1, '0']
 - [iio_fmcomms2_source_0_0_1, '1', blocks_file_sink_0_2_0, '0']
-- [iio_fmcomms2_source_0_0_1, '1', low_pass_filter_0_0_0_1_0, '0']
-- [low_pass_filter_0_0_0, '0', blocks_file_sink_0, '0']
-- [low_pass_filter_0_0_0_0, '0', blocks_file_sink_0_0, '0']
-- [low_pass_filter_0_0_0_0_0, '0', blocks_file_sink_0_1, '0']
-- [low_pass_filter_0_0_0_1, '0', blocks_file_sink_0_2, '0']
-- [low_pass_filter_0_0_0_1_0, '0', blocks_file_sink_0_2_0, '0']
-- [low_pass_filter_0_0_0_2, '0', blocks_file_sink_0_3, '0']
-- [low_pass_filter_0_2, '0', iio_pluto_sink_0, '0']
 
 metadata:
   file_format: 1

@@ -13,6 +13,7 @@ from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio import analog
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
@@ -62,13 +63,15 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.samp_rate = samp_rate = 2000000
+        self.samp_rate = samp_rate = 2600000
         self.pluto5 = pluto5 = "ip:192.168.5.1"
         self.pluto4 = pluto4 = "ip:192.168.4.1"
         self.pluto3 = pluto3 = "ip:192.168.3.1"
         self.pluto2 = pluto2 = "ip:192.168.2.1"
         self.freq = freq = 915000000
+        self.const = const = digital.constellation_bpsk().base()
         self.baseband = baseband = 500
+        self.Tx_path = Tx_path = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
         self.P5_path = P5_path = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
         self.P4_path = P4_path = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
         self.P3_path = P3_path = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
@@ -84,7 +87,7 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0_0_1.set_samplerate(samp_rate)
         if True:
             self.iio_fmcomms2_source_0_0_1.set_gain_mode(0, 'manual')
-            self.iio_fmcomms2_source_0_0_1.set_gain(0, 23)
+            self.iio_fmcomms2_source_0_0_1.set_gain(0, 20)
         if True:
             self.iio_fmcomms2_source_0_0_1.set_gain_mode(1, 'manual')
             self.iio_fmcomms2_source_0_0_1.set_gain(1, 30)
@@ -92,7 +95,7 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0_0_1.set_rfdc(True)
         self.iio_fmcomms2_source_0_0_1.set_bbdc(True)
         self.iio_fmcomms2_source_0_0_1.set_filter_params('Auto', '', 0, 0)
-        self.iio_fmcomms2_source_0_0 = iio.fmcomms2_source_fc32(pluto4, [True, True, True, True], 32768)
+        self.iio_fmcomms2_source_0_0 = iio.fmcomms2_source_fc32(pluto2, [True, True, True, True], 32768)
         self.iio_fmcomms2_source_0_0.set_len_tag_key('packet_len')
         self.iio_fmcomms2_source_0_0.set_frequency(freq)
         self.iio_fmcomms2_source_0_0.set_samplerate(samp_rate)
@@ -101,12 +104,12 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
             self.iio_fmcomms2_source_0_0.set_gain(0, 20)
         if True:
             self.iio_fmcomms2_source_0_0.set_gain_mode(1, 'manual')
-            self.iio_fmcomms2_source_0_0.set_gain(1, 15)
+            self.iio_fmcomms2_source_0_0.set_gain(1, 16)
         self.iio_fmcomms2_source_0_0.set_quadrature(True)
         self.iio_fmcomms2_source_0_0.set_rfdc(True)
         self.iio_fmcomms2_source_0_0.set_bbdc(True)
         self.iio_fmcomms2_source_0_0.set_filter_params('Auto', '', 0, 0)
-        self.iio_fmcomms2_sink_0 = iio.fmcomms2_sink_fc32(pluto5, [True, True, False, False], 4096, False)
+        self.iio_fmcomms2_sink_0 = iio.fmcomms2_sink_fc32(pluto4, [True, True, False, False], 4096, False)
         self.iio_fmcomms2_sink_0.set_len_tag_key('')
         self.iio_fmcomms2_sink_0.set_bandwidth(20000000)
         self.iio_fmcomms2_sink_0.set_frequency(freq)
@@ -116,6 +119,8 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         if False:
             self.iio_fmcomms2_sink_0.set_attenuation(1, 10.0)
         self.iio_fmcomms2_sink_0.set_filter_params('Auto', '', 0, 0)
+        self.blocks_file_sink_0_4 = blocks.file_sink(gr.sizeof_gr_complex*1, Tx_path, False)
+        self.blocks_file_sink_0_4.set_unbuffered(False)
         self.blocks_file_sink_0_3 = blocks.file_sink(gr.sizeof_gr_complex*1, P3_path, False)
         self.blocks_file_sink_0_3.set_unbuffered(False)
         self.blocks_file_sink_0_2_0 = blocks.file_sink(gr.sizeof_gr_complex*1, P5_path, False)
@@ -130,6 +135,7 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
+        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_file_sink_0_4, 0))
         self.connect((self.analog_sig_source_x_0, 0), (self.iio_fmcomms2_sink_0, 0))
         self.connect((self.iio_fmcomms2_source_0_0, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.iio_fmcomms2_source_0_0, 1), (self.blocks_file_sink_0_3, 0))
@@ -188,12 +194,25 @@ class FMCommsFileSink(gr.top_block, Qt.QWidget):
         self.iio_fmcomms2_source_0_0.set_frequency(self.freq)
         self.iio_fmcomms2_source_0_0_1.set_frequency(self.freq)
 
+    def get_const(self):
+        return self.const
+
+    def set_const(self, const):
+        self.const = const
+
     def get_baseband(self):
         return self.baseband
 
     def set_baseband(self, baseband):
         self.baseband = baseband
         self.analog_sig_source_x_0.set_frequency(self.baseband)
+
+    def get_Tx_path(self):
+        return self.Tx_path
+
+    def set_Tx_path(self, Tx_path):
+        self.Tx_path = Tx_path
+        self.blocks_file_sink_0_4.open(self.Tx_path)
 
     def get_P5_path(self):
         return self.P5_path
