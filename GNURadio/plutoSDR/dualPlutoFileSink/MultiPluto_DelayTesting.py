@@ -90,17 +90,17 @@ def dbfs(raw_data):
 
 ''' IQ Files to Read: '''
 # JOEL
-FILE_TX = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.7z"
-FILE_P2 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.7z"
-FILE_P3 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.7z"
-FILE_P4 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.7z"
-FILE_P5 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.7z"
+FILE_TX = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
+FILE_P2 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
+FILE_P3 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
+FILE_P4 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
+FILE_P5 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
 # PEYTON
-# FILE_TX = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.7z"
-# FILE_P2 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.7z"
-# FILE_P3 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.7z"
-# FILE_P4 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.7z"
-# FILE_P5 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.7z"
+# FILE_TX = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
+# FILE_P2 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
+# FILE_P3 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
+# FILE_P4 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
+# FILE_P5 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
 
 ''' Extract data as a complex64 '''
 # This is the stream output for basic signal processing in GNU Radio
