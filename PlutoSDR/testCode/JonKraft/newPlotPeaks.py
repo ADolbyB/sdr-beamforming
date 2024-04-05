@@ -51,8 +51,9 @@ gain value, max of 71 dB, or 62 dB when over 4 GHz center freq
 #       on or directly connected to an Analog Devices Inc. component
 
 from sys import path
-#print(f'sys.path = {path}')     # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
+#print(f'sys.path = {path}')        # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
 from adi import ad9361
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import numpy as np
 import pylab as pl
@@ -74,9 +75,9 @@ def generate_bpsk(data, samp_rate, bit_len):
     return iq
 
 ''' Function for cross-correlation - Krysik '''
-def xcorrelate(X,Y,maxlag):
+def xcorrelate(X, Y, maxlag):
     N = max(len(X), len(Y))
-    N_nextpow2 = math.ceil(math.log(N + maxlag,2))
+    N_nextpow2 = math.ceil(math.log(N + maxlag, 2))
     M = 2**N_nextpow2
     if len(X) < M:
         postpad_X = int(M - len(X) - maxlag)
@@ -127,7 +128,8 @@ def dbfs(raw_data):
 
 
 ''' Basic RF Setup '''
-samp_rate = 2e6                     # 2e6 = 2MHz: must be <=30.72 MHz if both channels are enabled
+# must be <=30.72 MHz if both channels are enabled
+samp_rate = 1e6                     # 1 MHz: 1 Mil Samples / Sec (1 sample per microsecond)
 NumSamples = 2**12
 rx_lo = 915e6                       # 915 MHz (Keep it inside the USA ISM band: 902 - 928 MHz)
 rx_mode = "manual"                  # can be "manual" or "slow_attack"
@@ -252,12 +254,27 @@ xf = np.fft.fftshift(xf) / 1e6
 signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
 signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
+# used to retrieve current data,time
+mastClock = datetime.now()  # Master Clock for all comparisons
+P1Clock = datetime.now()    # Counts when Pluto 1 begins RX stream 
+P2Clock = datetime.now()    # Counts when Pluto 2 Begins RX stream. We need the time_De
+print(f'Current mastClock.microsecond: | {mastClock.microsecond}')
+print(f'Current P1Clock.microsecond:   | {P1Clock.microsecond}')
+print(f'Current P2Clock.microsecond:   | {P2Clock.microsecond}')
+
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
 for i in range(20):  
     #data1 = sdr1.rx()
+    print(f'i = {i}')
+    print(f'Before sdr2.rx(): Current P1Clock.second       | {P1Clock.second}')
+    print(f'Before sdr2.rx(): Current P2Clock.microsecond: | {P2Clock.microsecond}')
     data2 = sdr2.rx()
+    print(f'Before sdr3.rx() / After sdr2.rx(): Current P1Clock.second:       | {P1Clock.second}')
+    print(f'Before sdr3.rx() / After sdr2.rx(): Current P2Clock.microsecond:  | {P2Clock.microsecond}')
     data3 = sdr3.rx()
+    print(f'After sdr3.rx(): P1Clock.second        | {P1Clock.second}')
+    print(f'After sdr3.rx(): P2Clock.microsecond:  | {P2Clock.microsecond}')
     #data4 = sdr4.rx()
 
 ''' Calculate and find phase offsets for each Rx node '''
