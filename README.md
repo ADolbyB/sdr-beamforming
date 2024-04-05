@@ -42,15 +42,15 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 
 ## KrakenSDR Resources:
 
-- My [Previous KrakenSDR README](./KrakenSDR/README.md) Page.
+- My [Previous KrakenSDR README](./Toolbox/KrakenSDR/README.md) Page.
 
 ## PlutoSDR Resources:
 
-- My [Previous PlutoSDR README](./PlutoSDR/README.md) Page.
+- My [Previous PlutoSDR README](./Toolbox/PlutoSDR/README.md) Page.
 
 ## GNURadio Resources:
 
-- My [Previous GNURadio README](./GNURadio/README.md) Page.
+- My [Previous GNURadio README](./Toolbox/GNURadio/README.md) Page.
 
 ## RF Theory, Components, and Test Equipment Articles:
 ### Theory:
