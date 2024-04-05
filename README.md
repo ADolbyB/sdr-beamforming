@@ -28,10 +28,10 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 - Jon Kraft's [`Pluto_Beamformer`](https://github.com/jonkraft/Pluto_Beamformer) Repo for PlutoSDR.
 - Jon Kraft's [`PlutoSDR_Labs`](https://github.com/jonkraft/PlutoSDR_Labs) Repo for PlutoSDR.
-- Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the 
-Analog Devices [ADAR-1000](https://www.analog.com/media/en/technical-documentation/data-sheets/adar1000.pdf). These are $$$$ &amp; the Repo needs updating to use Multiple PlutoSDRs instead of the ADAR-1000.
+- Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the Analog Devices [ADAR-1000](https://www.analog.com/media/en/technical-documentation/data-sheets/adar1000.pdf). 
+   - These are $$$$ &amp; the repo needs updating to use Multiple PlutoSDRs instead of the ADAR-1000.
 - KrakenRF's [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) Repo for Direction Finding 
-on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualVBox 7.0+).
+on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - mfkiwl's [`kraken_pr`](https://github.com/mfkiwl/krakensdr_pr) Repo for Passive Radar.
 - osmocom's [`rtl-sdr`](https://github.com/osmocom/rtl-sdr) Repo for The Osmocom RTL-SDR.
 - ptrkrysik's [`multi-rtl`](https://github.com/ptrkrysik/multi-rtl) Repo for Synchronizing RTL-SDRs.

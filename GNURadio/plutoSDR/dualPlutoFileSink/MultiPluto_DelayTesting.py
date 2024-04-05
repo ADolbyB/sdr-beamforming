@@ -115,12 +115,17 @@ FILE_P5 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFile
 # This is the stream output for basic signal processing in GNU Radio
 fP2 = pl.fromfile(open(FILE_P2), dtype=np.complex64)
 fP3 = pl.fromfile(open(FILE_P3), dtype=np.complex64)
+print(f'Shape of fP2[0]: {fP2.shape[0]}')
 fP3 = pl.resize(fP3, fP2.shape)
+print(f'Shape of fP3[0]: {fP3.shape[0]}')
 fP4 = pl.fromfile(open(FILE_P4), dtype=np.complex64)
+print(f'Shape of fP4[0]: {fP4.shape[0]}')
 fP4 = pl.resize(fP4, fP2.shape)
 fP5 = pl.fromfile(open(FILE_P5), dtype=np.complex64)
+print(f'Shape of fP5[0]: {fP5.shape[0]}')
 fP5 = pl.resize(fP5, fP2.shape)
 fTX = pl.fromfile(open(FILE_TX), dtype=np.complex64)
+print(f'Shape of fTX[0]: {fTX.shape[0]}')
 fTX = pl.resize(fTX, fP2.shape)
 
 GRAPHS = "all" # stack, raster or all
@@ -384,9 +389,9 @@ elif DOMAIN == "all":
     # 2 windows: 1 with different graph plots for each channel & 1 with channels separated
     ''' Create 3 QT Windows '''
     win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output")
-    # win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
-    # win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
-    # win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
+    win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
+    win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
+    win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
     win_cross = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output [CORRECTED]")
     
     ''' Time Domain Display: All Channels on a single plot '''
@@ -514,18 +519,18 @@ elif DOMAIN == "all":
     # label4.setPos(65, 68) # Change Y position for each label
     
     # Visualize data: Window 2 (Raster)
-    # p2 = win_raw3.addPlot()
-    # p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    # p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    # p3 = win_raw3.addPlot()
-    # p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    # p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    # p4 = win_raw3.addPlot()
-    # p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    # p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    # p5 = win_raw3.addPlot()
-    # p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    # p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    p2 = win_raw3.addPlot()
+    p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    p3 = win_raw3.addPlot()
+    p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    p4 = win_raw3.addPlot()
+    p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    p5 = win_raw3.addPlot()
+    p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
     
     # Change the pen to any other color for clarity - 'b' is blue
     # curve1a = p2.plot(pen=pg.mkPen('b'))
