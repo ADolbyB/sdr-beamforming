@@ -60,6 +60,28 @@ import pylab as pl
 import math
 import time
 
+'''Function for trimming ndarray data'''
+def trimDelay(input, delayDelta):
+    # output = input
+    # num_output = input.shape[0]
+    # num_to_copy = max(0, num_output - delayDelta)
+    # num_adj = min(delayDelta, num_output)
+    # for i in range(num_output):
+    #     iptr = input[i]
+    #     optr = output[i]
+    #     optr[:num_to_copy]
+    # std::memcpy(input)
+    input = np.pad(input, (0, delayDelta), 'constant', constant_values=(0))
+    input = input[delayDelta:]
+    return input
+
+'''Function for padding ndarray data'''
+def padDelay(input, delayDelta):
+    length = len(input)
+    input = np.pad(input, (delayDelta, 0), 'constant', constant_values=(0))
+    input = input[:length]
+    return input
+
 ''' Generate BPSK (Binary Phase Shift Keying) '''
 def generate_bpsk(data, samp_rate, bit_len):
     num_bits = data.shape[0]
@@ -96,7 +118,7 @@ def xcorrelate(X, Y, maxlag):
     return R
 
 ''' Function for computing and finding delays - Krysik '''
-def compute_phase_offset(ref_data, Rx_data):
+def compute_phase_offset_and_delay(ref_data, Rx_data):
 
     result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data) / 2))
     max_position = np.argmax(abs(result_corr))
@@ -105,7 +127,9 @@ def compute_phase_offset(ref_data, Rx_data):
     phase_diff = result_corr[max_position] / pl.sqrt(pl.mean(pl.real(Rx_data)**2 + pl.imag(Rx_data)**2))
     phase_diff = pl.angle(phase_diff)/ pl.pi * 180
 
-    return int(phase_diff)
+    # TODO: Compute this function initially with the reference RX data (P1Rx0) and the raw RX data, then find the phase_diff and delay returned values with another call to this function with the reference data (again) with the raw data after a TRIM or PAD based off the first computed delay value
+
+    return int(phase_diff), int(delay)
 
 ''' Calculate Steering Angle using Phase Difference '''
 def calcTheta(phase):
@@ -283,7 +307,7 @@ for i in range(20):
 
 # TODO: Try implementing modified delay impl from MultiPluto_DelayTesting.py
 
-while(1):
+while(0):
     AVERAGING_PHASE = 15
     #phase_cal_1a = []
     #phase_cal_0b = []
@@ -308,18 +332,24 @@ while(1):
         #Rx_1d = data4[1]        # PlutoSDR 2, RX 1
         #phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
         #phase_cal_0b.append(compute_phase_offset(Rx_0b, Rx_1b))
-        phase_cal_1b.append(compute_phase_offset(Rx_0b, Rx_1b))
-        phase_cal_0c.append(compute_phase_offset(Rx_0b, Rx_0c))
-        phase_cal_1c.append(compute_phase_offset(Rx_0b, Rx_1c))
+        phase_1b, delay_1b = compute_phase_offset_and_delay(Rx_0b, Rx_1b)
+        phase_0c, delay_0c = compute_phase_offset_and_delay(Rx_0b, Rx_0c)
+        phase_1c, delay_1c = compute_phase_offset_and_delay(Rx_0b, Rx_1c)
+        phase_cal_1b.append(phase_1b)
+        phase_cal_0c.append(phase_0c)
+        phase_cal_1c.append(phase_1c)
 
     #phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
     #phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
     phase_cal_1b = int(sum(phase_cal_1b) / len(phase_cal_1b))
     print("Rx 1 Offset: ", phase_cal_1b)
+    print("Rx 1 Delay: ", delay_1b)
     phase_cal_0c = int(sum(phase_cal_0c) / len(phase_cal_0c))
     print("Rx 2 Offset: ", phase_cal_0c)
+    print("Rx 2 Delay: ", delay_0c)
     phase_cal_1c = int(sum(phase_cal_1c) / len(phase_cal_1c))
     print("Rx 3 Offset: ", phase_cal_1c)
+    print("Rx 3 Delay: ", delay_1c)
     #phase_cal_0d = int(sum(phase_cal_1b) / len(phase_cal_1b))
     #phase_cal_1d = int(sum(phase_cal_1b) / len(phase_cal_1b))
 
@@ -327,8 +357,8 @@ while(1):
 AVERAGING_SCANS = 1
 for i in range(num_scans):
     #data1 = sdr1.rx()
-    data2 = sdr2.rx()
-    data3 = sdr3.rx()
+    data2, data2_T = sdr2.rx(P1Clock)
+    data3, data3_T = sdr3.rx(P2Clock)
     #data4 = sdr4.rx()
     # Rx_0a = data1[0]        # PlutoSDR 1, RX 0
     # Rx_1a = data1[1]        # PlutoSDR 1, RX 1
@@ -340,13 +370,9 @@ for i in range(num_scans):
     # Rx_1d = data4[1]        # PlutoSDR 4, RX 1
     peak_sum = []
     #
-    #phase_cal_1a = compute_phase_offset(Rx_0a, Rx_1a)
-    #phase_cal_0b = compute_phase_offset(Rx_0a, Rx_0b)
-    # phase_cal_1b = compute_phase_offset(Rx_0b, Rx_1b)
-    # phase_cal_0c = compute_phase_offset(Rx_0b, Rx_0c)
-    # phase_cal_1c = compute_phase_offset(Rx_0b, Rx_1c)
-    #phase_cal_0d = compute_phase_offset(Rx_0b, Rx_0d)
-    #phase_cal_1d = compute_phase_offset(Rx_0b, Rx_1d)
+    phase_cal_1b, delay_1b = compute_phase_offset_and_delay(Rx_0b, Rx_1b)
+    phase_cal_0c, delay_0c = compute_phase_offset_and_delay(Rx_0b, Rx_0c)
+    phase_cal_1c, delay_1c = compute_phase_offset_and_delay(Rx_0b, Rx_1c)
     #
     delay_phases = np.arange(-180, 180, 2)    # Create an Array for -180 - 180 degrees sweep
     # delay_phases = np.arange(-24, 26, 2)
@@ -355,15 +381,28 @@ for i in range(num_scans):
     for phase_delay in delay_phases:   
         peak_sum_avg = []
         for i in range(AVERAGING_SCANS):
+            # Set delay     
+            if delay_1b < 0:
+                Rx_1b = padDelay(Rx_1b, int(-delay_1b)) # *samp_rate
+            elif delay_1b > 0:
+                Rx_1b = trimDelay(Rx_1b, int(delay_1b)) # *samp_rate
+            if delay_0c < 0:
+                Rx_0c = padDelay(Rx_0c, int(-delay_0c)) # *samp_rate
+            elif delay_0c > 0:
+                Rx_0c = trimDelay(Rx_0c, int(delay_0c)) # *samp_rate
+            if delay_1c < 0:
+                Rx_1c = padDelay(Rx_1c, int(-delay_1c)) # *samp_rate
+            elif delay_1c > 0:
+                Rx_1c = trimDelay(Rx_1c, int(delay_1c)) # *samp_rate
             #delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))
             #delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))    # PlutoSDR 1 RX 1
             #delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 2 RX 0
             delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1b))     # PlutoSDR 2 RX 1
-            # delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_0c))     # PlutoSDR 3 RX 0
-            # delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1c))     # PlutoSDR 3 RX 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ))    # PlutoSDR 3 RX 1
+            delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0c))     # PlutoSDR 3 RX 0
+            delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1c))     # PlutoSDR 3 RX 1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ))    # PlutoSDR 3 RX 1
             #delayed_Rx_0d = Rx_0b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1a))    # PlutoSDR 4 RX 0
             #delayed_Rx_1d = Rx_1b * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_1a))    # PlutoSDR 4 RX 1
-            delayed_sum = dbfs( Rx_0b + delayed_Rx_1b ) # + delayed_Rx_0c + delayed_Rx_1c
+            delayed_sum = dbfs( Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c) # + delayed_Rx_0c + delayed_Rx_1c
             peak_sum_avg.append(delayed_sum[signal_start:signal_end])
         peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
         peak_sum.append(np.max(peak_sum_value)) # np.max(delayed_sum[signal_start:signal_end])
