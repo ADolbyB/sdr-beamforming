@@ -255,26 +255,25 @@ signal_start = int(NumSamples * (samp_rate / 2 + fc0 / 2) / samp_rate)
 signal_end = int(NumSamples * (samp_rate / 2 + fc0 * 2) / samp_rate)
 
 # used to retrieve current data,time
-mastClock = datetime.now()  # Master Clock for all comparisons
-P1Clock = datetime.now()    # Counts when Pluto 1 begins RX stream 
-P2Clock = datetime.now()    # Counts when Pluto 2 Begins RX stream. We need the time_De
-print(f'Current mastClock.microsecond: | {mastClock.microsecond}')
-print(f'Current P1Clock.microsecond:   | {P1Clock.microsecond}')
-print(f'Current P2Clock.microsecond:   | {P2Clock.microsecond}')
+mastClock = datetime  # Master Clock for all comparisons
+P1Clock = datetime    # Counts when Pluto 1 begins RX stream 
+P2Clock = datetime    # Counts when Pluto 2 Begins RX stream. We need the time_De
+masterClock_T = mastClock.now()
+print(f'Current mastClock.microsecond: | {masterClock_T}')
+# print(f'Current P1Clock.microsecond:   | {P1Clock.microsecond}')
+# print(f'Current P2Clock.microsecond:   | {P2Clock.microsecond}')
 
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
 for i in range(20):  
     #data1 = sdr1.rx()
     print(f'i = {i}')
-    print(f'Before sdr2.rx(): Current P1Clock.second       | {P1Clock.second}')
-    print(f'Before sdr2.rx(): Current P2Clock.microsecond: | {P2Clock.microsecond}')
-    data2 = sdr2.rx()
-    print(f'Before sdr3.rx() / After sdr2.rx(): Current P1Clock.second:       | {P1Clock.second}')
-    print(f'Before sdr3.rx() / After sdr2.rx(): Current P2Clock.microsecond:  | {P2Clock.microsecond}')
-    data3 = sdr3.rx()
-    print(f'After sdr3.rx(): P1Clock.second        | {P1Clock.second}')
-    print(f'After sdr3.rx(): P2Clock.microsecond:  | {P2Clock.microsecond}')
+    data2, data2_T = sdr2.rx(P1Clock)
+    print(f'After sdr2.rx(): data2_T        | {data2_T}')
+    print(f'After sdr2.rx(): samples        | {float(data2_T.second * samp_rate)}')
+    data3, data3_T = sdr3.rx(P2Clock)
+    print(f'After sdr3.rx(): data3_T        | {data3_T}')
+    print(f'After sdr3.rx(): samples        | {float(data3_T.second * samp_rate)}')
     #data4 = sdr4.rx()
 
 ''' Calculate and find phase offsets for each Rx node '''
@@ -290,8 +289,8 @@ while(1):
     #phase_cal_1d = []
     for i in range(AVERAGING_PHASE):
         #data1 = sdr1.rx()
-        data2 = sdr2.rx()
-        data3 = sdr3.rx()
+        data2, data2_T = sdr2.rx(P1Clock)
+        data3, data3_T = sdr3.rx(P2Clock)
         #data4 = sdr4.rx()
         
         #Rx_0a = data1[0]        # PlutoSDR 1, RX 0
