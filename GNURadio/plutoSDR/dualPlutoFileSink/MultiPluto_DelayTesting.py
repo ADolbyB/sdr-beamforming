@@ -106,12 +106,17 @@ FILE_P5 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fi
 # This is the stream output for basic signal processing in GNU Radio
 fP2 = pl.fromfile(open(FILE_P2), dtype=np.complex64)
 fP3 = pl.fromfile(open(FILE_P3), dtype=np.complex64)
+print(f'Shape of fP2[0]: {fP2.shape[0]}')
 fP3 = pl.resize(fP3, fP2.shape)
+print(f'Shape of fP3[0]: {fP3.shape[0]}')
 fP4 = pl.fromfile(open(FILE_P4), dtype=np.complex64)
+print(f'Shape of fP4[0]: {fP4.shape[0]}')
 fP4 = pl.resize(fP4, fP2.shape)
 fP5 = pl.fromfile(open(FILE_P5), dtype=np.complex64)
+print(f'Shape of fP5[0]: {fP5.shape[0]}')
 fP5 = pl.resize(fP5, fP2.shape)
 fTX = pl.fromfile(open(FILE_TX), dtype=np.complex64)
+print(f'Shape of fTX[0]: {fTX.shape[0]}')
 fTX = pl.resize(fTX, fP2.shape)
 
 GRAPHS = "all" # stack, raster or all
@@ -376,8 +381,8 @@ elif DOMAIN == "all":
     ''' Create 3 QT Windows '''
     win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output")
     win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
-    win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
-    win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
+    #win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
+    #win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
     win_cross = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output [CORRECTED]")
     
     ''' Time Domain Display: All Channels on a single plot '''
@@ -403,10 +408,10 @@ elif DOMAIN == "all":
     p1_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
     p1_t.setYRange(-1, 1, padding=0)
 
-    p2_t = win_raw4.addPlot()
-    p2_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
-    p2_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
-    p2_t.setYRange(-1, 1, padding=0)
+    # p2_t = win_raw4.addPlot()
+    # p2_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
+    # p2_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
+    # p2_t.setYRange(-1, 1, padding=0)
 
     p3_t = win_cross.addPlot()
     p3_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
@@ -459,11 +464,11 @@ elif DOMAIN == "all":
     label4_c.setParentItem(p3_t)
     label4_c.setPos(65, 68) # Change Y position for each label
 
-    curve5_t = p2_t.plot(pen=pg.mkPen('c'))
-    curve5_t.setData(t_ax, fTX_r)
-    label5_t = pg.TextItem("P4.1 TX Baseband in CYAN")
-    label5_t.setParentItem(p2_t)
-    label5_t.setPos(65, 2) # Change Y position for each label
+    # curve5_t = p2_t.plot(pen=pg.mkPen('c'))
+    # curve5_t.setData(t_ax, fTX_r)
+    # label5_t = pg.TextItem("P4.1 TX Baseband in CYAN")
+    # label5_t.setParentItem(p2_t)
+    # label5_t.setPos(65, 2) # Change Y position for each label
 
     ''' Freq Domain Display: 2 Windows '''
     fs = int(SAMPLE_RATE)                       # frequency size
@@ -505,40 +510,40 @@ elif DOMAIN == "all":
     label4.setPos(65, 68) # Change Y position for each label
     
     # Visualize data: Window 2 (Raster)
-    p2 = win_raw3.addPlot()
-    p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p3 = win_raw3.addPlot()
-    p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p4 = win_raw3.addPlot()
-    p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p5 = win_raw3.addPlot()
-    p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # #p2 = win_raw3.addPlot()
+    # p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p3 = win_raw3.addPlot()
+    # p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p4 = win_raw3.addPlot()
+    # p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p5 = win_raw3.addPlot()
+    # p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
     
     # Change the pen to any other color for clarity - 'b' is blue
-    curve1a = p2.plot(pen=pg.mkPen('b'))
-    curve1a.setData(xf, fRx1_db)
-    label1a = pg.TextItem("P2.1 Rx0 in BLUE")
-    label1a.setParentItem(p2)
-    label1a.setPos(65, 2)
-    curve2a = p3.plot(pen=pg.mkPen('r'))
-    curve2a.setData(xf, fRx2_db)
-    label2a = pg.TextItem("P2.1 Rx1 in RED")
-    label2a.setParentItem(p3)
-    label2a.setPos(65, 2) # Change Y position for each label
-    curve3a = p4.plot(pen=pg.mkPen('g'))
-    curve3a.setData(xf, fRx3_db)
-    label3a = pg.TextItem("P5.1 Rx0 in GREEN")
-    label3a.setParentItem(p4)
-    label3a.setPos(65, 2) # Change Y position for each label
-    curve4a = p5.plot(pen=pg.mkPen('y'))
-    curve4a.setData(xf, fRx4_db)
-    label4a = pg.TextItem("P5.1 Rx1 in YELLOW")
-    label4a.setParentItem(p5)
-    label4a.setPos(65, 2) # Change Y position for each label
+    # curve1a = p2.plot(pen=pg.mkPen('b'))
+    # curve1a.setData(xf, fRx1_db)
+    # label1a = pg.TextItem("P2.1 Rx0 in BLUE")
+    # label1a.setParentItem(p2)
+    # label1a.setPos(65, 2)
+    # curve2a = p3.plot(pen=pg.mkPen('r'))
+    # curve2a.setData(xf, fRx2_db)
+    # label2a = pg.TextItem("P2.1 Rx1 in RED")
+    # label2a.setParentItem(p3)
+    # label2a.setPos(65, 2) # Change Y position for each label
+    # curve3a = p4.plot(pen=pg.mkPen('g'))
+    # curve3a.setData(xf, fRx3_db)
+    # label3a = pg.TextItem("P5.1 Rx0 in GREEN")
+    # label3a.setParentItem(p4)
+    # label3a.setPos(65, 2) # Change Y position for each label
+    # curve4a = p5.plot(pen=pg.mkPen('y'))
+    # curve4a.setData(xf, fRx4_db)
+    # label4a = pg.TextItem("P5.1 Rx1 in YELLOW")
+    # label4a.setParentItem(p5)
+    # label4a.setPos(65, 2) # Change Y position for each label
     
 else: 
     raise ValueError(print("Not a valid domain/graph type."))
