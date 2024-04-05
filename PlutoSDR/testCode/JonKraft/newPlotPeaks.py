@@ -278,7 +278,12 @@ for i in range(20):
     #data4 = sdr4.rx()
 
 ''' Calculate and find phase offsets for each Rx node '''
-# This assumes the linear array has the P1Tx node set at 0deg to P1Rx1
+# This assumes the linear array has the Tx node set at 0deg to P1Rx0
+
+# TODO: Try Threading processes to receieve data
+
+# TODO: Try implementing modified delay impl from MultiPluto_DelayTesting.py
+
 while(1):
     AVERAGING_PHASE = 15
     #phase_cal_1a = []

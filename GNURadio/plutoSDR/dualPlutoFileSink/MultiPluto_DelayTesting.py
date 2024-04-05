@@ -17,25 +17,24 @@ import struct
 
 '''Function for trimming ndarray data'''
 def trimDelay(input, delayDelta):
-    output = input
-    num_output = input.shape[0]
-    num_to_copy = max(0, num_output - delayDelta)
-    num_adj = min(delayDelta, num_output)
-    for i in range(num_output):
-        iptr = input[i]
-        optr = output[i]
-        optr[:num_to_copy]
-
+    # output = input
+    # num_output = input.shape[0]
+    # num_to_copy = max(0, num_output - delayDelta)
+    # num_adj = min(delayDelta, num_output)
+    # for i in range(num_output):
+    #     iptr = input[i]
+    #     optr = output[i]
+    #     optr[:num_to_copy]
     # std::memcpy(input)
-    # input = np.pad(input, (0, delayDelta), 'constant', constant_values=(0))
-    # input = input[delayDelta:]
+    input = np.pad(input, (0, delayDelta), 'constant', constant_values=(0))
+    input = input[delayDelta:]
     return input
 
 '''Function for padding ndarray data'''
 def padDelay(input, delayDelta):
-    # length = len(input)
-    # input = np.pad(input, (delayDelta, 0), 'constant', constant_values=(0))
-    # input = input[:length]
+    length = len(input)
+    input = np.pad(input, (delayDelta, 0), 'constant', constant_values=(0))
+    input = input[:length]
     return input
 
 '''Function for cross-correlation - Krysik'''
@@ -80,9 +79,9 @@ def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
 
     # Set delay     
     if delay < 0:
-        trim = trimDelay(Rx_data, int(-delay)) # *samp_rate
+        trim = padDelay(Rx_data, int(-delay)) # *samp_rate
     elif delay > 0:
-        trim = padDelay(Rx_data, int(delay)) # *samp_rate
+        trim = trimDelay(Rx_data, int(delay)) # *samp_rate
 
     # return Rx_data * np.exp(1j*np.deg2rad(phase_diff))
     return trim * np.sqrt(np.var(ref_data) / np.var(Rx_data)) * (np.exp(1j * np.deg2rad(phase_diff)))
@@ -389,9 +388,9 @@ elif DOMAIN == "all":
     # 2 windows: 1 with different graph plots for each channel & 1 with channels separated
     ''' Create 3 QT Windows '''
     win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output")
-    win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
-    win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
-    win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
+    # win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
+    # win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
+    # win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
     win_cross = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output [CORRECTED]")
     
     ''' Time Domain Display: All Channels on a single plot '''
@@ -519,18 +518,18 @@ elif DOMAIN == "all":
     # label4.setPos(65, 68) # Change Y position for each label
     
     # Visualize data: Window 2 (Raster)
-    p2 = win_raw3.addPlot()
-    p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p3 = win_raw3.addPlot()
-    p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p4 = win_raw3.addPlot()
-    p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
-    p5 = win_raw3.addPlot()
-    p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
-    p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p2 = win_raw3.addPlot()
+    # p2.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p2.setLabel('left', 'Relative Gain - P2.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p3 = win_raw3.addPlot()
+    # p3.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p3.setLabel('left', 'Relative Gain - P2.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p4 = win_raw3.addPlot()
+    # p4.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p4.setLabel('left', 'Relative Gain - P5.1 Rx0', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
+    # p5 = win_raw3.addPlot()
+    # p5.setLabel('bottom', 'Frequency', 'MHz', **{'color': '#FFF', 'size': '14pt'})
+    # p5.setLabel('left', 'Relative Gain - P5.1 Rx1', 'dBfs', **{'color': '#FFF', 'size': '14pt'})
     
     # Change the pen to any other color for clarity - 'b' is blue
     # curve1a = p2.plot(pen=pg.mkPen('b'))
