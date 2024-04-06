@@ -97,17 +97,17 @@ def dbfs(raw_data):
 
 ''' IQ Files to Read: '''
 # JOEL
-FILE_TX = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
-FILE_P2 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
-FILE_P3 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
-FILE_P4 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
-FILE_P5 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
+FILE_TX = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
+FILE_P2 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
+FILE_P3 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
+FILE_P4 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
+FILE_P5 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
 # PEYTON
-# FILE_TX = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
-# FILE_P2 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
-# FILE_P3 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
-# FILE_P4 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
-# FILE_P5 = "/home/ubuntu/PlutoSDR/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
+# FILE_TX = "/home/ubuntu/PlutoSDR/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
+# FILE_P2 = "/home/ubuntu/PlutoSDR/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
+# FILE_P3 = "/home/ubuntu/PlutoSDR/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
+# FILE_P4 = "/home/ubuntu/PlutoSDR/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
+# FILE_P5 = "/home/ubuntu/PlutoSDR/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
 
 ''' Extract data as a complex64 '''
 # This is the stream output for basic signal processing in GNU Radio
@@ -389,7 +389,7 @@ elif DOMAIN == "all":
     win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output")
     # win_raw2 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Stacked")
     # win_raw3 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Frequency Domain Sample: Raster")
-    # win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
+    win_raw4 = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain TX Data")
     win_cross = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Sample Output [CORRECTED]")
     
     ''' Time Domain Display: All Channels on a single plot '''
@@ -415,10 +415,10 @@ elif DOMAIN == "all":
     p1_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
     p1_t.setYRange(-1, 1, padding=0)
 
-    # p2_t = win_raw4.addPlot()
-    # p2_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
-    # p2_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
-    # p2_t.setYRange(-1, 1, padding=0)
+    p2_t = win_raw4.addPlot()
+    p2_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
+    p2_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
+    p2_t.setYRange(-1, 1, padding=0)
 
     p3_t = win_cross.addPlot()
     p3_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
@@ -471,11 +471,11 @@ elif DOMAIN == "all":
     label4_c.setParentItem(p3_t)
     label4_c.setPos(65, 68) # Change Y position for each label
 
-    # curve5_t = p2_t.plot(pen=pg.mkPen('c'))
-    # curve5_t.setData(t_ax, fTX_r)
-    # label5_t = pg.TextItem("P4.1 TX Baseband in CYAN")
-    # label5_t.setParentItem(p2_t)
-    # label5_t.setPos(65, 2) # Change Y position for each label
+    curve5_t = p2_t.plot(pen=pg.mkPen('c'))
+    curve5_t.setData(t_ax, fTX_r)
+    label5_t = pg.TextItem("P4.1 TX Baseband in CYAN")
+    label5_t.setParentItem(p2_t)
+    label5_t.setPos(65, 2) # Change Y position for each label
 
     ''' Freq Domain Display: 2 Windows '''
     fs = int(SAMPLE_RATE)                       # frequency size
