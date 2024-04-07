@@ -53,16 +53,15 @@ gain value, max of 71 dB, or 62 dB when over 4 GHz center freq
 from sys import path
 #print(f'sys.path = {path}')        # Edit JB: may need to add path to PYTHONPATH for OSError: [Errno 16] Device or resource busy
 from adi import ad9361
-from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
+from datetime import datetime
 import pyqtgraph as pg  
-from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
+from pyqtgraph.Qt import QtCore, QtGui#, QtWidgets
 import numpy as np
 import pylab as pl
 import math
 import time
 
-'''Function for trimming ndarray data'''
+''' Function To Trim ndarray data '''
 def trimDelay(input, delayDelta):
     # output = input
     # num_output = input.shape[0]
@@ -77,7 +76,7 @@ def trimDelay(input, delayDelta):
     input = input[delayDelta:]
     return input
 
-'''Function for padding ndarray data'''
+''' Function for padding ndarray data '''
 def padDelay(input, delayDelta):
     length = len(input)
     input = np.pad(input, (delayDelta, 0), 'constant', constant_values=(0))
@@ -129,7 +128,9 @@ def compute_phase_offset_and_delay(ref_data, Rx_data):
     phase_diff = result_corr[max_position] / pl.sqrt(pl.mean(pl.real(Rx_data)**2 + pl.imag(Rx_data)**2))
     phase_diff = pl.angle(phase_diff)/ pl.pi * 180
 
-    # TODO: Compute this function initially with the reference RX data (P1Rx0) and the raw RX data, then find the phase_diff and delay returned values with another call to this function with the reference data (again) with the raw data after a TRIM or PAD based off the first computed delay value
+    # TODO: Compute this function initially with the reference RX data (P1Rx0) and the raw RX data, 
+    # then calculate returned values `phase_diff` & `delay` with another call to this function 
+    # Using the reference data (again) & the raw data after a TRIM or PAD based off the first computed delay value
 
     return int(phase_diff), int(delay)
 
@@ -170,12 +171,12 @@ rx1_gain_sdr4 = 20
 tx_lo = rx_lo
 tx_gain = -3                        # Same as positive value in GNU Radio Sink
 fc0 = int(200e3)                    # 200 kHz
-Plot_Compass = False
+#Plot_Compass = False
 
 
 ''' Set distance between Rx antennas '''
-d_wavelength = 0.5                  # distance between elements as a fraction of wavelength.  This is normally 0.5
-wavelength = 3e8 / rx_lo            # wavelength of the RF carrier
+d_wavelength = 0.5                  # wavelength between elements.
+wavelength = 3e8 / rx_lo            # Frequency of the RF Carrier in Hz
 d = d_wavelength * wavelength       # distance between elements in meters
 print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
@@ -219,27 +220,27 @@ sdr3.rx_hardwaregain_chan1 = int(rx1_gain_sdr4)
 sdr1.rx_buffer_size = int(NumSamples)
 sdr2.rx_buffer_size = int(NumSamples)
 sdr3.rx_buffer_size = int(NumSamples)
-#sdr1._rxadc.set_kernel_buffers_count(1)     # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+#sdr1._rxadc.set_kernel_buffers_count(1)        # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
 sdr1._rxadc.set_kernel_buffers_count(1)
 sdr2._rxadc.set_kernel_buffers_count(1)
 sdr3._rxadc.set_kernel_buffers_count(1)
-sdr0.tx_rf_bandwidth = int(fc0 * 3)         # ONLY TX 1 of PlutoSDR 1 will have TX capability.
+sdr0.tx_rf_bandwidth = int(fc0 * 3)             # ONLY TX 1 of PlutoSDR 1 will have TX capability.
 sdr0.tx_lo = int(tx_lo)
 sdr0.tx_cyclic_buffer = True
-sdr0.tx_hardwaregain_chan0 = int(tx_gain)   # ONLY TX1 of PlutoSDR 1 is the transmitter.
-#sdr2.tx_hardwaregain_chan0 = int(-88)       # Shut Off all other TX Channels for all Plutos
+sdr0.tx_hardwaregain_chan0 = int(tx_gain)       # ONLY TX1 of PlutoSDR 1 is the transmitter.
+#sdr2.tx_hardwaregain_chan0 = int(-88)          # Shut Off all other TX Channels for all Plutos
 # sdr3.tx_hardwaregain_chan0 = int(-88)
 # sdr4.tx_hardwaregain_chan0 = int(-88)
 sdr0.tx_hardwaregain_chan1 = int(-88)
 #sdr2.tx_hardwaregain_chan1 = int(-88)
 # sdr3.tx_hardwaregain_chan1 = int(-88)
 # sdr4.tx_hardwaregain_chan1 = int(-88)
-sdr0.tx_buffer_size = int(2**18)            # TX Buffer size: 2^18 = 262144
+sdr0.tx_buffer_size = int(2**18)                # TX Buffer size: 2^18 = 262144
 
-''' Mode Selection for TX Pluto: '''
+''' TX Mode Selection for TX Pluto: '''
 MODE = "carrier" # "bpsk" or "carrier"
 
-if MODE == "bpsk":
+if MODE == "bpsk": # Beta testing
 
     ''' Program SDR1 TX1 and Send Data From PlutoSDR 1 to all other RX Nodes '''
     # Barker Sequence
@@ -258,7 +259,7 @@ if MODE == "bpsk":
     bpsk = generate_bpsk(iq0, 50, 13)
     sdr0.tx([iq0, iq0])  # Send Tx data.
 
-elif MODE == "carrier":
+elif MODE == "carrier": # Default Mode
 
     fs = int(sdr0.sample_rate)
     N = 2**16
@@ -315,34 +316,34 @@ p1.addItem(vertiLine)
 baseCurve = p1.plot()
 baseCurve.setZValue(10)
 
-'''Find CPU Scheduling Time Offsets in Samples'''
+''' Rough Estimate CPU Scheduling Time Offsets in Samples (Beta)'''
 mastClock = datetime  # Master Clock for all comparisons
-P1Clock = datetime    # Counts when Pluto 1 begins RX stream 
-P2Clock = datetime    # Counts when Pluto 2 Begins RX stream. We need the time_De
-P3Clock = datetime
+P1Clock = datetime    # Starts when Pluto 1 .rx() call is made from main()
+P2Clock = datetime    # Starts when Pluto 2 .rx() call is made from main()
+P3Clock = datetime    # Starts when Pluto 3 .rx() call is made from main()
 masterClock_T = mastClock.now()
 print(f'Current mastClock.microsecond: | {masterClock_T}')
 
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
-for i in range(20):  
+# TODO: Debug Terminal Print statements. Sould print # of samples.
+for i in range(20):
     #data1 = sdr1.rx()
-    print(f'i = {i}')
+    print(f'Calibration # {i}')
     data1, data1_T = sdr1.rx(P1Clock)
     print(f'After sdr2.rx(): data2_T        | {data1_T}')
-    print(f'After sdr2.rx(): samples        | {float(data1_T.second * samp_rate)}')
+    print(f'After sdr2.rx(): samples        | {int(data1_T.second * samp_rate)}')
     data2, data2_T = sdr2.rx(P2Clock)
     print(f'After sdr3.rx(): data3_T        | {data2_T}')
-    print(f'After sdr3.rx(): samples        | {float(data2_T.second * samp_rate)}')
+    print(f'After sdr3.rx(): samples        | {int(data2_T.second * samp_rate)}')
     data3, data3_T = sdr3.rx(P3Clock)
     print(f'After sdr3.rx(): data3_T        | {data3_T}')
-    print(f'After sdr3.rx(): samples        | {float(data3_T.second * samp_rate)}')
-
+    print(f'After sdr3.rx(): samples        | {int(data3_T.second * samp_rate)}')
 
 # TODO: Try Threading processes to receieve data
 
-'''Averaging the Phase Offsets (PIPE DREAM)'''
-while(0):
+''' Averaging the Phase Offsets (PIPE DREAM) '''
+while(0): # Turned Off For now
     AVERAGING_PHASE = 15
     #phase_cal_1a = []
     #phase_cal_0b = []
@@ -388,7 +389,7 @@ while(0):
     #phase_cal_0d = int(sum(phase_cal_1b) / len(phase_cal_1b))
     #phase_cal_1d = int(sum(phase_cal_1b) / len(phase_cal_1b))
 
-'''Main Loop'''
+''' Main Loop '''
 AVERAGING_SCANS = 1
 def rotate():
     rpm = 0.1
@@ -440,11 +441,11 @@ def rotate():
             elif delay_1c > 0:
                 Rx_1c = trimDelay(Rx_1c, int(delay_1c))
             # Compute phase shift
-            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a))     # PlutoSDR 1 RX 1
-            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0b))     # PlutoSDR 2 RX 0
-            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1b))     # PlutoSDR 2 RX 1
-            delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_0c))     # PlutoSDR 3 RX 0
-            delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(5 * phase_delay + phase_cal_1c))     # PlutoSDR 3 RX 1
+            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a)) # PlutoSDR 1 RX 1
+            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0b)) # PlutoSDR 2 RX 0
+            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1b)) # PlutoSDR 2 RX 1
+            delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_0c)) # PlutoSDR 3 RX 0
+            delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(5 * phase_delay + phase_cal_1c)) # PlutoSDR 3 RX 1
             delayed_sum = dbfs( Rx_0a + delayed_Rx_1a + delayed_Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c)
             peak_sum_avg.append(delayed_sum[signal_start:signal_end])
         peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
@@ -461,12 +462,12 @@ def rotate():
     vertiLine.setPos(peak_delay)
     p1.addItem(vertiLine)
     # Set labels
-    peakSignalLabel.setText("Peak Signal at {} deg phase delay".format(round(peak_delay,1)))
-    phaseLabelP1Rx1.setText("Phase shift P1Rx1 = {} deg".format(phase_cal_1a))
-    phaseLabelP2Rx0.setText("Phase shift P2Rx0 = {} deg".format(phase_cal_0b))
-    phaseLabelP2Rx1.setText("Phase shift P2Rx1 = {} deg".format(phase_cal_1b))
-    phaseLabelP3Rx0.setText("Phase shift P3Rx0 = {} deg".format(phase_cal_0c))
-    phaseLabelP3Rx1.setText("Phase shift P3Rx1 = {} deg".format(phase_cal_1c))
+    peakSignalLabel.setText(f'Peak Signal at {round(peak_delay, 1)} deg phase delay')
+    phaseLabelP1Rx1.setText(f'Phase shift P1Rx1 = {phase_cal_1a} deg')
+    phaseLabelP2Rx0.setText(f'Phase shift P2Rx0 = {phase_cal_0b} deg')
+    phaseLabelP2Rx1.setText(f'Phase shift P2Rx1 = {phase_cal_1b} deg')
+    phaseLabelP3Rx0.setText(f'Phase shift P3Rx0 = {phase_cal_0c} deg')
+    phaseLabelP3Rx1.setText(f'Phase shift P3Rx1 = {phase_cal_1c} deg')
     peakSteerLabel.setText(f'If d = {int(d*1000)}mm, then steering angle = {steer_angle} deg')
 
     # Control rate of rotation
@@ -479,7 +480,6 @@ timer.start(0)
 if __name__ == '__main__':
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        # QtGui.QApplication.instance().exec_() # 2023-12-01 JB: does not work (see next line)
         QtGui.QGuiApplication.instance().exec()
 
 sdr0.tx_destroy_buffer()
