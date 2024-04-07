@@ -22,6 +22,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - [How to Generate Multi-Channel Phase-Stable and Phase-Coherent Signals](https://www.keysight.com/blogs/en/tech/rfmw/2019/04/10/how-to-generate-multi-channel-phase-stable-and-phase-coherent-signals)
 - [How to Perform Multi-Channel Timing and Phase Alignment](https://www.keysight.com/blogs/en/tech/rfmw/2019/04/18/how-to-perform-multi-channel-timing-and-phase-alignment)
 - [Phase Alignment Among Multiple Transmitters](https://www.freepatentsonline.com/y2016/0308598.html)
+- [ADI CNO566 Phased Array (Phaser) Development Platform](https://www.analog.com/en/resources/reference-designs/circuits-from-the-lab/cn0566.html)
 - [ADI Phased Arrays](https://www.analog.com/en/applications/markets/aerospace-and-defense-pavilion-home/phased-array-solution.html)
 
 ## Notable Repos for This Project:
@@ -29,7 +30,9 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 - Jon Kraft's [`Pluto_Beamformer`](https://github.com/jonkraft/Pluto_Beamformer) Repo for PlutoSDR.
 - Jon Kraft's [`PlutoSDR_Labs`](https://github.com/jonkraft/PlutoSDR_Labs) Repo for PlutoSDR.
 - Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the Analog Devices [ADAR-1000](https://www.analog.com/media/en/technical-documentation/data-sheets/adar1000.pdf). 
-   - These are $$$$ &amp; the repo needs updating to use Multiple PlutoSDRs instead of the ADAR-1000.
+   - These appear NLA &amp; the SW repo needs updating to use Multiple PlutoSDRs instead of the ADAR-1000.
+   - Option 1: The $2,800 [ADI CNO66](https://www.mouser.com/ProductDetail/Analog-Devices/EVAL-CN0566-RPIZ?qs=9vOqFld9vZV8E7zpQ8NrWw%3D%3D)
+   - Option 2: The $21,000 [USRP N310 ZYNQ-7100, 4 CHANNELS](https://www.digikey.com/en/products/detail/ni/785067-01/16818609)
 - KrakenRF's [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) Repo for Direction Finding 
 on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - mfkiwl's [`kraken_pr`](https://github.com/mfkiwl/krakensdr_pr) Repo for Passive Radar.
