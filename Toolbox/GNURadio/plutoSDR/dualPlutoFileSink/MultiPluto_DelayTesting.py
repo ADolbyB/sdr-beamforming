@@ -68,13 +68,15 @@ def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
     # phase_diff = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_diff)))
     phase_diff = np.angle(phase_diff) / np.pi * 180
 
-    print ("Delay of ", Rx_name, ": ", delay,' | Phase Diff: ', phase_diff, " [deg]")
+    print ("Delay of ", Rx_name, ": ", delay,' | Phase Diff: ', phase_diff, " [deg] | Length of ", Rx_name, ": ", Rx_data.shape[0])
 
     # Set phase amplitude correction
     # INSERT
     # phase_amplitude_correction = sqrt(var(ref_data)/var(Rx_data))*(exp(1j*angle(phase_amplitude_correction)))
 
     trim = Rx_data
+
+    # TODO: data is aligned, but the graphs arbitrarily line up at index[0]
 
     # Set delay     
     if delay < 0:

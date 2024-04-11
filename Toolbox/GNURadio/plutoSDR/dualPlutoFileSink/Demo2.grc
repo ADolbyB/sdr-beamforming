@@ -28,7 +28,7 @@ options:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 92.0]
+    coordinate: [416, 12.0]
     rotation: 0
     state: enabled
 
@@ -42,7 +42,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 92.0]
+    coordinate: [8, 12.0]
     rotation: 0
     state: true
 - name: P3_path
@@ -54,7 +54,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 156.0]
+    coordinate: [8, 76.0]
     rotation: 0
     state: true
 - name: P4_path
@@ -66,7 +66,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 220.0]
+    coordinate: [8, 140.0]
     rotation: 0
     state: true
 - name: P5_path
@@ -78,7 +78,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 284.0]
+    coordinate: [8, 204.0]
     rotation: 0
     state: true
 - name: Tx_path
@@ -90,7 +90,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 28.0]
+    coordinate: [960, 20.0]
     rotation: 0
     state: true
 - name: baseband
@@ -102,7 +102,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 180.0]
+    coordinate: [512, 100.0]
     rotation: 0
     state: true
 - name: const
@@ -121,7 +121,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 236.0]
+    coordinate: [696, 164.0]
     rotation: 0
     state: true
 - name: freq
@@ -133,7 +133,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 244.0]
+    coordinate: [416, 164.0]
     rotation: 0
     state: true
 - name: pluto2
@@ -145,7 +145,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 92.0]
+    coordinate: [288, 12.0]
     rotation: 0
     state: true
 - name: pluto3
@@ -157,7 +157,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 156.0]
+    coordinate: [288, 76.0]
     rotation: 0
     state: true
 - name: pluto4
@@ -169,7 +169,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 220.0]
+    coordinate: [288, 140.0]
     rotation: 0
     state: true
 - name: pluto5
@@ -181,7 +181,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 284.0]
+    coordinate: [288, 204.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -193,7 +193,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 180.0]
+    coordinate: [416, 100.0]
     rotation: 0
     state: enabled
 - name: analog_random_source_x_0
@@ -213,7 +213,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 316.0]
+    coordinate: [520, 276.0]
     rotation: 0
     state: disabled
 - name: analog_sig_source_x_0
@@ -236,7 +236,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 468.0]
+    coordinate: [520, 476.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0
@@ -254,7 +254,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 412.0]
+    coordinate: [360, 332.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0_0
@@ -272,7 +272,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 988.0]
+    coordinate: [360, 908.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_0_0
@@ -290,7 +290,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 1268.0]
+    coordinate: [360, 1188.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_1
@@ -308,7 +308,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 1076.0]
+    coordinate: [360, 996.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_1_0
@@ -326,7 +326,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 1364.0]
+    coordinate: [360, 1284.0]
     rotation: 0
     state: disabled
 - name: blocks_file_sink_0_2
@@ -344,7 +344,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 692.0]
+    coordinate: [360, 612.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0_2_0
@@ -362,7 +362,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 780.0]
+    coordinate: [360, 700.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0_3
@@ -380,7 +380,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [360, 492.0]
+    coordinate: [360, 412.0]
     rotation: 0
     state: enabled
 - name: blocks_file_sink_0_4
@@ -398,7 +398,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [992, 356.0]
+    coordinate: [944, 356.0]
     rotation: 0
     state: enabled
 - name: digital_constellation_modulator_0
@@ -420,7 +420,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [712, 308.0]
+    coordinate: [704, 268.0]
     rotation: 0
     state: disabled
 - name: iio_fmcomms2_sink_0
@@ -450,7 +450,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [968, 436.0]
+    coordinate: [944, 444.0]
     rotation: 0
     state: true
 - name: iio_fmcomms2_source_0_0
@@ -486,7 +486,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 348.0]
+    coordinate: [8, 268.0]
     rotation: 0
     state: enabled
 - name: iio_fmcomms2_source_0_0_0
@@ -522,7 +522,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 924.0]
+    coordinate: [8, 844.0]
     rotation: 0
     state: disabled
 - name: iio_fmcomms2_source_0_0_0_0
@@ -558,7 +558,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 1212.0]
+    coordinate: [8, 1132.0]
     rotation: 0
     state: disabled
 - name: iio_fmcomms2_source_0_0_1
@@ -594,7 +594,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 636.0]
+    coordinate: [8, 556.0]
     rotation: 0
     state: enabled
 - name: note_0_0
@@ -607,7 +607,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [512, 268.0]
+    coordinate: [520, 180.0]
     rotation: 0
     state: enabled
 - name: note_0_1
@@ -620,7 +620,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [352, 356.0]
+    coordinate: [352, 276.0]
     rotation: 0
     state: enabled
 

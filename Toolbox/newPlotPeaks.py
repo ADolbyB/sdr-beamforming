@@ -63,15 +63,6 @@ import time
 
 ''' Function To Trim ndarray data '''
 def trimDelay(input, delayDelta):
-    # output = input
-    # num_output = input.shape[0]
-    # num_to_copy = max(0, num_output - delayDelta)
-    # num_adj = min(delayDelta, num_output)
-    # for i in range(num_output):
-    #     iptr = input[i]
-    #     optr = output[i]
-    #     optr[:num_to_copy]
-    # std::memcpy(input)
     input = np.pad(input, (0, delayDelta), 'constant', constant_values=(0))
     input = input[delayDelta:]
     return input
@@ -121,12 +112,12 @@ def xcorrelate(X, Y, maxlag):
 ''' Function for computing and finding delays - Krysik '''
 def compute_phase_offset_and_delay(ref_data, Rx_data):
 
-    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data) / 2))
+    result_corr = xcorrelate(ref_data, Rx_data, int(len(ref_data) / 2))
     max_position = np.argmax(abs(result_corr))
     delay = len(result_corr) / 2 - max_position
 
-    phase_diff = result_corr[max_position] / pl.sqrt(pl.mean(pl.real(Rx_data)**2 + pl.imag(Rx_data)**2))
-    phase_diff = pl.angle(phase_diff)/ pl.pi * 180
+    phase_diff = result_corr[max_position] / np.sqrt(np.mean(np.real(Rx_data)**2 + np.imag(Rx_data)**2))
+    phase_diff = np.angle(phase_diff)/ np.pi * 180
 
     # TODO: Compute this function initially with the reference RX data (P1Rx0) and the raw RX data, 
     # then calculate returned values `phase_diff` & `delay` with another call to this function 
@@ -316,29 +307,49 @@ p1.addItem(vertiLine)
 baseCurve = p1.plot()
 baseCurve.setZValue(10)
 
-''' Rough Estimate CPU Scheduling Time Offsets in Samples (Beta)'''
-mastClock = datetime  # Master Clock for all comparisons
-P1Clock = datetime    # Starts when Pluto 1 .rx() call is made from main()
-P2Clock = datetime    # Starts when Pluto 2 .rx() call is made from main()
-P3Clock = datetime    # Starts when Pluto 3 .rx() call is made from main()
-masterClock_T = mastClock.now()
-print(f'Current mastClock.microsecond: | {masterClock_T}')
+''' Set up Sync Window '''
+win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Output")
+p1_t = win_raw.addPlot()
+p1_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
+p1_t.setLabel('left', 'Amplitude', **{'color': '#FFF', 'size': '14pt'})
+p1_t.setYRange(-650, 650, padding=0)
+# Time axis
+t_ax = np.arange(NumSamples) / samp_rate
+# Curves and labels
+curve1_t = p1_t.plot(pen=pg.mkPen('b'))
+label1_t = pg.TextItem("P1 Rx0 in BLUE")
+label1_t.setParentItem(p1_t)
+label1_t.setPos(65, 2)
+curve2_t = p1_t.plot(pen=pg.mkPen('r'))
+label2_t = pg.TextItem("P1 Rx1 in RED")
+label2_t.setParentItem(p1_t)
+label2_t.setPos(65, 24) # Change Y position for each label
+curve3_t = p1_t.plot(pen=pg.mkPen('g'))
+label3_t = pg.TextItem("P2 Rx0 in GREEN")
+label3_t.setParentItem(p1_t)
+label3_t.setPos(65, 46) # Change Y position for each label
+curve4_t = p1_t.plot(pen=pg.mkPen('y'))
+label4_t = pg.TextItem("P2 Rx1 in YELLOW")
+label4_t.setParentItem(p1_t)
+label4_t.setPos(65, 68) # Change Y position for each label
+curve5_t = p1_t.plot(pen=pg.mkPen('c'))
+label5_t = pg.TextItem("P3 Rx1 in CYAN")
+label5_t.setParentItem(p1_t)
+label5_t.setPos(65, 90) # Change Y position for each label
+curve6_t = p1_t.plot(pen=pg.mkPen('m'))
+label6_t = pg.TextItem("P3 Rx1 in MAGENTA")
+label6_t.setParentItem(p1_t)
+label6_t.setPos(65, 102) # Change Y position for each label
+
 
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
 # TODO: Debug Terminal Print statements. Sould print # of samples.
 for i in range(20):
     #data1 = sdr1.rx()
-    print(f'Calibration # {i}')
-    data1, data1_T = sdr1.rx(P1Clock)
-    print(f'After sdr2.rx(): data2_T        | {data1_T}')
-    print(f'After sdr2.rx(): samples        | {int(data1_T.second * samp_rate)}')
-    data2, data2_T = sdr2.rx(P2Clock)
-    print(f'After sdr3.rx(): data3_T        | {data2_T}')
-    print(f'After sdr3.rx(): samples        | {int(data2_T.second * samp_rate)}')
-    data3, data3_T = sdr3.rx(P3Clock)
-    print(f'After sdr3.rx(): data3_T        | {data3_T}')
-    print(f'After sdr3.rx(): samples        | {int(data3_T.second * samp_rate)}')
+    data1 = sdr1.rx()
+    data2 = sdr2.rx()
+    data3 = sdr3.rx()
 
 # TODO: Try Threading processes to receieve data
 
@@ -394,9 +405,9 @@ AVERAGING_SCANS = 1
 def rotate():
     rpm = 0.1
     # Receieve data
-    data1, data1_T = sdr1.rx(P1Clock)
-    data2, data2_T = sdr2.rx(P2Clock)
-    data3, data3_T = sdr3.rx(P3Clock)
+    data1 = sdr1.rx()
+    data2 = sdr2.rx()
+    data3 = sdr3.rx()
     #
     Rx_0a = data1[0]          # PlutoSDR 1, RX 0
     Rx_1a = data1[1]          # PlutoSDR 1, RX 1
@@ -414,40 +425,49 @@ def rotate():
     phase_cal_1c, delay_1c = compute_phase_offset_and_delay(Rx_0a, Rx_1c)
     #
     delay_phases = np.arange(-180, 180, 2)    # Create an Array for -180 - 180 degrees sweep
-        
+    #
+    # Set delays   
+    if delay_1a < 0:
+        Rx_1a = padDelay(Rx_1a, int(-delay_1a))
+    elif delay_1a > 0:
+        Rx_1a = trimDelay(Rx_1a, int(delay_1a))
+    if delay_0b < 0:
+        Rx_0b = padDelay(Rx_0b, int(-delay_0b))
+    elif delay_0b > 0:
+        Rx_0b = trimDelay(Rx_0b, int(delay_0b))
+    if delay_1b < 0:
+        Rx_1b = padDelay(Rx_1b, int(-delay_1b))
+    elif delay_1b > 0:
+        Rx_1b = trimDelay(Rx_1b, int(delay_1b))
+    if delay_0c < 0:
+        Rx_0c = padDelay(Rx_0c, int(-delay_0c))
+    elif delay_0c > 0:
+        Rx_0c = trimDelay(Rx_0c, int(delay_0c))
+    if delay_1c < 0:
+        Rx_1c = padDelay(Rx_1c, int(-delay_1c))
+    elif delay_1c > 0:
+        Rx_1c = trimDelay(Rx_1c, int(delay_1c))
+
     ''' Phase shift by each degree from -180 to 180 and store peak signal '''
     for phase_delay in delay_phases:   
         peak_sum_avg = []
         for i in range(AVERAGING_SCANS):
-            # Set delays   
-            if delay_1a < 0:
-                Rx_1a = padDelay(Rx_1a, int(-delay_1a))
-            elif delay_1a > 0:
-                Rx_1a = trimDelay(Rx_1a, int(delay_1a))
-            if delay_0b < 0:
-                Rx_0b = padDelay(Rx_0b, int(-delay_0b))
-            elif delay_0b > 0:
-                Rx_0b = trimDelay(Rx_0b, int(delay_0b))
-            if delay_1b < 0:
-                Rx_1b = padDelay(Rx_1b, int(-delay_1b))
-            elif delay_1b > 0:
-                Rx_1b = trimDelay(Rx_1b, int(delay_1b))
-            if delay_0c < 0:
-                Rx_0c = padDelay(Rx_0c, int(-delay_0c))
-            elif delay_0c > 0:
-                Rx_0c = trimDelay(Rx_0c, int(delay_0c))
-            if delay_1c < 0:
-                Rx_1c = padDelay(Rx_1c, int(-delay_1c))
-            elif delay_1c > 0:
-                Rx_1c = trimDelay(Rx_1c, int(delay_1c))
             # Compute phase shift
             delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a)) # PlutoSDR 1 RX 1
             delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0b)) # PlutoSDR 2 RX 0
             delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1b)) # PlutoSDR 2 RX 1
             delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_0c)) # PlutoSDR 3 RX 0
             delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(5 * phase_delay + phase_cal_1c)) # PlutoSDR 3 RX 1
-            delayed_sum = dbfs( Rx_0a + delayed_Rx_1a + delayed_Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c)
+            delayed_sum = dbfs( Rx_0a + delayed_Rx_1a + delayed_Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c )
             peak_sum_avg.append(delayed_sum[signal_start:signal_end])
+            #
+            ''' Sync Time Plot '''
+            curve1_t.setData(t_ax, np.real(Rx_0a))
+            curve2_t.setData(t_ax, np.real(Rx_1a))
+            curve3_t.setData(t_ax, np.real(Rx_0b))
+            curve4_t.setData(t_ax, np.real(Rx_1b))
+            curve5_t.setData(t_ax, np.real(Rx_0c))
+            curve6_t.setData(t_ax, np.real(Rx_1c))
         peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
         peak_sum.append(np.max(peak_sum_value)) # np.max(delayed_sum[signal_start:signal_end])
     

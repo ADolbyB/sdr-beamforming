@@ -51,7 +51,7 @@ def xcorrelate(X, Y, maxlag):
 '''Function for computing and finding delays - Krysik'''
 def compute_and_set_delay(ref_data, Rx_data, Rx_name, samp_rate):
 
-    result_corr = xcorrelate(ref_data, Rx_data,int(len(ref_data) / 2))
+    result_corr = xcorrelate(ref_data, Rx_data, int(len(ref_data) / 2))
     max_position = np.argmax(abs(result_corr))
     delay = len(result_corr) / 2 - max_position
 
@@ -89,11 +89,11 @@ def dbfs(raw_data):
     return s_dbfs
 
 ''' IQ Files to Read: '''
-FILE_TX = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
-FILE_P2 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
-FILE_P3 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
-FILE_P4 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
-FILE_P5 = "/home/sdr/code/sdr-beamforming/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
+FILE_TX = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputTX.iq"
+FILE_P2 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP2.iq"
+FILE_P3 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP3.iq"
+FILE_P4 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP4.iq"
+FILE_P5 = "/home/sdr/code/sdr-beamforming/Toolbox/GNURadio/plutoSDR/dualPlutoFileSink/fileOutputP5.iq"
 
 ''' Extract data as a complex64 '''
 # This is the stream output for basic signal processing in GNU Radio
@@ -109,8 +109,8 @@ fTX = pl.resize(fTX, fP2.shape)
 
 GRAPHS = "all" # stack, raster or all
 DOMAIN = "all" # freq, time or all
-SAMPLE_RATE = 2e6  # should be the same as it was in GNU Radio
-NUM_SAMPLES = fP2.shape[0] # this ensures that it is relative to what is captured
+SAMPLE_RATE = 1e6           # 1 MHz = 1 sample per us.
+NUM_SAMPLES = fP2.shape[0]  # this ensures that it is relative to what is captured
 
 '''Cross-Correlation and Delay Values'''
 DfP3 = compute_and_set_delay(fP2, fP3, "Pluto 2.1 Rx1", SAMPLE_RATE)
