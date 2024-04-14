@@ -365,8 +365,8 @@ while(0): # Turned Off For now
     #phase_cal_1d = []
     for i in range(AVERAGING_PHASE):
         #data1 = sdr1.rx()
-        data1, data1_T = sdr1.rx(P1Clock)
-        data2, data2_T = sdr2.rx(P2Clock)
+        data1 = sdr1.rx()
+        data2 = sdr2.rx()
         #data4 = sdr4.rx()
         
         #Rx_0a = data1[0]        # PlutoSDR 1, RX 0
