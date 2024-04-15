@@ -29,10 +29,7 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 - Jon Kraft's [`Pluto_Beamformer`](https://github.com/jonkraft/Pluto_Beamformer) Repo for PlutoSDR.
 - Jon Kraft's [`PlutoSDR_Labs`](https://github.com/jonkraft/PlutoSDR_Labs) Repo for PlutoSDR.
-- Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the Analog Devices [ADAR-1000](https://www.analog.com/media/en/technical-documentation/data-sheets/adar1000.pdf). 
-   - These appear NLA &amp; the SW repo needs updating to use Multiple PlutoSDRs instead of the ADAR-1000.
-   - Option 1: The $2,800 [ADI CNO66](https://www.mouser.com/ProductDetail/Analog-Devices/EVAL-CN0566-RPIZ?qs=9vOqFld9vZV8E7zpQ8NrWw%3D%3D)
-   - Option 2: The $21,000 [USRP N310 ZYNQ-7100, 4 CHANNELS](https://www.digikey.com/en/products/detail/ni/785067-01/16818609)
+- Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the Analog Devices [ADAR-1000](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADAR1000.html). 
 - KrakenRF's [`krakensdr_doa`](https://github.com/krakenrf/krakensdr_doa) Repo for Direction Finding 
 on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - mfkiwl's [`kraken_pr`](https://github.com/mfkiwl/krakensdr_pr) Repo for Passive Radar.
@@ -42,6 +39,20 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - analogdevicesinc's [`gr-iio`](https://github.com/analogdevicesinc/gr-iio) Repo for IIO (PlutoSDR) Devices.
 - gnuradio's [`gnuradio`](https://github.com/gnuradio/gnuradio) Repo for the GNURadio Program.
 - coherent-receiver's [`N-Channel Coherent Transceivers`](https://coherent-receiver.com/pluto-sdr) (Conceptual Only).
+
+## Alternative Hardware Options:
+### Alternatives to the PlutoSDR & KrakenSDR for Beamforming:
+
+- Option 1: The $1,000 Analog Devices [ADAR1000](https://www.analog.com/media/en/technical-documentation/data-sheets/adar1000.pdf)
+    - Note that this device's frequency range is 8GHz tp 16GHz, so this may not be ideal. It is also Receive Only.
+- Option 2: The $1,444.50 Analog Devices [AD-FMCOMMS5-EBZ](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html)
+    - This seems to be a great option for prototyping. Uses 2 AD9361 chips and is Frequency and Phase Coherent out of the box. Allows for 4x4 MIMO operation and has tuning range 70MHz - 6GHz.
+- Option 3: The $2,165.00 Ettus [USRB B210](https://www.ettus.com/all-products/ub210-kit/) 2 channel phase coherent transceiver.
+    - This is a viable option for RX & TX beamforming, but its only 2x2 MIMO operation.
+- Option 4: The $2,500 Analog Devices [ADI CNO566](https://www.analog.com/en/resources/reference-designs/circuits-from-the-lab/cn0566.html#rd-overview)
+    - More expensive than the FMComms5 and only allows 2x2 MIMO operation.
+- Option 5: The $17,765 Ettus Research [USRP N310 ZYNQ-7100, 4 CHANNELS](https://www.ettus.com/all-products/usrp-n310/)
+    - This is the most expensive, but it does provide 4x4 MIMO operation, since it also uses 2x Analog Devices AD9361 Chips.
 
 ## KrakenSDR Resources:
 
