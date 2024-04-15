@@ -353,53 +353,6 @@ for i in range(20):
 
 # TODO: Try Threading processes to receieve data
 
-''' Averaging the Phase Offsets (PIPE DREAM) '''
-while(0): # Turned Off For now
-    AVERAGING_PHASE = 15
-    #phase_cal_1a = []
-    #phase_cal_0b = []
-    phase_cal_1a = []
-    phase_cal_0b = []
-    phase_cal_1b = []
-    #phase_cal_0d = []
-    #phase_cal_1d = []
-    for i in range(AVERAGING_PHASE):
-        #data1 = sdr1.rx()
-        data1 = sdr1.rx()
-        data2 = sdr2.rx()
-        #data4 = sdr4.rx()
-        
-        #Rx_0a = data1[0]        # PlutoSDR 1, RX 0
-        #Rx_1a = data1[1]        # PlutoSDR 1, RX 1
-        Rx_0a = data1[0]        # PlutoSDR 2, RX 0
-        Rx_1a = data1[1]        # PlutoSDR 2, RX 1
-        Rx_0b = data2[0]        # PlutoSDR 2, RX 0
-        Rx_1b = data2[1]        # PlutoSDR 2, RX 1
-        #Rx_0d = data4[0]        # PlutoSDR 2, RX 0
-        #Rx_1d = data4[1]        # PlutoSDR 2, RX 1
-        #phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
-        #phase_cal_0b.append(compute_phase_offset(Rx_0b, Rx_1b))
-        phase_1b, delay_1a = compute_phase_offset_and_delay(Rx_0a, Rx_1a)
-        phase_0c, delay_0b = compute_phase_offset_and_delay(Rx_0a, Rx_0b)
-        phase_1c, delay_1b = compute_phase_offset_and_delay(Rx_0a, Rx_1b)
-        phase_cal_1a.append(phase_1b)
-        phase_cal_0b.append(phase_0c)
-        phase_cal_1b.append(phase_1c)
-
-    #phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
-    #phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
-    phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
-    print("Rx 1 Offset: ", phase_cal_1a)
-    print("Rx 1 Delay: ", delay_1a)
-    phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
-    print("Rx 2 Offset: ", phase_cal_0b)
-    print("Rx 2 Delay: ", delay_0b)
-    phase_cal_1b = int(sum(phase_cal_1b) / len(phase_cal_1b))
-    print("Rx 3 Offset: ", phase_cal_1b)
-    print("Rx 3 Delay: ", delay_1b)
-    #phase_cal_0d = int(sum(phase_cal_1b) / len(phase_cal_1b))
-    #phase_cal_1d = int(sum(phase_cal_1b) / len(phase_cal_1b))
-
 ''' Main Loop '''
 AVERAGING_SCANS = 1
 def rotate():
