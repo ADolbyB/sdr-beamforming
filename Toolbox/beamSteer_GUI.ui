@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1398</width>
+    <height>864</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="labelPhaseCal">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>750</y>
+      <width>211</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phase Calibration: 0 deg</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="GraphicsLayoutWidget" name="winFFT">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>761</width>
+      <height>401</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="toggleTrackerButton">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>630</y>
+      <width>171</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PAUSE</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPhaseIncrement">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>620</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0 deg</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="indent">
+     <number>7</number>
+    </property>
+   </widget>
+   <widget class="GraphicsLayoutWidget" name="trackerView">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>20</y>
+      <width>581</width>
+      <height>581</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDial" name="dialPhaseIncrement">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>650</y>
+      <width>121</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="minimum">
+     <number>-15</number>
+    </property>
+    <property name="maximum">
+     <number>15</number>
+    </property>
+    <property name="notchTarget">
+     <double>5.000000000000000</double>
+    </property>
+    <property name="notchesVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSpeed">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>620</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>50 ms</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="staticLabelSpeed">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>780</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Loop Speed</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="staticLabelPhaseIncrement">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>780</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phase Increment</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::PlainText</enum>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="GraphicsLayoutWidget" name="winRADAR">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>20</y>
+      <width>581</width>
+      <height>581</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDial" name="speedDial">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>650</y>
+      <width>121</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="value">
+     <number>50</number>
+    </property>
+    <property name="notchTarget">
+     <double>5.000000000000000</double>
+    </property>
+    <property name="notchesVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonDisplayPeaks">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>610</y>
+      <width>171</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>DISPLAY PEAKS: 
+ON</string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdPhase">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>460</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPhaseLCD">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>430</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phase Shift [deg]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdSteering">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>460</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdSignal">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>460</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSteeringLCD">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>430</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Steering Angle [deg]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelSignalLCD">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>430</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rx0+Rx1 [dBfs]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPeakSignalLCD">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>520</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Peak Signal [dBfs]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPeakPhaseLCD">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>520</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Peak Phase [deg]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdPeakSignal">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>550</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPeakSteeringLCD">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>520</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Estimated DOA [deg]</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdPeakSteering">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>550</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdPeakPhase">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>550</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="smallDecimalPoint">
+     <bool>false</bool>
+    </property>
+    <property name="digitCount">
+     <number>3</number>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonResetPeaks">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>710</y>
+      <width>171</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>RESET PEAKS: 
+ON</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>620</y>
+      <width>171</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RECALIBRATE</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1398</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionThis_is_an_option">
+   <property name="text">
+    <string>This is an option</string>
+   </property>
+  </action>
+  <action name="actionA_second_option">
+   <property name="text">
+    <string>A second option</string>
+   </property>
+  </action>
+  <action name="actionAnd_so_on">
+   <property name="text">
+    <string>And so on</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsLayoutWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
