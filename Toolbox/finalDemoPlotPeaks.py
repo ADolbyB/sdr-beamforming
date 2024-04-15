@@ -74,7 +74,7 @@ def padDelay(input, delayDelta):
     input = input[:length]
     return input
 
-''' Generate BPSK (Binary Phase Shift Keying) '''
+''' Generate BPSK (Binary Phase Shift Keying) - Emerson '''
 def generate_bpsk(data, samp_rate, bit_len):
     num_bits = data.shape[0]
     samples_per_bit = math.floor(samp_rate*bit_len)
@@ -119,13 +119,9 @@ def compute_phase_offset_and_delay(ref_data, Rx_data):
     phase_diff = result_corr[max_position] / np.sqrt(np.mean(np.real(Rx_data)**2 + np.imag(Rx_data)**2))
     phase_diff = np.angle(phase_diff)/ np.pi * 180
 
-    # TODO: Compute this function initially with the reference RX data (P1Rx0) and the raw RX data, 
-    # then calculate returned values `phase_diff` & `delay` with another call to this function 
-    # Using the reference data (again) & the raw data after a TRIM or PAD based off the first computed delay value
-
     return int(phase_diff), int(delay)
 
-''' Calculate Steering Angle using Phase Difference '''
+''' Calculate Steering Angle using Phase Difference - Kraft '''
 def calcTheta(phase):
     # calculates the steering angle for a given phase delta (phase is in deg)
     # steering angle is theta = arcsin(c * deltaphase / (2 * pi * f * d)
@@ -134,7 +130,7 @@ def calcTheta(phase):
     calc_theta = np.rad2deg(np.arcsin(arcsin_arg))
     return calc_theta
 
-''' Convert IQ samples to FFT Plot Display scaled in dBfs '''
+''' Convert IQ samples to FFT Plot Display scaled in dBfs - Kraft '''
 def dbfs(raw_data):
     NumSamples = len(raw_data)
     win = np.hamming(NumSamples)
@@ -162,8 +158,6 @@ rx1_gain_sdr4 = 20
 tx_lo = rx_lo
 tx_gain = -3                        # Same as positive value in GNU Radio Sink
 fc0 = int(200e3)                    # 200 kHz
-#Plot_Compass = False
-
 
 ''' Set distance between Rx antennas '''
 d_wavelength = 0.5                  # wavelength between elements.
@@ -173,10 +167,11 @@ print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
 
 ''' Create Radios '''
-sdr0 = ad9361(uri='ip:192.168.4.1') # Pluto #4 (Transmitter)
+sdr0 = ad9361(uri='ip:192.168.6.1') # Pluto #1 (Transmitter)
 sdr1 = ad9361(uri='ip:192.168.2.1') # Pluto #2
 sdr2 = ad9361(uri='ip:192.168.5.1') # Pluto #5
 sdr3 = ad9361(uri='ip:192.168.3.1') # Pluto #3
+sdr4 = ad9361(uri='ip:192.168.4.1') # Pluto #4
 
 ''' Configure All PlutoSDR Radio Channels '''
 #sdr1.rx_enabled_channels = [0, 1]
@@ -282,24 +277,15 @@ p1.setLabel('left', 'P1Rx + P2Rx', '[dBfs]', **{'color': '#FFF', 'size': '14pt'}
 peakSignalLabel = pg.TextItem("Peak Signal at 0 deg")
 peakSignalLabel.setParentItem(p1)
 peakSignalLabel.setPos(65, 2)
-phaseLabelP1Rx1 = pg.TextItem("Phase shift P1Rx1 = 0 deg")
-phaseLabelP1Rx1.setParentItem(p1)
-phaseLabelP1Rx1.setPos(65, 22)
 phaseLabelP2Rx0 = pg.TextItem("Phase shift P2Rx0 = 0 deg")
 phaseLabelP2Rx0.setParentItem(p1)
-phaseLabelP2Rx0.setPos(65, 42)
-phaseLabelP2Rx1 = pg.TextItem("Phase shift P2Rx1 = 0 deg")
-phaseLabelP2Rx1.setParentItem(p1)
-phaseLabelP2Rx1.setPos(65, 62)
+phaseLabelP2Rx0.setPos(65, 22)
 phaseLabelP3Rx0 = pg.TextItem("Phase shift P3Rx0 = 0 deg")
 phaseLabelP3Rx0.setParentItem(p1)
-phaseLabelP3Rx0.setPos(65, 82)
-phaseLabelP3Rx1 = pg.TextItem("Phase shift P3Rx1 = 0 deg")
-phaseLabelP3Rx1.setParentItem(p1)
-phaseLabelP3Rx1.setPos(65, 102)
+phaseLabelP3Rx0.setPos(65, 42)
 peakSteerLabel = pg.TextItem("Estimated DOA = N/A")
 peakSteerLabel.setParentItem(p1)
-peakSteerLabel.setPos(65, 122)
+peakSteerLabel.setPos(65, 62)
 # Line
 vertiLine = pg.InfiniteLine(pen=pg.mkPen('r', width=2, style=QtCore.Qt.SolidLine))
 p1.addItem(vertiLine)
@@ -307,7 +293,7 @@ p1.addItem(vertiLine)
 baseCurve = p1.plot()
 baseCurve.setZValue(10)
 
-''' Set up Sync Window '''
+''' Set up Time Sync Window '''
 win_raw = pg.GraphicsLayoutWidget(show=True, size=(1200, 600), title="Time Domain Output")
 p1_t = win_raw.addPlot()
 p1_t.setLabel('bottom', 'Time', 'sec', **{'color': '#FFF', 'size': '14pt'})
@@ -344,133 +330,61 @@ label6_t.setPos(65, 102) # Change Y position for each label
 
 ''' Collect Data '''
 # let each Pluto run for a bit, to do all its calibrations, then get a buffer
-# TODO: Debug Terminal Print statements. Sould print # of samples.
 for i in range(20):
-    #data1 = sdr1.rx()
     data1 = sdr1.rx()
     data2 = sdr2.rx()
     data3 = sdr3.rx()
 
-# TODO: Try Threading processes to receieve data
-
-''' Averaging the Phase Offsets (PIPE DREAM) '''
-while(0): # Turned Off For now
-    AVERAGING_PHASE = 15
-    #phase_cal_1a = []
-    #phase_cal_0b = []
-    phase_cal_1a = []
-    phase_cal_0b = []
-    phase_cal_1b = []
-    #phase_cal_0d = []
-    #phase_cal_1d = []
-    for i in range(AVERAGING_PHASE):
-        #data1 = sdr1.rx()
-        data1, data1_T = sdr1.rx(P1Clock)
-        data2, data2_T = sdr2.rx(P2Clock)
-        #data4 = sdr4.rx()
-        
-        #Rx_0a = data1[0]        # PlutoSDR 1, RX 0
-        #Rx_1a = data1[1]        # PlutoSDR 1, RX 1
-        Rx_0a = data1[0]        # PlutoSDR 2, RX 0
-        Rx_1a = data1[1]        # PlutoSDR 2, RX 1
-        Rx_0b = data2[0]        # PlutoSDR 2, RX 0
-        Rx_1b = data2[1]        # PlutoSDR 2, RX 1
-        #Rx_0d = data4[0]        # PlutoSDR 2, RX 0
-        #Rx_1d = data4[1]        # PlutoSDR 2, RX 1
-        #phase_cal_1a.append(compute_phase_offset(Rx_0a, Rx_1a))
-        #phase_cal_0b.append(compute_phase_offset(Rx_0b, Rx_1b))
-        phase_1b, delay_1a = compute_phase_offset_and_delay(Rx_0a, Rx_1a)
-        phase_0c, delay_0b = compute_phase_offset_and_delay(Rx_0a, Rx_0b)
-        phase_1c, delay_1b = compute_phase_offset_and_delay(Rx_0a, Rx_1b)
-        phase_cal_1a.append(phase_1b)
-        phase_cal_0b.append(phase_0c)
-        phase_cal_1b.append(phase_1c)
-
-    #phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
-    #phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
-    phase_cal_1a = int(sum(phase_cal_1a) / len(phase_cal_1a))
-    print("Rx 1 Offset: ", phase_cal_1a)
-    print("Rx 1 Delay: ", delay_1a)
-    phase_cal_0b = int(sum(phase_cal_0b) / len(phase_cal_0b))
-    print("Rx 2 Offset: ", phase_cal_0b)
-    print("Rx 2 Delay: ", delay_0b)
-    phase_cal_1b = int(sum(phase_cal_1b) / len(phase_cal_1b))
-    print("Rx 3 Offset: ", phase_cal_1b)
-    print("Rx 3 Delay: ", delay_1b)
-    #phase_cal_0d = int(sum(phase_cal_1b) / len(phase_cal_1b))
-    #phase_cal_1d = int(sum(phase_cal_1b) / len(phase_cal_1b))
-
 ''' Main Loop '''
-AVERAGING_SCANS = 1
 def rotate():
+    # Speed modifier for sweep
     rpm = 0.1
-    # Receieve data
+    # Receieve Rx data
     data1 = sdr1.rx()
     data2 = sdr2.rx()
     data3 = sdr3.rx()
     #
     Rx_0a = data1[0]          # PlutoSDR 1, RX 0
-    Rx_1a = data1[1]          # PlutoSDR 1, RX 1
     Rx_0b = data2[0]          # PlutoSDR 2, RX 0
-    Rx_1b = data2[1]          # PlutoSDR 2, RX 1
     Rx_0c = data3[0]          # PlutoSDR 3, RX 0
-    Rx_1c = data3[1]          # PlutoSDR 3, RX 1
     peak_sum = []
-    #
+    
     # Find trigger delays and phase offsets
-    phase_cal_1a, delay_1a = compute_phase_offset_and_delay(Rx_0a, Rx_1a)
     phase_cal_0b, delay_0b = compute_phase_offset_and_delay(Rx_0a, Rx_0b)
-    phase_cal_1b, delay_1b = compute_phase_offset_and_delay(Rx_0a, Rx_1b)
     phase_cal_0c, delay_0c = compute_phase_offset_and_delay(Rx_0a, Rx_0c)
-    phase_cal_1c, delay_1c = compute_phase_offset_and_delay(Rx_0a, Rx_1c)
-    #
-    delay_phases = np.arange(-180, 180, 2)    # Create an Array for -180 - 180 degrees sweep
-    #
+    
+    # Create an Array for -180 - 180 degrees sweep
+    delay_phases = np.arange(-160, 160, 2)    
+    # delay_phases = np.array([-120, 0, 120]) 
+    
     # Set delays   
-    if delay_1a < 0:
-        Rx_1a = padDelay(Rx_1a, int(-delay_1a))
-    elif delay_1a > 0:
-        Rx_1a = trimDelay(Rx_1a, int(delay_1a))
     if delay_0b < 0:
         Rx_0b = padDelay(Rx_0b, int(-delay_0b))
     elif delay_0b > 0:
         Rx_0b = trimDelay(Rx_0b, int(delay_0b))
-    if delay_1b < 0:
-        Rx_1b = padDelay(Rx_1b, int(-delay_1b))
-    elif delay_1b > 0:
-        Rx_1b = trimDelay(Rx_1b, int(delay_1b))
     if delay_0c < 0:
         Rx_0c = padDelay(Rx_0c, int(-delay_0c))
     elif delay_0c > 0:
         Rx_0c = trimDelay(Rx_0c, int(delay_0c))
-    if delay_1c < 0:
-        Rx_1c = padDelay(Rx_1c, int(-delay_1c))
-    elif delay_1c > 0:
-        Rx_1c = trimDelay(Rx_1c, int(delay_1c))
 
     ''' Phase shift by each degree from -180 to 180 and store peak signal '''
     for phase_delay in delay_phases:   
         peak_sum_avg = []
-        for i in range(AVERAGING_SCANS):
-            # Compute phase shift
-            delayed_Rx_1a = Rx_1a * np.exp(1j * np.deg2rad(1 * phase_delay + phase_cal_1a)) # PlutoSDR 1 RX 1
-            delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0b)) # PlutoSDR 2 RX 0
-            delayed_Rx_1b = Rx_1b * np.exp(1j * np.deg2rad(3 * phase_delay + phase_cal_1b)) # PlutoSDR 2 RX 1
-            delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_0c)) # PlutoSDR 3 RX 0
-            delayed_Rx_1c = Rx_1c * np.exp(1j * np.deg2rad(5 * phase_delay + phase_cal_1c)) # PlutoSDR 3 RX 1
-            delayed_sum = dbfs( Rx_0a + delayed_Rx_1a + delayed_Rx_0b + delayed_Rx_1b + delayed_Rx_0c + delayed_Rx_1c )
-            peak_sum_avg.append(delayed_sum[signal_start:signal_end])
-            #
-            ''' Sync Time Plot '''
-            curve1_t.setData(t_ax, np.real(Rx_0a))
-            curve2_t.setData(t_ax, np.real(Rx_1a))
-            curve3_t.setData(t_ax, np.real(Rx_0b))
-            curve4_t.setData(t_ax, np.real(Rx_1b))
-            curve5_t.setData(t_ax, np.real(Rx_0c))
-            curve6_t.setData(t_ax, np.real(Rx_1c))
+        # Compute phase shift
+        delayed_Rx_0b = Rx_0b * np.exp(1j * np.deg2rad(2 * phase_delay + phase_cal_0b)) # PlutoSDR 2 RX 0
+        delayed_Rx_0c = Rx_0c * np.exp(1j * np.deg2rad(4 * phase_delay + phase_cal_0c)) # PlutoSDR 3 RX 0
+        # Sum shifted & delayed Rx data 
+        delayed_sum = dbfs( Rx_0a + delayed_Rx_0b  + delayed_Rx_0c )
+        peak_sum_avg.append(delayed_sum[signal_start:signal_end])
+        
+        ''' Sync Time Plot '''
+        curve1_t.setData(t_ax, np.real(Rx_0a))
+        curve3_t.setData(t_ax, np.real(Rx_0b))
+        curve5_t.setData(t_ax, np.real(Rx_0c))
         peak_sum_value = sum(peak_sum_avg) / len(peak_sum_avg)
         peak_sum.append(np.max(peak_sum_value)) # np.max(delayed_sum[signal_start:signal_end])
     
+    # Peak delay and steering angle
     peak_dbfs = np.max(peak_sum)
     peak_delay_index = np.where(peak_sum == peak_dbfs)
     peak_delay = delay_phases[peak_delay_index[0][0]]
@@ -483,11 +397,8 @@ def rotate():
     p1.addItem(vertiLine)
     # Set labels
     peakSignalLabel.setText(f'Peak Signal at {round(peak_delay, 1)} deg phase delay')
-    phaseLabelP1Rx1.setText(f'Phase shift P1Rx1 = {phase_cal_1a} deg')
-    phaseLabelP2Rx0.setText(f'Phase shift P2Rx0 = {phase_cal_0b} deg')
-    phaseLabelP2Rx1.setText(f'Phase shift P2Rx1 = {phase_cal_1b} deg')
-    phaseLabelP3Rx0.setText(f'Phase shift P3Rx0 = {phase_cal_0c} deg')
-    phaseLabelP3Rx1.setText(f'Phase shift P3Rx1 = {phase_cal_1c} deg')
+    phaseLabelP2Rx0.setText(f'Phase offset P2Rx0 = {phase_cal_0b} deg')
+    phaseLabelP3Rx0.setText(f'Phase offset P3Rx0 = {phase_cal_0c} deg')
     peakSteerLabel.setText(f'If d = {int(d*1000)}mm, then steering angle = {steer_angle} deg')
 
     # Control rate of rotation
