@@ -27,6 +27,8 @@ Please visit the [`PyQT_GUI`](https://github.com/RayzrReptile/PyQT_GUI) Project 
 
 ## Notable Repos for This Project:
 
+- coherent-receiver's [`N-Channel Coherent Transceivers`](https://coherent-receiver.com/pluto-sdr) (Concept Only).
+    - Note that we contacted this company and they did not offer any information about this product. This led us to believe it was either discontinued or did not work as advertised.
 - Jon Kraft's [`Pluto_Beamformer`](https://github.com/jonkraft/Pluto_Beamformer) Repo for PlutoSDR.
 - Jon Kraft's [`PlutoSDR_Labs`](https://github.com/jonkraft/PlutoSDR_Labs) Repo for PlutoSDR.
 - Jon Kraft's [`PhasedArray`](https://github.com/jonkraft/PhasedArray) Repo for the Analog Devices [ADAR-1000](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/EVAL-ADAR1000.html). 
@@ -38,7 +40,24 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - ptrkrysik's [`gr-gsm`](https://github.com/ptrkrysik/gr-gsm/tags) Repo for GSM signals on RTL-SDRs.
 - analogdevicesinc's [`gr-iio`](https://github.com/analogdevicesinc/gr-iio) Repo for IIO (PlutoSDR) Devices.
 - gnuradio's [`gnuradio`](https://github.com/gnuradio/gnuradio) Repo for the GNURadio Program.
-- coherent-receiver's [`N-Channel Coherent Transceivers`](https://coherent-receiver.com/pluto-sdr) (Conceptual Only).
+
+## External Clock Sources:
+### Guides:
+- QSL.net's [`A Beginner's Guide to GPS Disciplined Oscillators`](https://www.qsl.net/zl1bpu/PROJ/NGPSDO/GPSDO%20Beginner.PDF)
+- NIST's [`The Use of GPS Disciplined Oscillators as Primary Frequency Standards for Calibration and Metrology Laboratories`](https://www.nist.gov/publications/use-gps-disciplined-oscillators-primary-frequency-standards-calibration-and-metrology)
+- The NIST [Time Measurement and Analysis Service](https://tf.nist.gov/general/pdf/2294.pdf)
+### Square Wave Clocks:
+
+- Texas Instruments [CDCLVC1310-EVM](https://www.ti.com/tool/CDCLVC1310-EVM)
+    - Note that this clock is delivered with a 25MHz crystal which must be swapped out for a 40MHz surface mount crystal to work sucessfully with Multiple PlutoSDRs.
+    - We sucessfully used this clock source board with a replacement 40MHz Crystal. The PlutoSDRs are then fed the external 40Mhz with an SMA-Male to u.FL connector for the PlutoSDR external clock input breakout.
+
+- Leo Bodnar [LBE-1420 GPS Locked Clock Source](https://www.leobodnar.com/shop/index.php?main_page=product_info&cPath=107&products_id=393)
+    - 1Hz to 1.1GHz adjustable GPSDO.
+- Leo Bodnar [Mini Precision GPS Reference Clock](https://www.leobodnar.com/shop/index.php?main_page=product_info&cPath=107&products_id=301)
+    - 400Hz to 810MHz adjustable GPSDO.
+- Leo Bodnar [Precision GPS Reference Clock](https://www.leobodnar.com/shop/index.php?main_page=product_info&cPath=107&products_id=393)
+    - 450Hz to 800MHz adjustable GPSDO.
 
 ## Alternative Hardware Options:
 ### Alternatives to the PlutoSDR & KrakenSDR for Beamforming:
@@ -53,6 +72,12 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
     - More expensive than the FMComms5 and only allows 2x2 MIMO operation.
 - Option 5: The $17,765 Ettus Research [USRP N310 ZYNQ-7100, 4 CHANNELS](https://www.ettus.com/all-products/usrp-n310/)
     - This is the most expensive, but it does provide 4x4 MIMO operation, since it also uses 2x Analog Devices AD9361 Chips.
+
+## Cool stuff to do with MIMO:
+- Tactical MIMO [StreamCaster Radios](https://silvustechnologies.com/products/streamcaster-radios/)
+    - There are 2x2 and 4x4 models offered there.
+- DTC's [Mission Critical COmmunications](https://www.domotactical.com/?utm_source=Unmanned%20Systems%20Technology&utm_medium=referral&utm_campaign=silver_profile)
+- [StreamCaster Radios for UAVs](https://www.unmannedsystemstechnology.com/2022/09/streamcaster-radios-integrated-into-evtol-commerical-uav/) for streaming high bandwidth audio/video live back to the base station.
 
 ## KrakenSDR Resources:
 
@@ -69,9 +94,13 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 ## RF Theory, Components, and Test Equipment Articles:
 ### Theory:
 
+- EE|Times Tutorial: [`SDR meets MIMO ... designing MIMO with a software-defined radio`](https://www.eetimes.com/tutorial-sdr-meets-mimo-or-all-you-need-to-know-about-designing-mimo-with-a-software-defined-radio/)
+- SWA's [`Understanding the Basics of MIMO Communication Technology`](https://www.rfmw.com/data/swa-mimo-basics.pdf)
+- Keysight's [`Technical Overview of MIMO`](https://www.keysight.com/us/en/lib/resources/training-materials/technical-overview-of-mimo-1179977.html)
+- Ezurio (formerly Laird): [Basics of MIMO Radio Systems](https://www.ezurio.com/resources/white-papers/basics-of-mimo-radio-systems)
 - [Spectrum Analysis Basics](https://www.keysight.com/blogs/en/tech/rfmw/2020/05/01/spectrum-analysis-basics-part-1-what-is-a-spectrum-analyzer): 5 part Series.
-- [Rohde & Schwarz's `dB or not dB?`](https://www.rohde-schwarz.com/us/applications/db-or-not-db-educational-note_230850-15534.html) downloadable PDF. Also on that same page are download links for dB Calculator mobile apps.
-- Mathworks [Quadrature](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
+- Rohde & Schwarz's [`dB or not dB?`](https://www.rohde-schwarz.com/us/applications/db-or-not-db-educational-note_230850-15534.html) downloadable PDF. Also on that same page are download links for dB Calculator mobile apps.
+- Mathworks [`Quadrature`](https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/moler/quad.pdf) PDF with the mathematical details.
 - The [Fourier Transform](https://www.thefouriertransform.com/) Website
 - [I/Q Data for Dummies](http://whiteboard.ping.se/SDR/IQ)
 - [How to Process I/Q Signals in a Software-Defined RF Receiver](https://www.allaboutcircuits.com/technical-articles/how-to-process-iq-signals-software-defined-rf-receiver-dsp-digital-signal/)
@@ -95,14 +124,21 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 ### SDR Online Lessons:
 - [Great Scott Gadgets](https://greatscottgadgets.com/sdr/) Tutorials
 
-### Articles: 
+### Articles:
 - [DIY Radio: Jon Kraft](https://ez.analog.com/tags/DIYRadio)
 
 ### Antennas:
 
+- Waveform's [`MIMO Antennas Explained: An In-Depth Guide`](https://www.waveform.com/a/b/guides/mimo-antenna-guide)
+
 - MathWorks Video: [Array Design and Beamforming for Wireless MIMO Systems](https://www.mathworks.com/support/search.html/videos/array-design-and-beamforming-for-wireless-mimo-systems-1639591309094.html?fq%5B%5D=asset_type_name:video&fq%5B%5D=category:comm/index&page=1)
-- [Antenna Theory](https://www.antenna-theory.com/) Website
-    - [Smith Charts](https://www.antenna-theory.com/tutorial/smith/chart.php)!!!! (My Favorite)
+
+- [Antenna Theory](https://www.antenna-theory.com/) Website.
+    - Don't forget [Smith Charts](https://www.antenna-theory.com/tutorial/smith/chart.php)!!!! (My Favorite)
+
+#### Antenna Modeling (Windows OS):
+- W7EL's [EZNEC Antenna Software](https://eznec.com/) for Antenna Modeling.
+- QSL.net's [4nec2](https://www.qsl.net/4nec2/) NEC based antenna modeler and optimizer.
 
 ### Test Equipment:
 
@@ -133,6 +169,7 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
 - [GQRX](https://gqrx.dk/)
 
 #### Windows:
+
 - [AirSpy: SDR Sharp](https://airspy.com/download/) 
     - [Add'l Plugins For SDR Sharp](https://www.rtl-sdr.com/sdrsharp-plugins/)
     - [Frequency Manager](https://www.freqmgrsuite.com/) For SDR Sharp
