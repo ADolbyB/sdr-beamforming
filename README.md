@@ -66,6 +66,10 @@ on hardware w/ the RPi 4/5 (or on x64 hardware using VirtualBox 7.0+).
     - Note that this device's frequency range is 8GHz tp 16GHz, so this may not be ideal. It is also Receive Only.
 - Option 2: The $1,444.50 Analog Devices [AD-FMCOMMS5-EBZ](https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/eval-ad-fmcomms5-ebz.html)
     - This seems to be a great option for prototyping. Uses 2 AD9361 chips and is Frequency and Phase Coherent out of the box. Allows for 4x4 MIMO operation and has tuning range 70MHz - 6GHz.
+    - Analog Devices [AD-FMCOMMS5-EBZ User Guide](https://wiki.analog.com/resources/eval/user-guides/ad-fmcomms5-ebz)
+    - The FMCOMMS5 requires one of the following Carrier Boards:
+        - [AMD Zynq 7000 ZC702](https://www.xilinx.com/products/boards-and-kits/ek-z7-zc702-g.html)
+        - [AMD Zynq UltraScale+ ZCU102](https://www.xilinx.com/products/boards-and-kits/ek-u1-zcu102-g.html)
 - Option 3: The $2,165.00 Ettus [USRB B210](https://www.ettus.com/all-products/ub210-kit/) 2 channel phase coherent transceiver.
     - This is a viable option for RX & TX beamforming, but its only 2x2 MIMO operation.
 - Option 4: The $2,500 Analog Devices [ADI CNO566](https://www.analog.com/en/resources/reference-designs/circuits-from-the-lab/cn0566.html#rd-overview)
