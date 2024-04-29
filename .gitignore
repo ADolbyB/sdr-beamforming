@@ -12,7 +12,7 @@ lib/
 # unignore the multi-rtl libraries
 !**/multiRTL/lib
 
-# JB: Raw IQ Samples from testing
+# JB: Raw IQ Samples from testing (removed)
 *.iq
 
 # JB: .vscode needs to go:
