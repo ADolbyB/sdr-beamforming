@@ -362,7 +362,8 @@ This capstone project explored the practical implementation of phased array beam
 ---
 
 ## 📄 License
-<!-- This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. -->
+
+This project is licensed under the GNU General Public License Version 3 License - see the [LICENSE.md](https://github.com/ADolbyB/sdr-beamforming/blob/main/LICENSE.md) file for details.
 
 **Academic Integrity Notice:** This repository represents completed coursework. If you're currently enrolled in a similar course, please use this as reference material only and adhere to your institution's academic honesty policies.
 
