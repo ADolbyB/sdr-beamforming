@@ -8,7 +8,7 @@
 [![Repo Size](https://img.shields.io/github/repo-size/ADolbyB/sdr-beamforming?logo=Github&label=Repo%20Size&style=for-the-badge)](https://github.com/ADolbyB/sdr-beamforming)
 [![Last Commit](https://img.shields.io/github/last-commit/ADolbyB/sdr-beamforming?style=for-the-badge&logo=github)](https://github.com/ADolbyB/sdr-beamforming/commits/main)
 
-**Senior Engineering Design Project - Grade: A**
+**Senior Engineering Capstone Project - Grade: A**
 
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![GNU Radio](https://img.shields.io/badge/GNU_Radio-DD0031?style=for-the-badge)](https://www.gnuradio.org/)
@@ -130,7 +130,7 @@ sdr-beamforming/
 1. **External Clock Distribution**
    - 40 MHz reference clock from TI CDCLVC1310-EVM
    - SMA to u.FL cables for PlutoSDR modification
-   - SDR devices and SMA coaxial cables
+   - SDR devices and SMA coaxial cables for clock and RF
 
 2. **Software Synchronization**
    - GNU Radio timing alignment blocks
@@ -282,7 +282,7 @@ sdr-beamforming/
 **Hardware:**
 - SDR platform (PlutoSDR, KrakenSDR, or USRP)
 - External clock source (for multi-unit synchronization)
-- Antenna array (ULA (Uniform Linear Array) or UCA (Uniform Circular Array) of dipoles)
+- Antenna array (dipoles, patches, or helical)
 - RF cables and adapters
 
 **Software:**
@@ -327,10 +327,10 @@ sudo apt-get install libiio-utils
 
 ## 🎓 Academic Context
 
-**Course:** Engineering Design (Senior Project)  
+**Course:** Senior Engineering Design Project  
 **Institution:** *Florida Atlantic University*  
 **Semester:** *Fall 2023 - Spring 2024*  
-**Final Grade:** **A**  
+**Final Grade:** **A**
 
 **Team Members:**
 - [Joel Brigida](https://github.com/ADolbyB) - Hardware integration, RF testing, documentation
@@ -341,6 +341,40 @@ sudo apt-get install libiio-utils
 
 **Project Scope:**
 This capstone project explored the practical implementation of phased array beamforming using software-defined radios. The five-member team evaluated multiple SDR platforms, developed phase synchronization techniques, designed custom antenna arrays, created mechanical mounting solutions through 3D printing, and delivered a functional demonstration system with real-time beam steering capabilities.
+
+---
+
+## 🖼️ Project Gallery
+
+### Live Demonstration Setup
+
+![Senior Design Expo - Booth #24](./PhaseCoherence/assets/SDR-Beamforming2024-04-24_ORIG.jpg)
+
+**Senior Design Expo Demonstration** - Florida Atlantic University
+
+Our team presented a fully functional phased array beamforming system at the FAU College of Engineering and Computer Science Senior Design Expo. The demonstration featured:
+
+**Hardware on Display:**
+- Multiple PlutoSDR units with external clock synchronization
+- Custom 3D-printed antenna mounting systems
+- Linear and circular antenna array configurations
+- Live real-time beamforming visualization
+- Professional poster presentation (Booth #24)
+
+**Live Capabilities Demonstrated:**
+- Real-time phase-coherent signal reception
+- Interactive beam steering control via PyQt5 GUI
+- Visual representation of antenna array geometry
+- Direction-of-arrival estimation
+- Multi-channel signal processing in real-time
+
+**Antenna Array Designs:**
+- Uniform Linear Array (ULA) for directional scanning
+- Uniform Circular Array (UCA) for 360° coverage
+- Custom dipole antenna elements (visible in demonstration)
+- Precision-spaced dipole configurations
+
+> 📸 *Photo shows complete demonstration setup including synchronized PlutoSDRs, antenna arrays, real-time GUI visualization, and professional project poster at the FAU Senior Design Expo.*
 
 ---
 
@@ -363,7 +397,7 @@ This capstone project explored the practical implementation of phased array beam
 
 ## 📄 License
 
-This project is licensed under the GNU General Public License Version 3 License - see the [LICENSE.md](https://github.com/ADolbyB/sdr-beamforming/blob/main/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 **Academic Integrity Notice:** This repository represents completed coursework. If you're currently enrolled in a similar course, please use this as reference material only and adhere to your institution's academic honesty policies.
 
@@ -390,16 +424,24 @@ Please open an issue or submit a pull request!
 - [Alexandra Calvo](https://www.linkedin.com/in/alexandra-calvo-9973008a/) - Hardware design, antenna design, documentation
 - [Gabriel Faro](https://www.linkedin.com/in/gabriel-faro/) - Hardware design, 3D printing, documentation
 
+**Project Sponsorship:**
+- **Dr. David R. Emerson** - US Navy NSWC Crane
+- Florida Atlantic University - College of Engineering and Computer Science
+
+**Faculty Support:**
+- Dr. Sree Ranjani Rajendran - Faculty Advisor
+- Dr. Georgios Sklivanitis - Faculty Advisor
+
 **Special Thanks:**
 - Jon Kraft - Extensive PlutoSDR beamforming resources
 - Analog Devices - Hardware documentation and support
 - GNU Radio Community - Open-source SDR framework
 - KrakenRF Team - Direction finding algorithms
+- US Navy NIWC - Project sponsorship and guidance
 
 **Research Support:**
-- University faculty advisors
-- Industry partners
-- Open-source SDR community
+- FAU Department of Electrical Engineering & Computer Science
+- Industry partners and open-source SDR community
 
 ---
 
